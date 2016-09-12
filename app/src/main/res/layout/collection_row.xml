@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="180dp">
+
+        <ImageView
+            android:id="@+id/bg_collection_iv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            android:adjustViewBounds="true"
+            android:transitionName="@string/collection_name"/>
+
+        <TextView
+            android:id="@+id/title_collection_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@+id/bg_collection_iv"
+            android:layout_alignBottom="@+id/bg_collection_iv"
+            android:padding="@dimen/text_collection_margin"
+            android:gravity="right"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#fff"
+            android:textStyle="bold"
+            android:shadowColor="#000"
+            android:shadowRadius="5"
+            android:shadowDx="3"
+            android:background="#55000000"
+            />
+
+</RelativeLayout>

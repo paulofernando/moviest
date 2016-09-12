@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="130dp">
+
+    <ImageView
+        android:id="@+id/cover_iv"
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        android:layout_marginLeft="@dimen/row_side_space"
+        android:layout_marginRight="@dimen/row_side_space"
+        android:transitionName="@string/cover_name"/>
+
+    <LinearLayout
+        android:id="@+id/movie_details"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_marginLeft="@dimen/row_inner_space"
+            android:layout_marginRight="@dimen/row_inner_space"
+            android:layout_marginBottom="@dimen/row_inner_space"
+            />
+
+        <TextView
+            android:id="@+id/genre_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:background="@drawable/rounded_corner"
+            android:visibility="invisible"
+            android:layout_margin="@dimen/row_inner_space"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginRight="20dp">
+
+            <ImageView
+                android:id="@+id/star_iv"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_margin="2dp"
+                android:visibility="invisible"
+                android:src="@drawable/star"
+                android:layout_gravity="center_vertical"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/vote_average_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/row_inner_space"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:layout_gravity="center|left"
+                    android:gravity="center|right"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:id="@+id/vote_count_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/row_inner_space"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:layout_gravity="center|left"
+                    android:gravity="center|right"
+                    android:alpha=".65"
+                    android:visibility="gone"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>

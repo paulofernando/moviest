@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Moviest</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_change_layout">Change Layout</string>
+    <string name="action_search">Search movies...</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+
+    <string name="tab_title_in_theaters">In Theaters</string>
+    <string name="tab_title_awards">Awards</string>
+    <string name="tab_title_collections">Collections</string>
+    <string name="tab_title_popular">Popular</string>
+    <string name="tab_title_top_rated">Top</string>
+    <string name="title_activity_movie_details">MovieDetailsActivity</string>
+    <string name="title_activity_movie_details2">MovieDetailsActivity2</string>
+
+    <string name="loading">Loading...</string>
+    <string name="no_internet">No internet connection</string>
+    <string name="no_internet_title">Warning</string>
+    <string name="bullet">•</string>
+
+    <string name="collection_name">collection_name</string>
+    <string name="cover_name">cover_name</string>
+
+
+</resources>

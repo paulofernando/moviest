@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#332e2e</color>
+    <color name="colorPrimaryDark">#1c1919</color>
+    <color name="colorAccent">#6500ea</color>
+
+    <color name="bgColor">#585050</color>
+    <color name="bgSplashColor">#FFE4E4E4</color>
+    <color name="colorDivider">#6b6161</color>
+    <color name="bgImageColor">#585050</color>
+    <color name="defaultTextColor">#FFE7E7E5</color>
+    <color name="separator">#cecece</color>
+    <color name="common_border_color">#88ffffff</color>
+</resources>
