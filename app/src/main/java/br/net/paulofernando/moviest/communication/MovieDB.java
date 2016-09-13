@@ -33,7 +33,7 @@ public class MovieDB {
     private static Genres genres;
 
     public enum Services {
-        NowPlaying, Popular, TopRated, Configuration, Images, Videos, Genres, SearchMovie, Summary
+        NowPlaying, Popular, TopRated, Configuration, Images, Videos, Genres, SearchMovie, Summary, SummaryWithCredits
     }
 
     public static final String MOVIE_DETAILS = "movie_details";

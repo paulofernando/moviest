@@ -40,6 +40,7 @@ import br.net.paulofernando.moviest.communication.MovieDB;
 import br.net.paulofernando.moviest.communication.entities.Configuration;
 import br.net.paulofernando.moviest.communication.entities.Images;
 import br.net.paulofernando.moviest.communication.entities.Movie;
+import br.net.paulofernando.moviest.communication.entities.MovieWithCredits;
 import br.net.paulofernando.moviest.communication.entities.Videos;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -83,6 +84,9 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubeTh
     @BindView(R.id.genre_tv)
     TextView genreTextView;
 
+    @BindView(R.id.runtime_tv)
+    TextView runtimeTextView;
+
     @BindView(R.id.movie_overiew_tv)
     TextView movieOveriewView;
 
@@ -105,6 +109,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubeTh
     private Images imagesResult;
     private String trailerID;
     private Movie movie;
+    private MovieWithCredits movieWithCredits;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -160,6 +165,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubeTh
 
         movieOveriewView.setText(movie.overview);
         new MovieDetailsTasks(MovieDB.Services.Videos).execute(movie.id);
+        new MovieDetailsTasks(MovieDB.Services.SummaryWithCredits).execute(movie.id);
 
     }
 
@@ -264,11 +270,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubeTh
             super.onPreExecute();
         }
 
-        @Override
-        /**
-         * @param params [0] type of service (MovieDB.SERVICE_IMAGES, MovieDB.SERVICE_VIDEOS),
-         *               [1] movie id
-         */
         protected Long doInBackground(Integer... params) {
             if (!Utils.isNetworkConnected(getApplicationContext())) {
                 Log.e(TAG, getResources().getResourceName(R.string.no_internet));
@@ -279,10 +280,13 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubeTh
             int movieID = params[0];
 
             MovieDB movieDB = MovieDB.getInstance();
-            if (serviceType == MovieDB.Services.Images) {
-                Call<Images> callImages = movieDB.moviesService().images(movieID, MovieDB.API_KEY);
+            if (serviceType == MovieDB.Services.SummaryWithCredits) {
+                Call<MovieWithCredits> callMovies = movieDB.moviesService().summaryWithAppend(
+                        movieID, MovieDB.API_KEY, "credits");
                 try {
-                    imagesResult = callImages.execute().body();
+                    movieWithCredits = callMovies.execute().body();
+                    loadCredits();
+                    Log.i(TAG, movieWithCredits.imdbId);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -300,9 +304,17 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubeTh
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+            } else if (serviceType == MovieDB.Services.Images) {
+                Call<Images> callImages = movieDB.moviesService().images(movieID, MovieDB.API_KEY);
+                try {
+                    imagesResult = callImages.execute().body();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
             return null;
         }
+
     }
 
     @Override
@@ -345,4 +357,20 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubeTh
     public void trailerClick() {
         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=" + trailerID)));
     }
+
+    public void loadCredits() {
+        MovieDetailsActivity.this.runOnUiThread(new Runnable() {
+            public void run() {
+                try {
+                    genreTextView.setText(movieWithCredits.genres.get(0).name);
+                    genreTextView.setVisibility(View.VISIBLE);
+                    runtimeTextView.setText(String.valueOf(movieWithCredits.runtime) + " " + getResources().getString(R.string.minute));
+                    runtimeTextView.setVisibility(View.VISIBLE);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
 }

@@ -194,7 +194,6 @@ public class CollectionActivity extends AppCompatActivity {
         });
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
@@ -204,4 +203,7 @@ public class CollectionActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+
+
 }

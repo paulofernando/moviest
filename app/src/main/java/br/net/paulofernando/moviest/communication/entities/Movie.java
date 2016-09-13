@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Movie implements Serializable {
 
-    public static final long serialVersionUID = 100L;
+    private static final long serialVersionUID = -8786346856404476366L;
 
     @SerializedName("id")
     public Integer id;
@@ -35,8 +35,6 @@ public class Movie implements Serializable {
     @SerializedName("release_date")
     //changed to String because the API was returning a wrong format in the search service
     public String releaseDate;
-    @SerializedName("runtime")
-    public Integer runtime;
     @SerializedName("title")
     public String title;
     @SerializedName("vote_average")

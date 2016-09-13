@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/collection_row_container"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="180dp">
+    android:layout_height="180dp"
+    android:transitionName="@string/collection_name">
 
         <ImageView
             android:id="@+id/bg_collection_iv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scaleType="centerCrop"
-            android:adjustViewBounds="true"
-            android:transitionName="@string/collection_name"/>
+            android:adjustViewBounds="true"/>
 
         <TextView
             android:id="@+id/title_collection_tv"

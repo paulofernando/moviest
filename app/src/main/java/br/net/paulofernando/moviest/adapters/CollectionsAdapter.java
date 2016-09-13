@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -30,6 +31,7 @@ public class CollectionsAdapter extends BaseAdapter<CollectionsAdapter.ViewHolde
     private List<Collection> collections;
     private Context context;
 
+
     /**
      * Provide a reference to the type of views that you are using (custom ViewHolder)
      */
@@ -37,6 +39,9 @@ public class CollectionsAdapter extends BaseAdapter<CollectionsAdapter.ViewHolde
 
         /** The index of the poster size in the themoviedb configuration*/
         private static final int POSTER_SIZE_INDEX = 3;
+
+        @BindView(R.id.collection_row_container)
+        RelativeLayout collectionRowContainer;
 
         @BindView(R.id.title_collection_tv)
         TextView titleTextView;
@@ -56,7 +61,7 @@ public class CollectionsAdapter extends BaseAdapter<CollectionsAdapter.ViewHolde
                     Intent intent = new Intent(CollectionsAdapter.this.context, CollectionActivity.class);
                     intent.putExtra(MovieDB.COLLECTION_DETAILS, collection);
 
-                    View sharedView = bgCollection;
+                    View sharedView = collectionRowContainer;
                     String transitionName = context.getString(R.string.collection_name);
 
                     ActivityOptions transitionActivityOptions = ActivityOptions.

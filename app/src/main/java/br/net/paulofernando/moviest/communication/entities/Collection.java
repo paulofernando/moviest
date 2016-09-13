@@ -6,9 +6,7 @@ import java.io.Serializable;
 import java.util.List;
 
 public class Collection implements Serializable {
-
-    public static final long serialVersionUID = 200L;
-
+    private static final long serialVersionUID = 7667916810784933810L;
     @SerializedName("title")
     public String title;
     @SerializedName("background_image_url")

@@ -11,4 +11,5 @@
     <color name="defaultTextColor">#FFE7E7E5</color>
     <color name="separator">#cecece</color>
     <color name="common_border_color">#88ffffff</color>
+    <color name="common_border_accent_color">#aa6500ea</color>
 </resources>

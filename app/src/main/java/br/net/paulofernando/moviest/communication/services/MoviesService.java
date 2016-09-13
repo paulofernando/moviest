@@ -4,6 +4,7 @@ import br.net.paulofernando.moviest.communication.entities.Configuration;
 import br.net.paulofernando.moviest.communication.entities.Genres;
 import br.net.paulofernando.moviest.communication.entities.Images;
 import br.net.paulofernando.moviest.communication.entities.Movie;
+import br.net.paulofernando.moviest.communication.entities.MovieWithCredits;
 import br.net.paulofernando.moviest.communication.entities.Page;
 import br.net.paulofernando.moviest.communication.entities.Videos;
 import retrofit2.Call;
@@ -20,6 +21,16 @@ public interface MoviesService {
     Call<Movie> summary(
             @Path("id") int movieId,
             @Query("api_key") String apiKey
+    );
+
+    /**
+     * Get the movie information for a specific movie.
+     */
+    @GET("movie/{id}")
+    Call<MovieWithCredits> summaryWithAppend(
+            @Path("id") int movieId,
+            @Query("api_key") String apiKey,
+            @Query("append_to_response") String appendToResponse
     );
 
     @GET("movie/{id}")
