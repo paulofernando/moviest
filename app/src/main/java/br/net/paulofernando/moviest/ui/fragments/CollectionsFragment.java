@@ -15,7 +15,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import br.net.paulofernando.moviest.R;
-import br.net.paulofernando.moviest.TempCollectionService;
+import br.net.paulofernando.moviest.communication.TempCollectionService;
 import br.net.paulofernando.moviest.Utils;
 import br.net.paulofernando.moviest.adapters.CollectionsAdapter;
 import br.net.paulofernando.moviest.communication.entities.Collection;
@@ -99,6 +99,9 @@ public class CollectionsFragment extends BaseFragment {
 
         Collection c2 = gson.fromJson(TempCollectionService.getCollection(2), Collection.class);
         collections.add(c2);
+
+        Collection c3 = gson.fromJson(TempCollectionService.getCollection(3), Collection.class);
+        collections.add(c3);
     }
 
 }

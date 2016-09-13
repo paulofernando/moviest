@@ -12,7 +12,7 @@ import br.net.paulofernando.moviest.communication.entities.Movie;
 import br.net.paulofernando.moviest.communication.entities.Page;
 import retrofit2.Call;
 
-public class FilmesHEUnitTest {
+public class MoviestUnitTest {
 
     @Test
     public void test_summary() throws IOException {

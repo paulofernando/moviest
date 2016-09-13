@@ -16,6 +16,7 @@ import android.widget.TextView;
 import br.net.paulofernando.moviest.R;
 import br.net.paulofernando.moviest.Utils;
 import br.net.paulofernando.moviest.listeners.EndlessRecyclerViewScrollListener;
+import br.net.paulofernando.moviest.ui.AboutActivity;
 import br.net.paulofernando.moviest.ui.SearchActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -63,8 +64,12 @@ public abstract class BaseFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_search:
-                Intent intent = new Intent(getContext(), SearchActivity.class);
-                getContext().startActivity(intent);
+                Intent searchIntent = new Intent(getContext(), SearchActivity.class);
+                getContext().startActivity(searchIntent);
+                return true;
+            case R.id.action_about:
+                Intent aboutIntent = new Intent(getContext(), AboutActivity.class);
+                getContext().startActivity(aboutIntent);
                 return true;
         }
 

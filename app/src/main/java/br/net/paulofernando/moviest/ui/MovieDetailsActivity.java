@@ -330,15 +330,15 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubeTh
     }
 
     public void loadYoutubeThumbnail() {
-        try {
-            MovieDetailsActivity.this.runOnUiThread(new Runnable() {
-                public void run() {
+        MovieDetailsActivity.this.runOnUiThread(new Runnable() {
+            public void run() {
+                try {
                     youTubeThumbnailView.initialize(MovieDB.YOUTUBE_KEY, MovieDetailsActivity.this);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+            }
+        });
     }
 
     @OnClick(R.id.movie_trailer_thumbnail)
