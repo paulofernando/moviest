@@ -179,7 +179,7 @@ public class CollectionActivity extends AppCompatActivity {
 
     private void checkForUpdateInRecyclerView() {
         //only add in recycler when all data is loaded
-        if(counter.incrementAndGet() >= (collection.moviesIds.size() - 1)) {
+        if(counter.incrementAndGet() == collection.moviesIds.size()) {
             updateList();
         }
     }

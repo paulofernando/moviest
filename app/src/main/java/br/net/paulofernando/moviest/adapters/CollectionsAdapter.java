@@ -5,6 +5,7 @@ import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import br.net.paulofernando.moviest.R;
@@ -28,7 +30,7 @@ import butterknife.ButterKnife;
  */
 public class CollectionsAdapter extends BaseAdapter<CollectionsAdapter.ViewHolder> {
 
-    private List<Collection> collections;
+    private List<Collection> collections = new ArrayList<>();
     private Context context;
 
 
@@ -86,8 +88,7 @@ public class CollectionsAdapter extends BaseAdapter<CollectionsAdapter.ViewHolde
         }
     }
 
-    public CollectionsAdapter(List<Collection> listOfCollections, Context context) {
-        this.collections = listOfCollections;
+    public CollectionsAdapter(Context context) {
         this.context = context;
     }
 

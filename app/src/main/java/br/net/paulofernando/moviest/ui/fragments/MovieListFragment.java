@@ -32,13 +32,12 @@ import retrofit2.Response;
 public class MovieListFragment extends BaseFragment {
 
     private static final String TAG = "MovieListFragment";
-    private static final int DEFAULT_MAX_PAGE = 2;
-    private static final int TOP_MAX_PAGE = 2;
+    private static final int DEFAULT_MAX_PAGE = 5;
+    private static final int TOP_MAX_PAGE = 5;
 
     private MovieDB.Services serviceType;
 
     protected MovieListAdapter mAdapter;
-    private List<Movie> movies = new ArrayList<>();
 
     /**
      * Returns a new instance of this fragment for the given section
@@ -102,14 +101,13 @@ public class MovieListFragment extends BaseFragment {
                         MovieListFragment.this.getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                movies.addAll(result);
                                 if (mAdapter == null) {
-                                    mAdapter = new MovieListAdapter(movies, MovieListFragment.this.getContext());
+                                    mAdapter = new MovieListAdapter(result, MovieListFragment.this.getContext());
                                     mRecyclerView.setAdapter(mAdapter);
                                     mAdapter.notifyDataSetChanged();
                                     mRecyclerView.setVisibility(View.VISIBLE);
                                 } else {
-                                    mAdapter.addMovies(movies);
+                                    mAdapter.addMovies(result);
                                 }
                                 loadingTextView.setVisibility(View.GONE);
                             }
@@ -170,14 +168,13 @@ public class MovieListFragment extends BaseFragment {
                             MovieListFragment.this.getActivity().runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    movies.addAll(result);
                                     if (mAdapter == null) {
-                                        mAdapter = new MovieListAdapter(movies, MovieListFragment.this.getContext());
+                                        mAdapter = new MovieListAdapter(result, MovieListFragment.this.getContext());
                                         mRecyclerView.setAdapter(mAdapter);
                                         mAdapter.notifyDataSetChanged();
                                         mRecyclerView.setVisibility(View.VISIBLE);
                                     } else {
-                                        mAdapter.addMovies(movies);
+                                        mAdapter.addMovies(result);
                                     }
                                     loadingTextView.setVisibility(View.GONE);
                                 }

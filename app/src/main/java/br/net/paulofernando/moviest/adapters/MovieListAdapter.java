@@ -5,6 +5,7 @@ import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -137,8 +138,14 @@ public class MovieListAdapter extends BaseAdapter<MovieListAdapter.ViewHolder> {
         notifyItemInserted(_movies.size() - 1);
     }
 
+    public void setMovies(List _movies){
+        this.movies = _movies;
+        notifyDataSetChanged();
+    }
+
     public void addMovie(Movie _movie){
         this.movies.add(_movie);
         notifyItemInserted(1);
+        Log.i("Movies", "Size: " + this.movies.size());
     }
 }

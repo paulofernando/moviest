@@ -78,9 +78,9 @@ public class CollectionsFragment extends BaseFragment {
                 @Override
                 public void run() {
                     if (mAdapter == null) {
-                        mAdapter = new CollectionsAdapter(collections, CollectionsFragment.this.getContext());
+                        mAdapter = new CollectionsAdapter(CollectionsFragment.this.getContext());
+                        mAdapter.addMovies(collections);
                         mRecyclerView.setAdapter(mAdapter);
-                        mAdapter.notifyDataSetChanged();
                         mRecyclerView.setVisibility(View.VISIBLE);
                     } else {
                         mAdapter.addMovies(collections);
