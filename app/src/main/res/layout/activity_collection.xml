@@ -22,7 +22,7 @@
 
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <include layout="@layout/collection_row" />
+            <include layout="@layout/row_collection" />
 
             <TextView
                 android:id="@+id/loading_tv"

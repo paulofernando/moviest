@@ -116,7 +116,7 @@ public class MovieListAdapter extends BaseAdapter<MovieListAdapter.ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View v = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.movie_row, viewGroup, false);
+                .inflate(R.layout.row_movie, viewGroup, false);
         return new ViewHolder(v);
     }
 

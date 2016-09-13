@@ -90,7 +90,7 @@ public class CollectionsAdapter extends BaseAdapter<CollectionsAdapter.ViewHolde
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View v = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.collection_row, viewGroup, false);
+                .inflate(R.layout.row_collection, viewGroup, false);
         return new ViewHolder(v);
     }
 

@@ -15,7 +15,7 @@
             android:orientation="vertical"
             android:layout_marginTop="@dimen/details_space_top">
 
-            <include layout="@layout/movie_row_detailed"/>
+            <include layout="@layout/row_movie_detailed"/>
 
             <TextView
                 android:id="@+id/movie_overiew_tv"
