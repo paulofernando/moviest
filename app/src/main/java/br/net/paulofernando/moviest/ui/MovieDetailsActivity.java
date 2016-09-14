@@ -38,6 +38,7 @@ import br.net.paulofernando.moviest.R;
 import br.net.paulofernando.moviest.Utils;
 import br.net.paulofernando.moviest.communication.MovieDB;
 import br.net.paulofernando.moviest.communication.entities.Configuration;
+import br.net.paulofernando.moviest.communication.entities.Crew;
 import br.net.paulofernando.moviest.communication.entities.Images;
 import br.net.paulofernando.moviest.communication.entities.Movie;
 import br.net.paulofernando.moviest.communication.entities.MovieWithCredits;
@@ -89,6 +90,18 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubeTh
 
     @BindView(R.id.movie_overiew_tv)
     TextView movieOveriewView;
+
+    @BindView(R.id.director_label_tv)
+    TextView directorLabelView;
+
+    @BindView(R.id.director_tv)
+    TextView directorView;
+
+    @BindView(R.id.release_label_tv)
+    TextView releaseLabelView;
+
+    @BindView(R.id.release_tv)
+    TextView releaseView;
 
     @BindView(R.id.trailer_container)
     LinearLayout trailerContainer;
@@ -237,6 +250,10 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubeTh
             movieOveriewView.setTextColor(rgb);
             voteAverageTextView.setTextColor(rgb);
             voteCountTextView.setTextColor(rgb);
+            directorLabelView.setTextColor(rgb);
+            directorView.setTextColor(rgb);
+            releaseLabelView.setTextColor(rgb);
+            releaseView.setTextColor(rgb);
             loadingTrailer.setIndicatorColor(rgb);
 
         } catch (IOException e) {
@@ -366,6 +383,26 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubeTh
                     genreTextView.setVisibility(View.VISIBLE);
                     runtimeTextView.setText(String.valueOf(movieWithCredits.runtime) + " " + getResources().getString(R.string.minute));
                     runtimeTextView.setVisibility(View.VISIBLE);
+
+                    String director = "";
+                    for(Crew crew: movieWithCredits.credits.crew) {
+                        if(crew.department.equals("Directing")) {
+                            director = crew.name;
+                            break;
+                        }
+                    }
+
+                    if(!director.equals("")) {
+                        directorLabelView.setVisibility(View.VISIBLE);
+                        directorView.setVisibility(View.VISIBLE);
+                        directorView.setText(director);
+                    }
+
+                    if(!movieWithCredits.releaseDate.equals("")) {
+                        releaseLabelView.setVisibility(View.VISIBLE);
+                        releaseView.setVisibility(View.VISIBLE);
+                        releaseView.setText(movieWithCredits.releaseDate);
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

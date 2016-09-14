@@ -23,5 +23,8 @@
     <string name="collection_name">collection_name</string>
     <string name="cover_name">cover_name</string>
 
+    <string name="director_label">Director</string>
+    <string name="release_label">Release Date</string>
+
 
 </resources>
