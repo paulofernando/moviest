@@ -55,68 +55,27 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubeTh
     public static final int DETAILS_BACKDROP_SIZE_INDEX = 4;
     private static final String TAG = "MovieDetailsActivity";
 
-    @BindView(R.id.movideDetailsContainer)
-    CoordinatorLayout movideDetailsContainer;
-
-    @BindView(R.id.toolbar_movie_details)
-    Toolbar toolbarMovieDetails;
-
-    @BindView(R.id.collapse_toolbar)
-    CollapsingToolbarLayout collapseToolbar;
-
-    @BindView(R.id.appbar_movie_details)
-    AppBarLayout appbarMovieDetails;
-
-    @BindView(R.id.cover_iv)
-    ImageView coverImageView;
-
-    @BindView(R.id.title_tv)
-    TextView titleTextView;
-
-    @BindView(R.id.star_iv)
-    ImageView starIcon;
-
-    @BindView(R.id.vote_average_tv)
-    TextView voteAverageTextView;
-
-    @BindView(R.id.vote_count_tv)
-    TextView voteCountTextView;
-
-    @BindView(R.id.genre_tv)
-    TextView genreTextView;
-
-    @BindView(R.id.runtime_tv)
-    TextView runtimeTextView;
-
-    @BindView(R.id.movie_overiew_tv)
-    TextView movieOveriewView;
-
-    @BindView(R.id.director_label_tv)
-    TextView directorLabelView;
-
-    @BindView(R.id.director_tv)
-    TextView directorView;
-
-    @BindView(R.id.release_label_tv)
-    TextView releaseLabelView;
-
-    @BindView(R.id.release_tv)
-    TextView releaseView;
-
-    @BindView(R.id.trailer_container)
-    LinearLayout trailerContainer;
-
-    @BindView(R.id.movie_trailer_title_tv)
-    TextView movieTrailerTitle;
-
-    @BindView(R.id.loading_trailer)
-    com.wang.avi.AVLoadingIndicatorView loadingTrailer;
-
-    @BindView(R.id.movie_backdrop)
-    ImageView movieBackdrop;
-
-    @BindView(R.id.movie_trailer_thumbnail)
-    YouTubeThumbnailView youTubeThumbnailView;
+    @BindView(R.id.movideDetailsContainer) CoordinatorLayout movideDetailsContainer;
+    @BindView(R.id.toolbar_movie_details) Toolbar toolbarMovieDetails;
+    @BindView(R.id.collapse_toolbar) CollapsingToolbarLayout collapseToolbar;
+    @BindView(R.id.appbar_movie_details) AppBarLayout appbarMovieDetails;
+    @BindView(R.id.cover_iv) ImageView coverImageView;
+    @BindView(R.id.title_tv) TextView titleTextView;
+    @BindView(R.id.star_iv) ImageView starIcon;
+    @BindView(R.id.vote_average_tv) TextView voteAverageTextView;
+    @BindView(R.id.vote_count_tv) TextView voteCountTextView;
+    @BindView(R.id.genre_tv) TextView genreTextView;
+    @BindView(R.id.runtime_tv) TextView runtimeTextView;
+    @BindView(R.id.movie_overiew_tv) TextView movieOveriewView;
+    @BindView(R.id.director_label_tv) TextView directorLabelView;
+    @BindView(R.id.director_tv) TextView directorView;
+    @BindView(R.id.release_label_tv) TextView releaseLabelView;
+    @BindView(R.id.release_tv) TextView releaseView;
+    @BindView(R.id.trailer_container) LinearLayout trailerContainer;
+    @BindView(R.id.movie_trailer_title_tv) TextView movieTrailerTitle;
+    @BindView(R.id.loading_trailer) com.wang.avi.AVLoadingIndicatorView loadingTrailer;
+    @BindView(R.id.movie_backdrop) ImageView movieBackdrop;
+    @BindView(R.id.movie_trailer_thumbnail) YouTubeThumbnailView youTubeThumbnailView;
 
     private Videos videosResult;
     private Images imagesResult;
@@ -379,7 +338,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubeTh
         MovieDetailsActivity.this.runOnUiThread(new Runnable() {
             public void run() {
                 try {
-                    genreTextView.setText(movieWithCredits.genres.get(0).name);
+                    genreTextView.setText(movieWithCredits.genresList.get(0).name);
                     genreTextView.setVisibility(View.VISIBLE);
                     runtimeTextView.setText(String.valueOf(movieWithCredits.runtime) + " " + getResources().getString(R.string.minute));
                     runtimeTextView.setVisibility(View.VISIBLE);

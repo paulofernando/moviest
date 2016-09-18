@@ -34,11 +34,8 @@ public class SearchActivity extends AppCompatActivity {
 
     private static final String TAG = "SearchActiviity";
 
-    @BindView(R.id.search_rv)
-    RecyclerView searchRecyclerView;
-
-    @BindView(R.id.loading_search)
-    com.wang.avi.AVLoadingIndicatorView loadingSearch;
+    @BindView(R.id.search_rv) RecyclerView searchRecyclerView;
+    @BindView(R.id.loading_search) com.wang.avi.AVLoadingIndicatorView loadingSearch;
 
     protected List<Movie> searchResult = new ArrayList<Movie>();
     protected SearchAdapter mAdapter;

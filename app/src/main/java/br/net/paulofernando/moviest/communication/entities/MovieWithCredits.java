@@ -11,8 +11,6 @@ public class MovieWithCredits extends Movie implements Serializable {
 
     @SerializedName("adult")
     public Boolean adult;
-    @SerializedName("genres")
-    public List<Genre> genres;
     @SerializedName("original_language")
     public String originalLanguage;
     @SerializedName("production_companies")

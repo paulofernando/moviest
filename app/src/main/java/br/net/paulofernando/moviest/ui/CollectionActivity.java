@@ -44,26 +44,13 @@ public class CollectionActivity extends AppCompatActivity {
     private static final String TAG = "CollectionActivity";
     private static final int INTERNET_CHECK_TIME = 5000;
 
-    @BindView(R.id.toolbar_collection)
-    Toolbar toolbarCollection;
-
-    @BindView(R.id.collapse_toolbar_collection)
-    CollapsingToolbarLayout collapseToolbarCollection;
-
-    @BindView(R.id.appbar_collection)
-    AppBarLayout appbarCollection;
-
-    @BindView(R.id.title_collection_tv)
-    TextView titleCollection;
-
-    @BindView(R.id.awards_list_rv)
-    RecyclerView mRecyclerView;
-
-    @BindView(R.id.loading_tv)
-    TextView loadingTextView;
-
-    @BindView(R.id.bg_collection_iv)
-    ImageView bgCollection;
+    @BindView(R.id.toolbar_collection) Toolbar toolbarCollection;
+    @BindView(R.id.collapse_toolbar_collection) CollapsingToolbarLayout collapseToolbarCollection;
+    @BindView(R.id.appbar_collection) AppBarLayout appbarCollection;
+    @BindView(R.id.title_collection_tv) TextView titleCollection;
+    @BindView(R.id.awards_list_rv) RecyclerView mRecyclerView;
+    @BindView(R.id.loading_tv) TextView loadingTextView;
+    @BindView(R.id.bg_collection_iv) ImageView bgCollection;
 
     protected MovieListAdapter mAdapter;
     protected RecyclerView.LayoutManager mLayoutManager;

@@ -22,14 +22,9 @@ public class MainActivity extends AppCompatActivity {
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private static final int NUMBER_TABS = 3;
 
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-
-    @BindView(R.id.tabs)
-    TabLayout tabLayout;
-
-    @BindView(R.id.container)
-    ViewPager mViewPager;
+    @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.tabs) TabLayout tabLayout;
+    @BindView(R.id.container) ViewPager mViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

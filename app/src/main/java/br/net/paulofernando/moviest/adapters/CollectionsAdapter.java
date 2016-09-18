@@ -42,14 +42,9 @@ public class CollectionsAdapter extends BaseAdapter<CollectionsAdapter.ViewHolde
         /** The index of the poster size in the themoviedb configuration*/
         private static final int POSTER_SIZE_INDEX = 3;
 
-        @BindView(R.id.collection_row_container)
-        RelativeLayout collectionRowContainer;
-
-        @BindView(R.id.title_collection_tv)
-        TextView titleTextView;
-
-        @BindView(R.id.bg_collection_iv)
-        ImageView bgCollection;
+        @BindView(R.id.collection_row_container) RelativeLayout collectionRowContainer;
+        @BindView(R.id.title_collection_tv) TextView titleTextView;
+        @BindView(R.id.bg_collection_iv) ImageView bgCollection;
 
         private Collection collection;
 

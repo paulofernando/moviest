@@ -40,17 +40,10 @@ public class MovieListAdapter extends BaseAdapter<MovieListAdapter.ViewHolder> {
         /** The index of the poster size in the themoviedb configuration*/
         private static final int POSTER_SIZE_INDEX = 3;
 
-        @BindView(R.id.cover_iv)
-        ImageView coverImageView;
-
-        @BindView(R.id.title_tv)
-        TextView titleTextView;
-
-        @BindView(R.id.year_tv)
-        TextView yearTextView;
-
-        @BindView(R.id.genre_tv)
-        TextView genreTextView;
+        @BindView(R.id.cover_iv) ImageView coverImageView;
+        @BindView(R.id.title_tv) TextView titleTextView;
+        @BindView(R.id.year_tv) TextView yearTextView;
+        @BindView(R.id.genre_tv) TextView genreTextView;
 
         private Movie movie;
 
@@ -85,7 +78,10 @@ public class MovieListAdapter extends BaseAdapter<MovieListAdapter.ViewHolder> {
 
             titleTextView.setText(movie.title);
 
-            if((movie.genres != null) && (movie.genres.size() > 0)) {
+            if((movie.genresList != null) && (movie.genresList.size() > 0)) {
+                genreTextView.setVisibility(View.VISIBLE);
+                genreTextView.setText(movie.genresList.get(0).name);
+            } else if((movie.genres != null) && (movie.genres.size() > 0)) {
                 genreTextView.setVisibility(View.VISIBLE);
                 genreTextView.setText(MovieDB.getGenreNameByID(movie.genres.get(0)));
             }

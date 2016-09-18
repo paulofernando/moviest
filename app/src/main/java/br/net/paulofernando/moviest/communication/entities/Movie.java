@@ -20,6 +20,8 @@ public class Movie implements Serializable {
     public Integer budget;
     @SerializedName("genre_ids")
     public List<Integer> genres;
+    @SerializedName("genres")
+    public List<Genre> genresList;
     @SerializedName("homepage")
     public String homepage;
     @SerializedName("imdb_id")

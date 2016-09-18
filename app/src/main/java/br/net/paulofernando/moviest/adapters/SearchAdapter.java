@@ -30,8 +30,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
      * Provide a reference to the type of views that you are using (custom ViewHolder)
      */
     class ViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.search_result_tv)
-        TextView searchResultView;
+
+        @BindView(R.id.search_result_tv) TextView searchResultView;
 
         private Movie movie;
 
