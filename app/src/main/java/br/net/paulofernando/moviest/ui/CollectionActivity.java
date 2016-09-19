@@ -29,6 +29,7 @@ import br.net.paulofernando.moviest.R;
 import br.net.paulofernando.moviest.Utils;
 import br.net.paulofernando.moviest.adapters.MovieListAdapter;
 import br.net.paulofernando.moviest.communication.MovieDB;
+import br.net.paulofernando.moviest.communication.MovieDBRx;
 import br.net.paulofernando.moviest.communication.entities.Collection;
 import br.net.paulofernando.moviest.communication.entities.Movie;
 import br.net.paulofernando.moviest.ui.component.DividerItemDecoration;
@@ -38,6 +39,10 @@ import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class CollectionActivity extends AppCompatActivity {
 
@@ -121,11 +126,11 @@ public class CollectionActivity extends AppCompatActivity {
 
                         @Override
                         public void onFailure(Exception e) {
-                            getMovieFromAPI(movieId);
+                            getMovieFromAPIRx(movieId);
                         }
                     });
                 } else {
-                    getMovieFromAPI(movieId);
+                    getMovieFromAPIRx(movieId);
                 }
 
             } catch (IOException e) {
@@ -157,6 +162,36 @@ public class CollectionActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    private void getMovieFromAPIRx(final Integer movieId) {
+
+        MovieDBRx.getInstance().moviesService().summaryRx(movieId, MovieDB.API_KEY)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Movie>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(Movie movie) {
+                        try {
+                            Reservoir.put(String.valueOf(movieId), movie);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        movies.add(movie);
+                        checkForUpdateInRecyclerView();
+                    }
+                });
+
     }
 
     @OnClick(R.id.loading_tv)

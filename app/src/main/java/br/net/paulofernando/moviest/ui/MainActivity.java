@@ -16,8 +16,6 @@ import br.net.paulofernando.moviest.ui.fragments.CollectionsFragment;
 import br.net.paulofernando.moviest.ui.fragments.MovieListFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import rx.Observable;
-import rx.functions.Action1;
 
 public class MainActivity extends AppCompatActivity {
 

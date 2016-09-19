@@ -7,10 +7,13 @@ import br.net.paulofernando.moviest.communication.entities.Movie;
 import br.net.paulofernando.moviest.communication.entities.MovieWithCredits;
 import br.net.paulofernando.moviest.communication.entities.Page;
 import br.net.paulofernando.moviest.communication.entities.Videos;
+
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+
+import rx.Observable;
 
 public interface MoviesService {
 
@@ -19,6 +22,12 @@ public interface MoviesService {
      */
     @GET("movie/{id}")
     Call<Movie> summary(
+            @Path("id") int movieId,
+            @Query("api_key") String apiKey
+    );
+
+    @GET("movie/{id}")
+    Observable<Movie> summaryRx(
             @Path("id") int movieId,
             @Query("api_key") String apiKey
     );
