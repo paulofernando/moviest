@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -47,7 +46,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.androidpit.androidcolorthief.MMCQ;
-import retrofit2.Call;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class MovieDetailsActivity extends AppCompatActivity implements YouTubeThumbnailView.OnInitializedListener {
 
@@ -136,9 +137,8 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubeTh
         });
 
         movieOveriewView.setText(movie.overview);
-        new MovieDetailsTasks(MovieDB.Services.Videos).execute(movie.id);
-        new MovieDetailsTasks(MovieDB.Services.SummaryWithCredits).execute(movie.id);
-
+        retrieveMovieDetails(movie.id);
+        loadYoutubeThumbnail(movie.id);
     }
 
     private void loadImages() {
@@ -148,7 +148,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubeTh
                 movie.posterPath).into(new Target() {
             @Override
             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-
                 coverImageView.setImageBitmap(bitmap);
                 movieBackdrop.setVisibility(View.VISIBLE);
                 changedScreenColors(bitmap);
@@ -233,64 +232,67 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubeTh
         return super.onOptionsItemSelected(item);
     }
 
-    class MovieDetailsTasks extends AsyncTask<Integer, Integer, Long> {
+    public void retrieveMovieDetails(int movieID) {
+        MovieDB.getInstance().moviesService().summaryWithAppendRx(movieID, MovieDB.API_KEY, "credits")
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<MovieWithCredits>() {
+                    @Override
+                    public void onCompleted() {}
 
-        MovieDB.Services serviceType;
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, e.getMessage());
+                    }
 
-        public MovieDetailsTasks(MovieDB.Services _serviceType) {
-            this.serviceType = _serviceType;
-        }
+                    @Override
+                    public void onNext(MovieWithCredits movieWithCredits) {
+                        genreTextView.setText(movieWithCredits.genresList.get(0).name);
+                        genreTextView.setVisibility(View.VISIBLE);
+                        runtimeTextView.setText(String.valueOf(movieWithCredits.runtime) + " " + getResources().getString(R.string.minute));
+                        runtimeTextView.setVisibility(View.VISIBLE);
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
+                        String director = "";
+                        for(Crew crew: movieWithCredits.credits.crew) {
+                            if(crew.department.equals("Directing")) {
+                                director = crew.name;
+                                break;
+                            }
+                        }
 
-        protected Long doInBackground(Integer... params) {
-            if (!Utils.isNetworkConnected(getApplicationContext())) {
-                Log.e(TAG, getResources().getResourceName(R.string.no_internet));
-                Utils.showAlert(MovieDetailsActivity.this, getResources().getResourceName(R.string.no_internet));
-                return null;
-            }
+                        if(!director.equals("")) {
+                            directorLabelView.setVisibility(View.VISIBLE);
+                            directorView.setVisibility(View.VISIBLE);
+                            directorView.setText(director);
+                        }
 
-            int movieID = params[0];
-
-            MovieDB movieDB = MovieDB.getInstance();
-            if (serviceType == MovieDB.Services.SummaryWithCredits) {
-                Call<MovieWithCredits> callMovies = movieDB.moviesService().summaryWithAppend(
-                        movieID, MovieDB.API_KEY, "credits");
-                try {
-                    movieWithCredits = callMovies.execute().body();
-                    loadCredits();
-                    Log.i(TAG, movieWithCredits.imdbId);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            } else if (serviceType == MovieDB.Services.Videos) {
-                Call<Videos> callVideos = movieDB.moviesService().videos(movieID, MovieDB.API_KEY);
-                try {
-                    videosResult = callVideos.execute().body();
-                    for (Videos.Video v : videosResult.results) {
-                        if (v.type.equals("Trailer")) {
-                            trailerID = v.key;
-                            break;
+                        if(!movieWithCredits.releaseDate.equals("")) {
+                            releaseLabelView.setVisibility(View.VISIBLE);
+                            releaseView.setVisibility(View.VISIBLE);
+                            releaseView.setText(movieWithCredits.releaseDate);
                         }
                     }
-                    loadYoutubeThumbnail();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            } else if (serviceType == MovieDB.Services.Images) {
-                Call<Images> callImages = movieDB.moviesService().images(movieID, MovieDB.API_KEY);
-                try {
-                    imagesResult = callImages.execute().body();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            return null;
-        }
+                });
+    }
 
+    public void retrieveImages(int movieID) {
+        MovieDB.getInstance().moviesService().imagesRx(movieID, MovieDB.API_KEY)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Images>() {
+                    @Override
+                    public void onCompleted() {}
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(Images images) {
+                        imagesResult = images;
+                    }
+                });
     }
 
     @Override
@@ -317,56 +319,40 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubeTh
                                         YouTubeInitializationResult youTubeInitializationResult) {
     }
 
-    public void loadYoutubeThumbnail() {
-        MovieDetailsActivity.this.runOnUiThread(new Runnable() {
-            public void run() {
-                try {
-                    youTubeThumbnailView.initialize(MovieDB.YOUTUBE_KEY, MovieDetailsActivity.this);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+    public void loadYoutubeThumbnail(int movieID) {
+        MovieDB.getInstance().moviesService().videosRx(movieID, MovieDB.API_KEY)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Videos>() {
+                    @Override
+                    public void onCompleted() {}
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(Videos videos) {
+                        for (Videos.Video v : videos.results) {
+                            if (v.type.equals("Trailer")) {
+                                trailerID = v.key;
+                                break;
+                            }
+                        }
+
+                        try {
+                            youTubeThumbnailView.initialize(MovieDB.YOUTUBE_KEY, MovieDetailsActivity.this);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
     }
 
     @OnClick(R.id.movie_trailer_thumbnail)
     public void trailerClick() {
         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=" + trailerID)));
-    }
-
-    public void loadCredits() {
-        MovieDetailsActivity.this.runOnUiThread(new Runnable() {
-            public void run() {
-                try {
-                    genreTextView.setText(movieWithCredits.genresList.get(0).name);
-                    genreTextView.setVisibility(View.VISIBLE);
-                    runtimeTextView.setText(String.valueOf(movieWithCredits.runtime) + " " + getResources().getString(R.string.minute));
-                    runtimeTextView.setVisibility(View.VISIBLE);
-
-                    String director = "";
-                    for(Crew crew: movieWithCredits.credits.crew) {
-                        if(crew.department.equals("Directing")) {
-                            director = crew.name;
-                            break;
-                        }
-                    }
-
-                    if(!director.equals("")) {
-                        directorLabelView.setVisibility(View.VISIBLE);
-                        directorView.setVisibility(View.VISIBLE);
-                        directorView.setText(director);
-                    }
-
-                    if(!movieWithCredits.releaseDate.equals("")) {
-                        releaseLabelView.setVisibility(View.VISIBLE);
-                        releaseView.setVisibility(View.VISIBLE);
-                        releaseView.setText(movieWithCredits.releaseDate);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
     }
 
 }

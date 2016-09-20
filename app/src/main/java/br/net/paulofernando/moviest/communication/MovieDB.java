@@ -11,11 +11,12 @@ import br.net.paulofernando.moviest.communication.entities.Configuration;
 import br.net.paulofernando.moviest.communication.entities.Genre;
 import br.net.paulofernando.moviest.communication.entities.Genres;
 import br.net.paulofernando.moviest.communication.services.MoviesService;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class MovieDB {
 
@@ -54,15 +55,13 @@ public class MovieDB {
 
     protected Retrofit getRetrofit() {
         if (retrofit == null) {
-            retrofit = retrofitBuilder().build();
+            retrofit = new Retrofit.Builder()
+                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .baseUrl(API_URL)
+                    .build();
         }
         return retrofit;
-    }
-
-    protected Retrofit.Builder retrofitBuilder() {
-        return new Retrofit.Builder()
-                .baseUrl(API_URL)
-                .addConverterFactory(GsonConverterFactory.create());
     }
 
     // --------------- services --------------------
@@ -119,25 +118,28 @@ public class MovieDB {
     }
 
     private static void configureTMDBFromAPI() {
-        Call<Configuration> callConfig = MovieDB.getInstance().moviesService().configuration(MovieDB.API_KEY);
-        callConfig.enqueue(new Callback<Configuration>() {
-            @Override
-            public void onResponse(Call<Configuration> call, Response<Configuration> response) {
-                if (response.isSuccessful()) {
+        MovieDB.getInstance().moviesService().configurationRx(MovieDB.API_KEY)
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(new Subscriber<Configuration>() {
+                @Override
+                public void onCompleted() {}
+
+                @Override
+                public void onError(Throwable e) {
+                    Log.e(TAG, e.getMessage());
+                }
+
+                @Override
+                public void onNext(Configuration configuration) {
                     try {
-                        Reservoir.put(CACHE_CONFIG, response.body());
+                        Reservoir.put(CACHE_CONFIG, configuration);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    MovieDB.getInstance().setConfiguration(response.body());
+                    MovieDB.getInstance().setConfiguration(configuration);
                 }
-            }
-
-            @Override
-            public void onFailure(Call<Configuration> call, Throwable t) {
-                Log.d(TAG, t.getMessage());
-            }
-        });
+            });
     }
 
     public static void configureGenres() {
@@ -163,24 +165,28 @@ public class MovieDB {
     }
 
     private static void configureGenresFromAPI() {
-        Call<Genres> callGenres = MovieDB.getInstance().moviesService().genres(MovieDB.API_KEY);
-        callGenres.enqueue(new Callback<Genres>() {
-            @Override
-            public void onResponse(Call<Genres> call, Response<Genres> response) {
-                if (response.isSuccessful()) {
+        MovieDB.getInstance().moviesService().genresRx(MovieDB.API_KEY)
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(new Subscriber<Genres>() {
+                @Override
+                public void onCompleted() {}
+
+                @Override
+                public void onError(Throwable e) {
+                    Log.e(TAG, e.getMessage());
+                }
+
+                @Override
+                public void onNext(Genres genres) {
                     try {
-                        Reservoir.put(CACHE_GENRES, response.body());
+                        Reservoir.put(CACHE_GENRES, genres);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    MovieDB.getInstance().setGenres(response.body());
+                    MovieDB.getInstance().setGenres(genres);
                 }
-            }
-            @Override
-            public void onFailure(Call<Genres> call, Throwable t) {
-                Log.d("Error", t.getMessage());
-            }
-        });
+            });
     }
 
 }

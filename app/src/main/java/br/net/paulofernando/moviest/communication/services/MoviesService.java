@@ -17,15 +17,6 @@ import rx.Observable;
 
 public interface MoviesService {
 
-    /**
-     * Get the movie information for a specific movie.
-     */
-    @GET("movie/{id}")
-    Call<Movie> summary(
-            @Path("id") int movieId,
-            @Query("api_key") String apiKey
-    );
-
     @GET("movie/{id}")
     Observable<Movie> summaryRx(
             @Path("id") int movieId,
@@ -36,16 +27,10 @@ public interface MoviesService {
      * Get the movie information for a specific movie.
      */
     @GET("movie/{id}")
-    Call<MovieWithCredits> summaryWithAppend(
+    Observable<MovieWithCredits> summaryWithAppendRx(
             @Path("id") int movieId,
             @Query("api_key") String apiKey,
             @Query("append_to_response") String appendToResponse
-    );
-
-    @GET("movie/{id}")
-    Call<Movie> summary2(
-            @Path("id") int movieId,
-            @Query("api_key") String apiKey
     );
 
     /**
@@ -53,6 +38,15 @@ public interface MoviesService {
      */
     @GET("movie/now_playing")
     Call<Page> nowPlaying(
+            @Query("api_key") String apiKey,
+            @Query("page") int page
+    );
+
+    /**
+     * Get the now playing for a specific page number.
+     */
+    @GET("movie/now_playing")
+    Observable<Page> nowPlayingRx(
             @Query("api_key") String apiKey,
             @Query("page") int page
     );
@@ -67,10 +61,28 @@ public interface MoviesService {
     );
 
     /**
+     * Get the popular for a specific page number.
+     */
+    @GET("movie/popular")
+    Observable<Page> popularRx(
+            @Query("api_key") String apiKey,
+            @Query("page") int page
+    );
+
+    /**
      * Get the top rated for a specific page number.
      */
     @GET("movie/top_rated")
     Call<Page> topRated(
+            @Query("api_key") String apiKey,
+            @Query("page") int page
+    );
+
+    /**
+     * Get the top rated for a specific page number.
+     */
+    @GET("movie/top_rated")
+    Observable<Page> topRatedRx(
             @Query("api_key") String apiKey,
             @Query("page") int page
     );
@@ -85,10 +97,28 @@ public interface MoviesService {
     );
 
     /**
+     * Get the images for a specific movie.
+     */
+    @GET("movie/{id}/images")
+    Observable<Images> imagesRx(
+            @Path("id") int movieId,
+            @Query("api_key") String apiKey
+    );
+
+    /**
      * Get the videos for a specific movie.
      */
     @GET("movie/{id}/videos")
     Call<Videos> videos(
+            @Path("id") int movieId,
+            @Query("api_key") String apiKey
+    );
+
+    /**
+     * Get the videos for a specific movie.
+     */
+    @GET("movie/{id}/videos")
+    Observable<Videos> videosRx(
             @Path("id") int movieId,
             @Query("api_key") String apiKey
     );
@@ -104,6 +134,15 @@ public interface MoviesService {
             @Query("query") String query,
             @Query("page") int page);
 
+    /**
+     * Searches by a movie based on a query
+     */
+    @GET("search/movie")
+    Observable<Page> searchRx(
+            @Query("api_key") String apiKey,
+            @Query("query") String query,
+            @Query("page") int page);
+
     //--------------- genres -----------------------
 
     /**
@@ -112,6 +151,12 @@ public interface MoviesService {
     @GET("genre/movie/list")
     Call<Genres> genres(@Query("api_key") String apiKey);
 
+    /**
+     * Get the genres.
+     */
+    @GET("genre/movie/list")
+    Observable<Genres> genresRx(@Query("api_key") String apiKey);
+
     //--------------- configuration ----------------
 
     /**
@@ -119,6 +164,12 @@ public interface MoviesService {
      */
     @GET("configuration")
     Call<Configuration> configuration(@Query("api_key") String apiKey);
+
+    /**
+     * Get the configuration of themoviedb API.
+     */
+    @GET("configuration")
+    Observable<Configuration> configurationRx(@Query("api_key") String apiKey);
 
 
 }

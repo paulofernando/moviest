@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import junit.framework.Assert;
+
 import java.util.List;
 
 import br.net.paulofernando.moviest.R;
@@ -20,6 +22,9 @@ import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder> {
     private final static String TAG = "SearchAdapter";
@@ -42,21 +47,23 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Call<Movie> callSummary = MovieDB.getInstance().moviesService().summary(movie.id, MovieDB.API_KEY);
-                    callSummary.enqueue(new Callback<Movie>() {
-                        @Override
-                        public void onResponse(Call<Movie> call, Response<Movie> response) {
-                            if (response.isSuccessful()) {
-                                Intent intent = new Intent(SearchAdapter.this.context, MovieDetailsActivity.class);
-                                intent.putExtra(MovieDB.MOVIE_DETAILS, response.body());
-                                SearchAdapter.this.context.startActivity(intent);
-                            }
-                        }
-                        @Override
-                        public void onFailure(Call<Movie> call, Throwable t) {
-                            Log.d(TAG, t.getMessage());
-                        }
-                    });
+                    MovieDB.getInstance().moviesService().summaryRx(movie.id, MovieDB.API_KEY)
+                            .subscribeOn(Schedulers.newThread())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new Subscriber<Movie>() {
+                                @Override
+                                public void onCompleted() {}
+
+                                @Override
+                                public void onError(Throwable e) {}
+
+                                @Override
+                                public void onNext(Movie movie) {
+                                    Intent intent = new Intent(SearchAdapter.this.context, MovieDetailsActivity.class);
+                                    intent.putExtra(MovieDB.MOVIE_DETAILS, movie);
+                                    SearchAdapter.this.context.startActivity(intent);
+                                }
+                            });
                 }
             });
         }
