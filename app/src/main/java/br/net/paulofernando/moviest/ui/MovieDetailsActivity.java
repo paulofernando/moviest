@@ -275,26 +275,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubeTh
                 });
     }
 
-    public void retrieveImages(int movieID) {
-        MovieDB.getInstance().moviesService().imagesRx(movieID, MovieDB.API_KEY)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Images>() {
-                    @Override
-                    public void onCompleted() {}
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e(TAG, e.getMessage());
-                    }
-
-                    @Override
-                    public void onNext(Images images) {
-                        imagesResult = images;
-                    }
-                });
-    }
-
     @Override
     public void onInitializationSuccess(YouTubeThumbnailView youTubeThumbnailView, YouTubeThumbnailLoader youTubeThumbnailLoader) {
         if ((trailerID != null) && (Utils.isNetworkConnected(getApplicationContext()))) {

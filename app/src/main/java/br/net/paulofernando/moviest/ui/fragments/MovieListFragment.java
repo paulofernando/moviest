@@ -9,10 +9,7 @@ import android.view.ViewGroup;
 
 import com.anupcowkur.reservoir.Reservoir;
 import com.anupcowkur.reservoir.ReservoirGetCallback;
-import com.anupcowkur.reservoir.ReservoirPutCallback;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -25,9 +22,9 @@ import br.net.paulofernando.moviest.communication.entities.Movie;
 import br.net.paulofernando.moviest.communication.entities.Page;
 import br.net.paulofernando.moviest.storage.CacheManager;
 import br.net.paulofernando.moviest.ui.component.DividerItemDecoration;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class MovieListFragment extends BaseFragment {
 
@@ -101,15 +98,7 @@ public class MovieListFragment extends BaseFragment {
                         MovieListFragment.this.getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                if (mAdapter == null) {
-                                    mAdapter = new MovieListAdapter(result, MovieListFragment.this.getContext());
-                                    mRecyclerView.setAdapter(mAdapter);
-                                    mAdapter.notifyDataSetChanged();
-                                    mRecyclerView.setVisibility(View.VISIBLE);
-                                } else {
-                                    mAdapter.addMovies(result);
-                                }
-                                loadingTextView.setVisibility(View.GONE);
+                                updateList(result);
                             }
                         });
                     }
@@ -144,80 +133,86 @@ public class MovieListFragment extends BaseFragment {
                 populateListFromAPI(serviceType, page);
             }
         }
-
     }
 
-    private void populateListFromAPI(final MovieDB.Services serviceType, final int page) {
-        Call<Page> callMovies = null;
-
-        if(serviceType == MovieDB.Services.NowPlaying) {
-            callMovies = MovieDB.getInstance().moviesService().nowPlaying(MovieDB.API_KEY, page);
-        } else if(serviceType == MovieDB.Services.Popular) {
-            callMovies = MovieDB.getInstance().moviesService().popular(MovieDB.API_KEY, page);
-        } else if(serviceType == MovieDB.Services.TopRated) {
-            callMovies = MovieDB.getInstance().moviesService().topRated(MovieDB.API_KEY, page);
+    private void populateListFromAPI(MovieDB.Services service, int pageNumber) {
+        if(service == MovieDB.Services.Popular) {
+            populatePopularListFromAPI(pageNumber);
+        } else if(service == MovieDB.Services.TopRated) {
+            populateTopRatedListFromAPI(pageNumber);
+        } else if(service == MovieDB.Services.NowPlaying) {
+            populateNowPlayingListFromAPI(pageNumber);
         }
+    }
 
-        if(callMovies != null) {
-            callMovies.enqueue(new Callback<Page>() {
-                @Override
-                public void onResponse(Call<Page> call, Response<Page> response) {
-                    if (response.isSuccessful()) {
-                        final List<Movie> result = response.body().movies;
-                        if ((result != null) && (MovieListFragment.this.getActivity() != null)) {//there are movies to list
-                            MovieListFragment.this.getActivity().runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    if (mAdapter == null) {
-                                        mAdapter = new MovieListAdapter(result, MovieListFragment.this.getContext());
-                                        mRecyclerView.setAdapter(mAdapter);
-                                        mAdapter.notifyDataSetChanged();
-                                        mRecyclerView.setVisibility(View.VISIBLE);
-                                    } else {
-                                        mAdapter.addMovies(result);
-                                    }
-                                    loadingTextView.setVisibility(View.GONE);
-                                }
-                            });
-                        }
+    private void populatePopularListFromAPI(final int page) {
+        MovieDB.getInstance().moviesService().popularRx(MovieDB.API_KEY, page)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Page>() {
+                    @Override
+                    public void onCompleted() {}
 
-                        String serviceCacheName = null;
-                        if(serviceType == MovieDB.Services.NowPlaying) {
-                            serviceCacheName = CacheManager.CACHE_NOW_PLAYING;
-                        } else if(serviceType == MovieDB.Services.NowPlaying) {
-                            serviceCacheName = CacheManager.CACHE_POPULAR;
-                        } else if(serviceType == MovieDB.Services.NowPlaying) {
-                            serviceCacheName = CacheManager.CACHE_TOP;
-                        }
+                    @Override
+                    public void onError(Throwable e) {}
 
-                        if(serviceCacheName != null) {
-                            Reservoir.putAsync(serviceCacheName + page, response.body(), new ReservoirPutCallback() {
-                                @Override
-                                public void onSuccess() {
-                                    Log.d(TAG, "Page " + page + " cached in tab " + serviceType);
-                                }
-
-                                @Override
-                                public void onFailure(Exception e) {
-                                    Log.e(TAG, "Failure on saving data in cache");
-                                    e.printStackTrace();
-                                }
-                            });
-
-                            try {
-                                Reservoir.put(serviceCacheName + CacheManager.CACHE_TIME, System.currentTimeMillis());
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
+                    @Override
+                    public void onNext(final Page page) {
+                        updateList(page.movies);
+                        CacheManager.cachePage(MovieDB.Services.Popular, page);
                     }
-                }
-
-                @Override
-                public void onFailure(Call<Page> call, Throwable t) {
-                    Log.d(TAG, t.getMessage());
-                }
-            });
-        }
+                });
     }
+
+    private void populateTopRatedListFromAPI(final int page) {
+        MovieDB.getInstance().moviesService().topRatedRx(MovieDB.API_KEY, page)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Page>() {
+                    @Override
+                    public void onCompleted() {}
+
+                    @Override
+                    public void onError(Throwable e) {}
+
+                    @Override
+                    public void onNext(final Page page) {
+                        updateList(page.movies);
+                        CacheManager.cachePage(MovieDB.Services.TopRated, page);
+                    }
+                });
+    }
+
+    private void populateNowPlayingListFromAPI(final int pageNumber) {
+        MovieDB.getInstance().moviesService().nowPlayingRx(MovieDB.API_KEY, pageNumber)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Page>() {
+                    @Override
+                    public void onCompleted() {}
+
+                    @Override
+                    public void onError(Throwable e) {}
+
+                    @Override
+                    public void onNext(final Page page) {
+                        updateList(page.movies);
+                        CacheManager.cachePage(MovieDB.Services.NowPlaying, page);
+                    }
+                });
+    }
+
+    private void updateList(List<Movie> result) {
+        if (mAdapter == null) {
+            mAdapter = new MovieListAdapter(result, MovieListFragment.this.getContext());
+            mRecyclerView.setAdapter(mAdapter);
+            mAdapter.notifyDataSetChanged();
+            mRecyclerView.setVisibility(View.VISIBLE);
+        } else {
+            mAdapter.addMovies(result);
+        }
+        loadingTextView.setVisibility(View.GONE);
+    }
+
+
 }

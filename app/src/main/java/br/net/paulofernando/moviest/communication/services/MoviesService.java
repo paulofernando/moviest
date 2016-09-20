@@ -33,29 +33,12 @@ public interface MoviesService {
             @Query("append_to_response") String appendToResponse
     );
 
-    /**
-     * Get the now playing for a specific page number.
-     */
-    @GET("movie/now_playing")
-    Call<Page> nowPlaying(
-            @Query("api_key") String apiKey,
-            @Query("page") int page
-    );
 
     /**
      * Get the now playing for a specific page number.
      */
     @GET("movie/now_playing")
     Observable<Page> nowPlayingRx(
-            @Query("api_key") String apiKey,
-            @Query("page") int page
-    );
-
-    /**
-     * Get the popular for a specific page number.
-     */
-    @GET("movie/popular")
-    Call<Page> popular(
             @Query("api_key") String apiKey,
             @Query("page") int page
     );
@@ -73,15 +56,6 @@ public interface MoviesService {
      * Get the top rated for a specific page number.
      */
     @GET("movie/top_rated")
-    Call<Page> topRated(
-            @Query("api_key") String apiKey,
-            @Query("page") int page
-    );
-
-    /**
-     * Get the top rated for a specific page number.
-     */
-    @GET("movie/top_rated")
     Observable<Page> topRatedRx(
             @Query("api_key") String apiKey,
             @Query("page") int page
@@ -91,25 +65,7 @@ public interface MoviesService {
      * Get the images for a specific movie.
      */
     @GET("movie/{id}/images")
-    Call<Images> images(
-            @Path("id") int movieId,
-            @Query("api_key") String apiKey
-    );
-
-    /**
-     * Get the images for a specific movie.
-     */
-    @GET("movie/{id}/images")
     Observable<Images> imagesRx(
-            @Path("id") int movieId,
-            @Query("api_key") String apiKey
-    );
-
-    /**
-     * Get the videos for a specific movie.
-     */
-    @GET("movie/{id}/videos")
-    Call<Videos> videos(
             @Path("id") int movieId,
             @Query("api_key") String apiKey
     );
@@ -149,21 +105,9 @@ public interface MoviesService {
      * Get the genres.
      */
     @GET("genre/movie/list")
-    Call<Genres> genres(@Query("api_key") String apiKey);
-
-    /**
-     * Get the genres.
-     */
-    @GET("genre/movie/list")
     Observable<Genres> genresRx(@Query("api_key") String apiKey);
 
     //--------------- configuration ----------------
-
-    /**
-     * Get the configuration of themoviedb API.
-     */
-    @GET("configuration")
-    Call<Configuration> configuration(@Query("api_key") String apiKey);
 
     /**
      * Get the configuration of themoviedb API.
