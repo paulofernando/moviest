@@ -85,15 +85,6 @@ public interface MoviesService {
      * Searches by a movie based on a query
      */
     @GET("search/movie")
-    Call<Page> search(
-            @Query("api_key") String apiKey,
-            @Query("query") String query,
-            @Query("page") int page);
-
-    /**
-     * Searches by a movie based on a query
-     */
-    @GET("search/movie")
     Observable<Page> searchRx(
             @Query("api_key") String apiKey,
             @Query("query") String query,

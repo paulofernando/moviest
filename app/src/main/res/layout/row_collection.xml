@@ -30,4 +30,7 @@
             android:background="#55000000"
             />
 
+        <include layout="@layout/loading" />
+
+
 </RelativeLayout>

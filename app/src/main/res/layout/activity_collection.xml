@@ -24,17 +24,6 @@
 
             <include layout="@layout/row_collection" />
 
-            <TextView
-                android:id="@+id/loading_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/colorAccent"
-                android:textColor="#FFF"
-                android:layout_gravity="center"
-                android:text="@string/loading"
-                android:padding="5dp"
-                android:layout_centerHorizontal="true" />
-
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar_collection"
                 android:layout_width="match_parent"

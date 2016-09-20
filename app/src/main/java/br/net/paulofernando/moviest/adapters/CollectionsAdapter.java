@@ -33,18 +33,14 @@ public class CollectionsAdapter extends BaseAdapter<CollectionsAdapter.ViewHolde
     private List<Collection> collections = new ArrayList<>();
     private Context context;
 
-
     /**
      * Provide a reference to the type of views that you are using (custom ViewHolder)
      */
     class ViewHolder extends RecyclerView.ViewHolder {
-
-        /** The index of the poster size in the themoviedb configuration*/
-        private static final int POSTER_SIZE_INDEX = 3;
-
         @BindView(R.id.collection_row_container) RelativeLayout collectionRowContainer;
         @BindView(R.id.title_collection_tv) TextView titleTextView;
         @BindView(R.id.bg_collection_iv) ImageView bgCollection;
+        @BindView(R.id.loading_tv) TextView loading;
 
         private Collection collection;
 
@@ -75,7 +71,18 @@ public class CollectionsAdapter extends BaseAdapter<CollectionsAdapter.ViewHolde
             titleTextView.setText(collection.title);
 
             try {
-                Picasso.with(context).load(collection.backgroundImageURL).into(bgCollection);
+                Picasso.with(context).load(collection.backgroundImageURL).into(bgCollection,
+                    new com.squareup.picasso.Callback() {
+
+                        @Override
+                        public void onSuccess() {
+                            loading.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onError() {}
+
+                    });
             } catch (NullPointerException e) {
                 e.printStackTrace();
             }
@@ -107,7 +114,7 @@ public class CollectionsAdapter extends BaseAdapter<CollectionsAdapter.ViewHolde
     }
 
     @Override
-    public void addMovies(List _collections){
+    public void addList(List _collections){
         this.collections.addAll(_collections);
         notifyItemInserted(_collections.size() - 1);
     }

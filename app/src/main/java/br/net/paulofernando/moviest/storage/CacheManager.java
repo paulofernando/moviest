@@ -12,8 +12,6 @@ import java.io.IOException;
 import br.net.paulofernando.moviest.communication.MovieDB;
 import br.net.paulofernando.moviest.communication.entities.Page;
 
-import static android.support.v7.widget.StaggeredGridLayoutManager.TAG;
-
 public class CacheManager {
 
     public static final String TAG = "cacheManager";

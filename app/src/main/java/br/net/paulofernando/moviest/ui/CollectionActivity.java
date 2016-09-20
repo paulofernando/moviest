@@ -203,7 +203,7 @@ public class CollectionActivity extends AppCompatActivity {
         CollectionActivity.this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mAdapter.addMovies(movies);
+                mAdapter.addList(movies);
                 loadingTextView.setVisibility(View.GONE);
             }
         });

@@ -129,7 +129,7 @@ public class MovieListAdapter extends BaseAdapter<MovieListAdapter.ViewHolder> {
     }
 
     @Override
-    public void addMovies(List _movies){
+    public void addList(List _movies){
         this.movies.addAll(_movies);
         notifyItemInserted(_movies.size() - 1);
     }

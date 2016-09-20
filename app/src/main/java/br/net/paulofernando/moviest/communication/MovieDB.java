@@ -64,8 +64,6 @@ public class MovieDB {
         return retrofit;
     }
 
-    // --------------- services --------------------
-
     public MoviesService moviesService() {
         return getRetrofit().create(MoviesService.class);
     }

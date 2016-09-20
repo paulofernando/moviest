@@ -209,7 +209,7 @@ public class MovieListFragment extends BaseFragment {
             mAdapter.notifyDataSetChanged();
             mRecyclerView.setVisibility(View.VISIBLE);
         } else {
-            mAdapter.addMovies(result);
+            mAdapter.addList(result);
         }
         loadingTextView.setVisibility(View.GONE);
     }

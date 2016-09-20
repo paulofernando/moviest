@@ -79,11 +79,11 @@ public class CollectionsFragment extends BaseFragment {
                 public void run() {
                     if (mAdapter == null) {
                         mAdapter = new CollectionsAdapter(CollectionsFragment.this.getContext());
-                        mAdapter.addMovies(collections);
+                        mAdapter.addList(collections);
                         mRecyclerView.setAdapter(mAdapter);
                         mRecyclerView.setVisibility(View.VISIBLE);
                     } else {
-                        mAdapter.addMovies(collections);
+                        mAdapter.addList(collections);
                     }
                     loadingTextView.setVisibility(View.GONE);
                 }

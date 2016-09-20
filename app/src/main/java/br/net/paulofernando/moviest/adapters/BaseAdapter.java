@@ -7,5 +7,5 @@ import java.util.List;
 public abstract class BaseAdapter<T extends RecyclerView.ViewHolder>
         extends RecyclerView.Adapter<T> {
 
-    public abstract void addMovies(List<T> list);
+    public abstract void addList(List<T> list);
 }

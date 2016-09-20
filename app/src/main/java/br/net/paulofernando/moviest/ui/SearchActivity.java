@@ -24,11 +24,15 @@ import br.net.paulofernando.moviest.adapters.SearchAdapter;
 import br.net.paulofernando.moviest.communication.MovieDB;
 import br.net.paulofernando.moviest.communication.entities.Movie;
 import br.net.paulofernando.moviest.communication.entities.Page;
+import br.net.paulofernando.moviest.storage.CacheManager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class SearchActivity extends AppCompatActivity {
 
@@ -112,24 +116,26 @@ public class SearchActivity extends AppCompatActivity {
                                                 Log.e(TAG, getResources().getResourceName(R.string.no_internet));
                                             } else {
 
-                                                Call<Page> callSearch = MovieDB.getInstance().moviesService().search(MovieDB.API_KEY, query, 1);
-                                                callSearch.enqueue(new Callback<Page>() {
-                                                    @Override
-                                                    public void onResponse(Call<Page> call, Response<Page> response) {
-                                                        if (response.isSuccessful()) {
-                                                            searchResult = response.body().movies;
-                                                            if(searchResult != null) {
-                                                                mAdapter = new SearchAdapter(searchResult, SearchActivity.this);
-                                                                searchRecyclerView.setAdapter(mAdapter);
-                                                                loadingSearch.setVisibility(View.GONE);
+                                                MovieDB.getInstance().moviesService().searchRx(MovieDB.API_KEY, query, 1)
+                                                        .subscribeOn(Schedulers.newThread())
+                                                        .observeOn(AndroidSchedulers.mainThread())
+                                                        .subscribe(new Subscriber<Page>() {
+                                                            @Override
+                                                            public void onCompleted() {}
+
+                                                            @Override
+                                                            public void onError(Throwable e) {}
+
+                                                            @Override
+                                                            public void onNext(final Page page) {
+                                                                searchResult = page.movies;
+                                                                if(searchResult != null) {
+                                                                    mAdapter = new SearchAdapter(searchResult, SearchActivity.this);
+                                                                    searchRecyclerView.setAdapter(mAdapter);
+                                                                    loadingSearch.setVisibility(View.GONE);
+                                                                }
                                                             }
-                                                        }
-                                                    }
-                                                    @Override
-                                                    public void onFailure(Call<Page> call, Throwable t) {
-                                                        Log.d(TAG, t.getMessage());
-                                                    }
-                                                });
+                                                        });
                                             }
                                         } else {
                                             searchRecyclerView.setVisibility(View.GONE);
