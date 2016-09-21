@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.net.paulofernando.moviest.R;
-import br.net.paulofernando.moviest.communication.MovieDB;
+import br.net.paulofernando.moviest.communication.TMDB;
 import br.net.paulofernando.moviest.communication.entities.Movie;
 import br.net.paulofernando.moviest.ui.MovieDetailsActivity;
 import butterknife.BindView;
@@ -55,7 +55,7 @@ public class MovieListAdapter extends BaseAdapter<MovieListAdapter.ViewHolder> {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(MovieListAdapter.this.context, MovieDetailsActivity.class);
-                    intent.putExtra(MovieDB.MOVIE_DETAILS, movie);
+                    intent.putExtra(TMDB.MOVIE_DETAILS, movie);
 
 
                     View sharedView = coverImageView;
@@ -83,11 +83,11 @@ public class MovieListAdapter extends BaseAdapter<MovieListAdapter.ViewHolder> {
                 genreTextView.setText(movie.genresList.get(0).name);
             } else if((movie.genres != null) && (movie.genres.size() > 0)) {
                 genreTextView.setVisibility(View.VISIBLE);
-                genreTextView.setText(MovieDB.getGenreNameByID(movie.genres.get(0)));
+                genreTextView.setText(TMDB.getGenreNameByID(movie.genres.get(0)));
             }
 
             try {
-                Picasso.with(context).load("http://image.tmdb.org/t/p/" + MovieDB.getConfiguration().
+                Picasso.with(context).load("http://image.tmdb.org/t/p/" + TMDB.getConfiguration().
                         images.posterSizes.get(POSTER_SIZE_INDEX) + movie.posterPath).
                         placeholder(R.drawable.cover_unloaded).
                         error(R.drawable.cover_unloaded).

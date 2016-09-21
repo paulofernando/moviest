@@ -17,7 +17,7 @@ import java.util.TimerTask;
 import br.net.paulofernando.moviest.R;
 import br.net.paulofernando.moviest.Utils;
 import br.net.paulofernando.moviest.adapters.MovieListAdapter;
-import br.net.paulofernando.moviest.communication.MovieDB;
+import br.net.paulofernando.moviest.communication.TMDB;
 import br.net.paulofernando.moviest.communication.entities.Movie;
 import br.net.paulofernando.moviest.communication.entities.Page;
 import br.net.paulofernando.moviest.storage.CacheManager;
@@ -32,7 +32,7 @@ public class MovieListFragment extends BaseFragment {
     private static final int DEFAULT_MAX_PAGE = 5;
     private static final int TOP_MAX_PAGE = 5;
 
-    private MovieDB.Services serviceType;
+    private TMDB.Services serviceType;
 
     protected MovieListAdapter mAdapter;
 
@@ -40,7 +40,7 @@ public class MovieListFragment extends BaseFragment {
      * Returns a new instance of this fragment for the given section
      * number.
      */
-    public static MovieListFragment newInstance(MovieDB.Services serviceType) {
+    public static MovieListFragment newInstance(TMDB.Services serviceType) {
         MovieListFragment movieListFragment = new MovieListFragment();
         Bundle args = new Bundle();
         args.putSerializable(ARG_SERVICE_TYPE, serviceType);
@@ -51,7 +51,7 @@ public class MovieListFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        serviceType = (MovieDB.Services) getArguments().get(ARG_SERVICE_TYPE);
+        serviceType = (TMDB.Services) getArguments().get(ARG_SERVICE_TYPE);
         getData();
     }
 
@@ -67,12 +67,12 @@ public class MovieListFragment extends BaseFragment {
     public void loadMoreData(int page) {
         Log.i(TAG, "Loading page " + page + "...");
         // Send an API request to retrieve appropriate data using the offset value as a parameter.
-        if((serviceType == MovieDB.Services.NowPlaying) || (serviceType == MovieDB.Services.Popular)) {
+        if((serviceType == TMDB.Services.NowPlaying) || (serviceType == TMDB.Services.Popular)) {
             if(page < DEFAULT_MAX_PAGE) {
                 loadingTextView.setVisibility(View.VISIBLE);
                 fillMoviesList(serviceType, page + 1);
             }
-        } else if(serviceType == MovieDB.Services.TopRated) {
+        } else if(serviceType == TMDB.Services.TopRated) {
             if(page < TOP_MAX_PAGE) {
                 loadingTextView.setVisibility(View.VISIBLE);
                 fillMoviesList(serviceType, page + 1);
@@ -85,7 +85,7 @@ public class MovieListFragment extends BaseFragment {
         fillMoviesList(serviceType, 1);
     }
 
-    public void fillMoviesList(final MovieDB.Services serviceType, final int page) {
+    public void fillMoviesList(final TMDB.Services serviceType, final int page) {
         String serviceCacheName = "";
 
         if(!CacheManager.hasExpired(serviceType)) {
@@ -135,18 +135,18 @@ public class MovieListFragment extends BaseFragment {
         }
     }
 
-    private void populateListFromAPI(MovieDB.Services service, int pageNumber) {
-        if(service == MovieDB.Services.Popular) {
+    private void populateListFromAPI(TMDB.Services service, int pageNumber) {
+        if(service == TMDB.Services.Popular) {
             populatePopularListFromAPI(pageNumber);
-        } else if(service == MovieDB.Services.TopRated) {
+        } else if(service == TMDB.Services.TopRated) {
             populateTopRatedListFromAPI(pageNumber);
-        } else if(service == MovieDB.Services.NowPlaying) {
+        } else if(service == TMDB.Services.NowPlaying) {
             populateNowPlayingListFromAPI(pageNumber);
         }
     }
 
     private void populatePopularListFromAPI(final int page) {
-        MovieDB.getInstance().moviesService().popularRx(MovieDB.API_KEY, page)
+        TMDB.getInstance().moviesService().popularRx(TMDB.API_KEY, page)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Page>() {
@@ -159,13 +159,13 @@ public class MovieListFragment extends BaseFragment {
                     @Override
                     public void onNext(final Page page) {
                         updateList(page.movies);
-                        CacheManager.cachePage(MovieDB.Services.Popular, page);
+                        CacheManager.cachePage(TMDB.Services.Popular, page);
                     }
                 });
     }
 
     private void populateTopRatedListFromAPI(final int page) {
-        MovieDB.getInstance().moviesService().topRatedRx(MovieDB.API_KEY, page)
+        TMDB.getInstance().moviesService().topRatedRx(TMDB.API_KEY, page)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Page>() {
@@ -178,13 +178,13 @@ public class MovieListFragment extends BaseFragment {
                     @Override
                     public void onNext(final Page page) {
                         updateList(page.movies);
-                        CacheManager.cachePage(MovieDB.Services.TopRated, page);
+                        CacheManager.cachePage(TMDB.Services.TopRated, page);
                     }
                 });
     }
 
     private void populateNowPlayingListFromAPI(final int pageNumber) {
-        MovieDB.getInstance().moviesService().nowPlayingRx(MovieDB.API_KEY, pageNumber)
+        TMDB.getInstance().moviesService().nowPlayingRx(TMDB.API_KEY, pageNumber)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Page>() {
@@ -197,7 +197,7 @@ public class MovieListFragment extends BaseFragment {
                     @Override
                     public void onNext(final Page page) {
                         updateList(page.movies);
-                        CacheManager.cachePage(MovieDB.Services.NowPlaying, page);
+                        CacheManager.cachePage(TMDB.Services.NowPlaying, page);
                     }
                 });
     }

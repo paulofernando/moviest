@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.net.paulofernando.moviest.R;
-import br.net.paulofernando.moviest.communication.MovieDB;
+import br.net.paulofernando.moviest.communication.TMDB;
 import br.net.paulofernando.moviest.communication.entities.Collection;
 import br.net.paulofernando.moviest.ui.CollectionActivity;
 import butterknife.BindView;
@@ -52,7 +52,7 @@ public class CollectionsAdapter extends BaseAdapter<CollectionsAdapter.ViewHolde
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(CollectionsAdapter.this.context, CollectionActivity.class);
-                    intent.putExtra(MovieDB.COLLECTION_DETAILS, collection);
+                    intent.putExtra(TMDB.COLLECTION_DETAILS, collection);
 
                     View sharedView = collectionRowContainer;
                     String transitionName = context.getString(R.string.collection_name);
@@ -80,7 +80,9 @@ public class CollectionsAdapter extends BaseAdapter<CollectionsAdapter.ViewHolde
                         }
 
                         @Override
-                        public void onError() {}
+                        public void onError() {
+                            Log.e("Error", "Erro on loading image");
+                        }
 
                     });
             } catch (NullPointerException e) {

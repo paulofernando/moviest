@@ -9,7 +9,7 @@ import com.anupcowkur.reservoir.ReservoirPutCallback;
 
 import java.io.IOException;
 
-import br.net.paulofernando.moviest.communication.MovieDB;
+import br.net.paulofernando.moviest.communication.TMDB;
 import br.net.paulofernando.moviest.communication.entities.Page;
 
 public class CacheManager {
@@ -33,8 +33,8 @@ public class CacheManager {
     /**
      * Verifies if the cache of a service has expired.
      */
-    public static boolean hasExpired(MovieDB.Services serviceType) {
-        if(serviceType == MovieDB.Services.NowPlaying) {
+    public static boolean hasExpired(TMDB.Services serviceType) {
+        if(serviceType == TMDB.Services.NowPlaying) {
             try {
                 if(Reservoir.contains(CACHE_NOW_PLAYING + CACHE_TIME)) {
                     return (System.currentTimeMillis() - Reservoir.get(CACHE_NOW_PLAYING + CACHE_TIME, Long.class)
@@ -45,7 +45,7 @@ public class CacheManager {
             } catch (IllegalStateException e) { //sometimes happens when the app come back from background
                 e.printStackTrace();
             }
-        } else if(serviceType == MovieDB.Services.Popular) {
+        } else if(serviceType == TMDB.Services.Popular) {
             try {
                 if(Reservoir.contains(CACHE_POPULAR + CACHE_TIME)) {
                     return (System.currentTimeMillis() - Reservoir.get(CACHE_POPULAR + CACHE_TIME, Long.class)
@@ -56,7 +56,7 @@ public class CacheManager {
             } catch (IllegalStateException e) {
                 e.printStackTrace();
             }
-        } else if(serviceType == MovieDB.Services.TopRated) {
+        } else if(serviceType == TMDB.Services.TopRated) {
             try {
                 if(Reservoir.contains(CACHE_TOP + CACHE_TIME)) {
                     return (System.currentTimeMillis() - Reservoir.get(CACHE_TOP + CACHE_TIME, Long.class)
@@ -71,13 +71,13 @@ public class CacheManager {
         return false;
     }
 
-    public static void cachePage(final MovieDB.Services serviceType, final Page page) {
+    public static void cachePage(final TMDB.Services serviceType, final Page page) {
         String serviceCacheName = null;
-        if(serviceType == MovieDB.Services.NowPlaying) {
+        if(serviceType == TMDB.Services.NowPlaying) {
             serviceCacheName = CacheManager.CACHE_NOW_PLAYING;
-        } else if(serviceType == MovieDB.Services.NowPlaying) {
+        } else if(serviceType == TMDB.Services.NowPlaying) {
             serviceCacheName = CacheManager.CACHE_POPULAR;
-        } else if(serviceType == MovieDB.Services.NowPlaying) {
+        } else if(serviceType == TMDB.Services.NowPlaying) {
             serviceCacheName = CacheManager.CACHE_TOP;
         }
 

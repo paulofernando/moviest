@@ -1,5 +1,6 @@
 package br.net.paulofernando.moviest.communication.services;
 
+import br.net.paulofernando.moviest.communication.entities.Collection;
 import br.net.paulofernando.moviest.communication.entities.Configuration;
 import br.net.paulofernando.moviest.communication.entities.Genres;
 import br.net.paulofernando.moviest.communication.entities.Images;
@@ -15,7 +16,7 @@ import retrofit2.http.Query;
 
 import rx.Observable;
 
-public interface MoviesService {
+public interface TMDBService {
 
     @GET("movie/{id}")
     Observable<Movie> summaryRx(
@@ -105,6 +106,5 @@ public interface MoviesService {
      */
     @GET("configuration")
     Observable<Configuration> configurationRx(@Query("api_key") String apiKey);
-
 
 }

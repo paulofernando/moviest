@@ -35,7 +35,7 @@ import java.util.Locale;
 
 import br.net.paulofernando.moviest.R;
 import br.net.paulofernando.moviest.Utils;
-import br.net.paulofernando.moviest.communication.MovieDB;
+import br.net.paulofernando.moviest.communication.TMDB;
 import br.net.paulofernando.moviest.communication.entities.Configuration;
 import br.net.paulofernando.moviest.communication.entities.Crew;
 import br.net.paulofernando.moviest.communication.entities.Images;
@@ -93,7 +93,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubeTh
         setSupportActionBar(toolbarMovieDetails);
         appbarMovieDetails.setExpanded(false);
 
-        movie = (Movie) getIntent().getSerializableExtra(MovieDB.MOVIE_DETAILS);
+        movie = (Movie) getIntent().getSerializableExtra(TMDB.MOVIE_DETAILS);
         titleTextView.setText(movie.title);
 
         if (movie.voteAverage > 0) {
@@ -108,7 +108,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubeTh
 
         if ((movie.genres != null) && (movie.genres.size() > 0)) {
             genreTextView.setVisibility(View.VISIBLE);
-            genreTextView.setText(MovieDB.getGenreNameByID(movie.genres.get(0)));
+            genreTextView.setText(TMDB.getGenreNameByID(movie.genres.get(0)));
         }
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -142,7 +142,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubeTh
     }
 
     private void loadImages() {
-        Configuration config = MovieDB.getConfiguration();
+        Configuration config = TMDB.getConfiguration();
         Picasso.with(getApplicationContext()).load("http://image.tmdb.org/t/p/" +
                 (config.images != null ? config.images.posterSizes.get(DETAILS_POSTER_SIZE_INDEX) : "original") +
                 movie.posterPath).into(new Target() {
@@ -233,7 +233,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubeTh
     }
 
     public void retrieveMovieDetails(int movieID) {
-        MovieDB.getInstance().moviesService().summaryWithAppendRx(movieID, MovieDB.API_KEY, "credits")
+        TMDB.getInstance().moviesService().summaryWithAppendRx(movieID, TMDB.API_KEY, "credits")
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<MovieWithCredits>() {
@@ -300,7 +300,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubeTh
     }
 
     public void loadYoutubeThumbnail(int movieID) {
-        MovieDB.getInstance().moviesService().videosRx(movieID, MovieDB.API_KEY)
+        TMDB.getInstance().moviesService().videosRx(movieID, TMDB.API_KEY)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Videos>() {
@@ -322,7 +322,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubeTh
                         }
 
                         try {
-                            youTubeThumbnailView.initialize(MovieDB.YOUTUBE_KEY, MovieDetailsActivity.this);
+                            youTubeThumbnailView.initialize(TMDB.YOUTUBE_KEY, MovieDetailsActivity.this);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }

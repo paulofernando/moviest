@@ -3,25 +3,19 @@ package br.net.paulofernando.moviest.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import junit.framework.Assert;
-
 import java.util.List;
 
 import br.net.paulofernando.moviest.R;
-import br.net.paulofernando.moviest.communication.MovieDB;
+import br.net.paulofernando.moviest.communication.TMDB;
 import br.net.paulofernando.moviest.communication.entities.Movie;
 import br.net.paulofernando.moviest.ui.MovieDetailsActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -47,7 +41,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    MovieDB.getInstance().moviesService().summaryRx(movie.id, MovieDB.API_KEY)
+                    TMDB.getInstance().moviesService().summaryRx(movie.id, TMDB.API_KEY)
                             .subscribeOn(Schedulers.newThread())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(new Subscriber<Movie>() {
@@ -60,7 +54,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
                                 @Override
                                 public void onNext(Movie movie) {
                                     Intent intent = new Intent(SearchAdapter.this.context, MovieDetailsActivity.class);
-                                    intent.putExtra(MovieDB.MOVIE_DETAILS, movie);
+                                    intent.putExtra(TMDB.MOVIE_DETAILS, movie);
                                     SearchAdapter.this.context.startActivity(intent);
                                 }
                             });

@@ -28,7 +28,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import br.net.paulofernando.moviest.R;
 import br.net.paulofernando.moviest.Utils;
 import br.net.paulofernando.moviest.adapters.MovieListAdapter;
-import br.net.paulofernando.moviest.communication.MovieDB;
+import br.net.paulofernando.moviest.communication.TMDB;
 import br.net.paulofernando.moviest.communication.entities.Collection;
 import br.net.paulofernando.moviest.communication.entities.Movie;
 import br.net.paulofernando.moviest.ui.component.DividerItemDecoration;
@@ -66,7 +66,7 @@ public class CollectionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_collection);
         ButterKnife.bind(this);
 
-        collection = (Collection) getIntent().getSerializableExtra(MovieDB.COLLECTION_DETAILS);
+        collection = (Collection) getIntent().getSerializableExtra(TMDB.COLLECTION_DETAILS);
 
         setSupportActionBar(toolbarCollection);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -135,7 +135,7 @@ public class CollectionActivity extends AppCompatActivity {
     }
 
     private void getMovieFromAPI(final Integer movieId) {
-        MovieDB.getInstance().moviesService().summaryRx(movieId, MovieDB.API_KEY)
+        TMDB.getInstance().moviesService().summaryRx(movieId, TMDB.API_KEY)
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(new Subscriber<Movie>() {
@@ -161,7 +161,7 @@ public class CollectionActivity extends AppCompatActivity {
     }
 
     private void getMovieFromAPIRx(final Integer movieId) {
-        MovieDB.getInstance().moviesService().summaryRx(movieId, MovieDB.API_KEY)
+        TMDB.getInstance().moviesService().summaryRx(movieId, TMDB.API_KEY)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Movie>() {

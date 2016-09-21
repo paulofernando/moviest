@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import br.net.paulofernando.moviest.communication.MovieDB;
+import br.net.paulofernando.moviest.communication.TMDB;
 import br.net.paulofernando.moviest.storage.CacheManager;
 
 public class SplashScreenActivity extends AppCompatActivity{
@@ -13,8 +13,8 @@ public class SplashScreenActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
 
         CacheManager.startCacheService(getApplicationContext());
-        MovieDB.configureTMDB();
-        MovieDB.configureGenres();
+        TMDB.configureTMDB();
+        TMDB.configureGenres();
 
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);

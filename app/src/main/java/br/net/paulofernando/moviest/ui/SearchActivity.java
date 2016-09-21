@@ -21,15 +21,11 @@ import java.util.TimerTask;
 import br.net.paulofernando.moviest.R;
 import br.net.paulofernando.moviest.Utils;
 import br.net.paulofernando.moviest.adapters.SearchAdapter;
-import br.net.paulofernando.moviest.communication.MovieDB;
+import br.net.paulofernando.moviest.communication.TMDB;
 import br.net.paulofernando.moviest.communication.entities.Movie;
 import br.net.paulofernando.moviest.communication.entities.Page;
-import br.net.paulofernando.moviest.storage.CacheManager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -116,7 +112,7 @@ public class SearchActivity extends AppCompatActivity {
                                                 Log.e(TAG, getResources().getResourceName(R.string.no_internet));
                                             } else {
 
-                                                MovieDB.getInstance().moviesService().searchRx(MovieDB.API_KEY, query, 1)
+                                                TMDB.getInstance().moviesService().searchRx(TMDB.API_KEY, query, 1)
                                                         .subscribeOn(Schedulers.newThread())
                                                         .observeOn(AndroidSchedulers.mainThread())
                                                         .subscribe(new Subscriber<Page>() {
