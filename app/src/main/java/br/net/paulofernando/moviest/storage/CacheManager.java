@@ -25,7 +25,7 @@ public class CacheManager {
     public static final String TIME_CACHED = "_timecached";
     public static final long EXPIRATION_NOW_PLAYING = 10000 * 60 * 60; //milliseconds
     public static final long EXPIRATION_POPULAR = 1000 * 60 * 60;
-    public static final long EXPIRATION_TOP_RATED = 1000 * 60 * 60 * 24 * 7;
+    public static final long EXPIRATION_TOP_RATED = 1000 * 60 * 60 * 24;
     public static final long EXPIRATION_COLLECTIONS = 1000 * 60 * 10;
 
     public static void startCacheService(Context context) {
@@ -40,8 +40,7 @@ public class CacheManager {
     public static boolean hasExpired(String cacheName, long expiration) {
         try {
             if(Reservoir.contains(cacheName + TIME_CACHED)) {
-                return (System.currentTimeMillis() - Reservoir.get(cacheName + TIME_CACHED, Long.class)
-                        > expiration);
+                return (System.currentTimeMillis() - Reservoir.get(cacheName + TIME_CACHED, Long.class) > expiration);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -75,7 +74,7 @@ public class CacheManager {
         Reservoir.putAsync(CollectionsService.toString(), collections, new ReservoirPutCallback() {
             @Override
             public void onSuccess() {
-                Log.d(TAG, "Collections version " + collections.version + " cached!");
+                Log.d(TAG, "Collections version " + collections.version + " cached");
                 try {
                     Reservoir.put(CollectionsService.toString() + TIME_CACHED, System.currentTimeMillis());
                 } catch (IOException e) {

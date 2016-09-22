@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import com.anupcowkur.reservoir.Reservoir;
 import com.anupcowkur.reservoir.ReservoirGetCallback;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -69,7 +70,7 @@ public class MovieListFragment extends BaseFragment {
 
     @Override
     public void loadMoreData(int page) {
-        Log.i(TAG, "Loading pageNumber " + page + "...");
+        Log.i(TAG, "Loading page " + (page + 1) + "...");
         // Send an API request to retrieve appropriate data using the offset value as a parameter.
         if((serviceType == NowPlayingService) || (serviceType == PopularService)) {
             if(page < DEFAULT_MAX_PAGE) {
@@ -90,8 +91,16 @@ public class MovieListFragment extends BaseFragment {
     }
 
     public void fillMoviesList(final TMDB.Services serviceType, final int pageNumber) {
-        if(!hasExpired(serviceType.toString() + "1", getCacheExpiration(serviceType))) { //just the expiration time of page 1 matters
-            Log.d(TAG, "Getting " + serviceType.toString() + " from cache");
+        boolean isCached = false;
+        try {
+            isCached = Reservoir.contains(serviceType.toString() + pageNumber);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if((!hasExpired(serviceType.toString() + "1", getCacheExpiration(serviceType))) //just the expiration time of page 1 matters
+                && (isCached)){
+            Log.d(TAG, "Getting " + serviceType.toString() + " page " + pageNumber + " from cache");
             Reservoir.getAsync(serviceType.toString() + pageNumber, Page.class, new ReservoirGetCallback<Page>() {
                 @Override
                 public void onSuccess(Page page) {
@@ -113,7 +122,7 @@ public class MovieListFragment extends BaseFragment {
             });
 
         } else {
-            Log.d(TAG, "Getting " + serviceType.toString() + " from server");
+            Log.d(TAG, "Getting " + serviceType.toString() + " page " + pageNumber + " from server");
             if(!Utils.isNetworkConnected(getContext())) {
                 Log.e(TAG, getResources().getResourceName(R.string.no_internet));
                 Utils.showAlert(getContext(), getResources().getResourceName(R.string.no_internet));
