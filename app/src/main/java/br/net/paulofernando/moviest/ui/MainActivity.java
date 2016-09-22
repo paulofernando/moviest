@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 
 import br.net.paulofernando.moviest.R;
 import br.net.paulofernando.moviest.ui.fragments.CollectionsFragment;

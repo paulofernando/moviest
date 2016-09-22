@@ -34,7 +34,6 @@ import okhttp3.Response;
 
 import static br.net.paulofernando.moviest.communication.TMDB.Services.CollectionsService;
 import static br.net.paulofernando.moviest.storage.CacheManager.getCacheExpiration;
-import static br.net.paulofernando.moviest.storage.CacheManager.getCacheName;
 
 public class CollectionsFragment extends BaseFragment {
 
@@ -90,9 +89,9 @@ public class CollectionsFragment extends BaseFragment {
     private void getData() {
         final Gson gson = new Gson();
 
-        if(!CacheManager.hasExpired(getCacheName(CollectionsService), getCacheExpiration(CollectionsService))) {
+        if(!CacheManager.hasExpired(CollectionsService.toString(), getCacheExpiration(CollectionsService))) {
             Log.d(TAG, "Getting collections from cache");
-            Reservoir.getAsync(getCacheName(CollectionsService), Collections.class, new ReservoirGetCallback<Collections>() {
+            Reservoir.getAsync(CollectionsService.toString(), Collections.class, new ReservoirGetCallback<Collections>() {
                 @Override
                 public void onSuccess(final Collections collections) {
                     if ((collections != null) && (CollectionsFragment.this.getActivity() != null)) {//there are movies to list
@@ -135,7 +134,7 @@ public class CollectionsFragment extends BaseFragment {
                                     Collections c = new Collections();
                                     c.colls = collections;
                                     c.version = (Integer) jsonCollections.get("version");
-                                    CacheManager.cacheCollectionFromServer(c);
+                                    CacheManager.cacheCollection(c);
 
                                     if (CollectionsFragment.this.getActivity() != null) {//there are movies to list
                                         CollectionsFragment.this.getActivity().runOnUiThread(new Runnable() {

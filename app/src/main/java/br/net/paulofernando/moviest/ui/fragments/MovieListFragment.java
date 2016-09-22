@@ -90,9 +90,9 @@ public class MovieListFragment extends BaseFragment {
     }
 
     public void fillMoviesList(final TMDB.Services serviceType, final int pageNumber) {
-        if(!hasExpired(getCacheName(serviceType) + "1", getCacheExpiration(serviceType))) { //just the expiration time of page 1 matters
-            Log.d(TAG, "Getting " + getCacheName(serviceType) + " from cache");
-            Reservoir.getAsync(getCacheName(serviceType) + pageNumber, Page.class, new ReservoirGetCallback<Page>() {
+        if(!hasExpired(serviceType.toString() + "1", getCacheExpiration(serviceType))) { //just the expiration time of page 1 matters
+            Log.d(TAG, "Getting " + serviceType.toString() + " from cache");
+            Reservoir.getAsync(serviceType.toString() + pageNumber, Page.class, new ReservoirGetCallback<Page>() {
                 @Override
                 public void onSuccess(Page page) {
                     final List<Movie> result = page.movies;
@@ -113,7 +113,7 @@ public class MovieListFragment extends BaseFragment {
             });
 
         } else {
-            Log.d(TAG, "Getting " + getCacheName(serviceType) + " from server");
+            Log.d(TAG, "Getting " + serviceType.toString() + " from server");
             if(!Utils.isNetworkConnected(getContext())) {
                 Log.e(TAG, getResources().getResourceName(R.string.no_internet));
                 Utils.showAlert(getContext(), getResources().getResourceName(R.string.no_internet));

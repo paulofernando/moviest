@@ -41,7 +41,7 @@ public interface TMDBService {
     @GET("movie/now_playing")
     Observable<Page> nowPlayingRx(
             @Query("api_key") String apiKey,
-            @Query("pageNumber") int page
+            @Query("page") int pageNumber
     );
 
     /**
@@ -50,7 +50,7 @@ public interface TMDBService {
     @GET("movie/popular")
     Observable<Page> popularRx(
             @Query("api_key") String apiKey,
-            @Query("pageNumber") int page
+            @Query("page") int pageNumber
     );
 
     /**
@@ -59,7 +59,7 @@ public interface TMDBService {
     @GET("movie/top_rated")
     Observable<Page> topRatedRx(
             @Query("api_key") String apiKey,
-            @Query("pageNumber") int page
+            @Query("page") int pageNumber
     );
 
     /**

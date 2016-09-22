@@ -22,14 +22,7 @@ public class CacheManager {
 
     public static final String TAG = "CacheManager";
     public static final long CACHE_SIZE = 1000000; //in bytes
-
-    public static final String CACHE_NOW_PLAYING = "now_playing";
-    public static final String CACHE_POPULAR = "popular";
-    public static final String CACHE_TOP = "top";
-    public static final String CACHE_COLLECTIONS = "collections";
-
     public static final String TIME_CACHED = "_timecached";
-
     public static final long EXPIRATION_NOW_PLAYING = 10000 * 60 * 60; //milliseconds
     public static final long EXPIRATION_POPULAR = 1000 * 60 * 60;
     public static final long EXPIRATION_TOP_RATED = 1000 * 60 * 60 * 24 * 7;
@@ -59,32 +52,16 @@ public class CacheManager {
     }
 
     public static void cachePage(final TMDB.Services serviceType, final Page page) {
-        if(getCacheName(serviceType) != null) {
-            Reservoir.putAsync(getCacheName(serviceType) + page.pageNumber, page, new ReservoirPutCallback() {
-                @Override
-                public void onSuccess() {
-                    Log.d(TAG, "Page " + page.pageNumber + " cached in tab " + getCacheName(serviceType));
-                }
-
-                @Override
-                public void onFailure(Exception e) {
-                    Log.e(TAG, "Failure on saving data in cache");
+        Reservoir.putAsync(serviceType.toString() + page.pageNumber, page, new ReservoirPutCallback() {
+            @Override
+            public void onSuccess() {
+                Log.d(TAG, "Page " + page.pageNumber + " cached in tab " + serviceType.toString());
+                try {
+                    Reservoir.put(serviceType.toString() + page.pageNumber + TIME_CACHED, System.currentTimeMillis());
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
-            });
-
-            try {
-                Reservoir.put(getCacheName(serviceType) + page.pageNumber + TIME_CACHED, System.currentTimeMillis());
-            } catch (IOException e) {
-                e.printStackTrace();
             }
-        }
-    }
-
-    public static void cacheCollectionFromServer(final Collections collections) {
-        Reservoir.putAsync(CACHE_COLLECTIONS, collections, new ReservoirPutCallback() {
-            @Override
-            public void onSuccess() { Log.d(TAG, "Collections version " + collections.version + " cached!"); }
 
             @Override
             public void onFailure(Exception e) {
@@ -92,25 +69,26 @@ public class CacheManager {
                 e.printStackTrace();
             }
         });
-
-        try {
-            Reservoir.put(CACHE_COLLECTIONS + TIME_CACHED, System.currentTimeMillis());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
-    public static String getCacheName(TMDB.Services service) {
-        if(service == PopularService) {
-            return CACHE_POPULAR;
-        } else if(service == TopRatedService) {
-            return CACHE_TOP;
-        } else if(service == NowPlayingService) {
-            return CACHE_NOW_PLAYING;
-        } else if(service == CollectionsService) {
-            return CACHE_COLLECTIONS;
-        }
-        return null;
+    public static void cacheCollection(final Collections collections) {
+        Reservoir.putAsync(CollectionsService.toString(), collections, new ReservoirPutCallback() {
+            @Override
+            public void onSuccess() {
+                Log.d(TAG, "Collections version " + collections.version + " cached!");
+                try {
+                    Reservoir.put(CollectionsService.toString() + TIME_CACHED, System.currentTimeMillis());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+                Log.e(TAG, "Failure on saving data in cache");
+                e.printStackTrace();
+            }
+        });
     }
 
     public static long getCacheExpiration(TMDB.Services service) {
