@@ -6,6 +6,7 @@ import android.net.ConnectivityManager;
 import android.os.Handler;
 import android.os.Looper;
 
+import br.net.paulofernando.moviest.communication.TMDB;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class Utils {
@@ -29,5 +30,6 @@ public class Utils {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         return cm.getActiveNetworkInfo() != null;
     }
+
 
 }

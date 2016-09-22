@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.anupcowkur.reservoir.Reservoir;
+import com.anupcowkur.reservoir.ReservoirGetCallback;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -20,15 +22,19 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import br.net.paulofernando.moviest.R;
-import br.net.paulofernando.moviest.communication.TempCollectionService;
 import br.net.paulofernando.moviest.Utils;
 import br.net.paulofernando.moviest.adapters.CollectionsAdapter;
+import br.net.paulofernando.moviest.communication.TempCollectionService;
 import br.net.paulofernando.moviest.communication.entities.Collection;
+import br.net.paulofernando.moviest.communication.entities.Collections;
+import br.net.paulofernando.moviest.storage.CacheManager;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-import static br.net.paulofernando.moviest.communication.TempCollectionService.getCollection;
+import static br.net.paulofernando.moviest.communication.TMDB.Services.CollectionsService;
+import static br.net.paulofernando.moviest.storage.CacheManager.getCacheExpiration;
+import static br.net.paulofernando.moviest.storage.CacheManager.getCacheName;
 
 public class CollectionsFragment extends BaseFragment {
 
@@ -84,51 +90,84 @@ public class CollectionsFragment extends BaseFragment {
     private void getData() {
         final Gson gson = new Gson();
 
-        try {
-            TempCollectionService.getCollectionFromURL("http://paulofernando.net.br/moviest/collections/collections.json",
-                    new Callback() {
-                        @Override
-                        public void onFailure(Call call, IOException e) {
-                            e.printStackTrace();
-                        }
+        if(!CacheManager.hasExpired(getCacheName(CollectionsService), getCacheExpiration(CollectionsService))) {
+            Log.d(TAG, "Getting collections from cache");
+            Reservoir.getAsync(getCacheName(CollectionsService), Collections.class, new ReservoirGetCallback<Collections>() {
+                @Override
+                public void onSuccess(final Collections collections) {
+                    if ((collections != null) && (CollectionsFragment.this.getActivity() != null)) {//there are movies to list
+                        CollectionsFragment.this.getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                updateList(collections.colls);
+                            }
+                        });
+                    }
+                }
 
-                        @Override
-                        public void onResponse(Call call, Response response) throws IOException {
-                            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
-
-                            try {
-                                JSONObject jsonCollections = new JSONObject(response.body().string());
-                                JSONArray jsonCollection = (JSONArray) jsonCollections.get("collections");
-                                for(int i = 0; i < jsonCollection.length(); i++) {
-                                    collections.add(gson.fromJson(jsonCollection.get(i).toString(), Collection.class));
-                                }
-
-                                if (CollectionsFragment.this.getActivity() != null) {//there are movies to list
-                                    CollectionsFragment.this.getActivity().runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            if (mAdapter == null) {
-                                                mAdapter = new CollectionsAdapter(CollectionsFragment.this.getContext());
-                                                mAdapter.addList(collections);
-                                                mRecyclerView.setAdapter(mAdapter);
-                                                mRecyclerView.setVisibility(View.VISIBLE);
-                                            } else {
-                                                mAdapter.addList(collections);
-                                            }
-                                            loadingTextView.setVisibility(View.GONE);
-                                        }
-                                    });
-
-                                }
-
-                            } catch (JSONException e) {
+                @Override
+                public void onFailure(Exception e) {
+                    e.printStackTrace();
+                }
+            });
+        } else {
+            Log.d(TAG, "Getting collections from server");
+            try {
+                TempCollectionService.getCollectionFromURL("http://paulofernando.net.br/moviest/collections/collections.json",
+                        new Callback() {
+                            @Override
+                            public void onFailure(Call call, IOException e) {
                                 e.printStackTrace();
                             }
-                        }
-                    });
-        } catch (Exception e) {
-            e.printStackTrace();
+
+                            @Override
+                            public void onResponse(Call call, Response response) throws IOException {
+                                if (!response.isSuccessful())
+                                    throw new IOException("Unexpected code " + response);
+
+                                try {
+                                    JSONObject jsonCollections = new JSONObject(response.body().string());
+                                    JSONArray jsonCollection = (JSONArray) jsonCollections.get("collections");
+                                    for (int i = 0; i < jsonCollection.length(); i++) {
+                                        collections.add(gson.fromJson(jsonCollection.get(i).toString(), Collection.class));
+                                    }
+
+                                    Collections c = new Collections();
+                                    c.colls = collections;
+                                    c.version = (Integer) jsonCollections.get("version");
+                                    CacheManager.cacheCollectionFromServer(c);
+
+                                    if (CollectionsFragment.this.getActivity() != null) {//there are movies to list
+                                        CollectionsFragment.this.getActivity().runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                updateList(collections);
+                                            }
+                                        });
+
+                                    }
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+    }
+
+    private void updateList(List<Collection> collections) {
+        if (mAdapter == null) {
+            mAdapter = new CollectionsAdapter(CollectionsFragment.this.getContext());
+            mAdapter.addList(collections);
+            mRecyclerView.setAdapter(mAdapter);
+            mRecyclerView.setVisibility(View.VISIBLE);
+        } else {
+            mAdapter.addList(collections);
+        }
+        loadingTextView.setVisibility(View.GONE);
     }
 
 }

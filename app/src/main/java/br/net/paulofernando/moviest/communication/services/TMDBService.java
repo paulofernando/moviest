@@ -36,30 +36,30 @@ public interface TMDBService {
 
 
     /**
-     * Get the now playing for a specific page number.
+     * Get the now playing for a specific pageNumber number.
      */
     @GET("movie/now_playing")
     Observable<Page> nowPlayingRx(
             @Query("api_key") String apiKey,
-            @Query("page") int page
+            @Query("pageNumber") int page
     );
 
     /**
-     * Get the popular for a specific page number.
+     * Get the popular for a specific pageNumber number.
      */
     @GET("movie/popular")
     Observable<Page> popularRx(
             @Query("api_key") String apiKey,
-            @Query("page") int page
+            @Query("pageNumber") int page
     );
 
     /**
-     * Get the top rated for a specific page number.
+     * Get the top rated for a specific pageNumber number.
      */
     @GET("movie/top_rated")
     Observable<Page> topRatedRx(
             @Query("api_key") String apiKey,
-            @Query("page") int page
+            @Query("pageNumber") int page
     );
 
     /**
@@ -89,7 +89,7 @@ public interface TMDBService {
     Observable<Page> searchRx(
             @Query("api_key") String apiKey,
             @Query("query") String query,
-            @Query("page") int page);
+            @Query("pageNumber") int page);
 
     //--------------- genres -----------------------
 

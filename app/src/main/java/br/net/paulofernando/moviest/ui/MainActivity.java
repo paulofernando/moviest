@@ -11,11 +11,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import br.net.paulofernando.moviest.R;
-import br.net.paulofernando.moviest.communication.TMDB;
 import br.net.paulofernando.moviest.ui.fragments.CollectionsFragment;
 import br.net.paulofernando.moviest.ui.fragments.MovieListFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static br.net.paulofernando.moviest.communication.TMDB.Services.PopularService;
+import static br.net.paulofernando.moviest.communication.TMDB.Services.TopRatedService;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,8 +40,6 @@ public class MainActivity extends AppCompatActivity {
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setOffscreenPageLimit(2);
         tabLayout.setupWithViewPager(mViewPager);
-
-
     }
 
     /**
@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public Fragment getItem(int position) {
             if(position == 0) return CollectionsFragment.newInstance(position);
-            return MovieListFragment.newInstance((position == 1 ? TMDB.Services.Popular : TMDB.Services.TopRated));
+            return MovieListFragment.newInstance((position == 1 ? PopularService : TopRatedService));
         }
 
         @Override

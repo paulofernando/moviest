@@ -26,6 +26,10 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static br.net.paulofernando.moviest.communication.TMDB.API_KEY;
+import static br.net.paulofernando.moviest.communication.TMDB.Services.*;
+import static br.net.paulofernando.moviest.storage.CacheManager.*;
+
 public class MovieListFragment extends BaseFragment {
 
     private static final String TAG = "MovieListFragment";
@@ -65,14 +69,14 @@ public class MovieListFragment extends BaseFragment {
 
     @Override
     public void loadMoreData(int page) {
-        Log.i(TAG, "Loading page " + page + "...");
+        Log.i(TAG, "Loading pageNumber " + page + "...");
         // Send an API request to retrieve appropriate data using the offset value as a parameter.
-        if((serviceType == TMDB.Services.NowPlaying) || (serviceType == TMDB.Services.Popular)) {
+        if((serviceType == NowPlayingService) || (serviceType == PopularService)) {
             if(page < DEFAULT_MAX_PAGE) {
                 loadingTextView.setVisibility(View.VISIBLE);
                 fillMoviesList(serviceType, page + 1);
             }
-        } else if(serviceType == TMDB.Services.TopRated) {
+        } else if(serviceType == TopRatedService) {
             if(page < TOP_MAX_PAGE) {
                 loadingTextView.setVisibility(View.VISIBLE);
                 fillMoviesList(serviceType, page + 1);
@@ -85,14 +89,12 @@ public class MovieListFragment extends BaseFragment {
         fillMoviesList(serviceType, 1);
     }
 
-    public void fillMoviesList(final TMDB.Services serviceType, final int page) {
-        String serviceCacheName = "";
-
-        if(!CacheManager.hasExpired(serviceType)) {
-            Reservoir.getAsync(serviceCacheName + page, Page.class, new ReservoirGetCallback<Page>() {
+    public void fillMoviesList(final TMDB.Services serviceType, final int pageNumber) {
+        if(!hasExpired(getCacheName(serviceType) + "1", getCacheExpiration(serviceType))) { //just the expiration time of page 1 matters
+            Log.d(TAG, "Getting " + getCacheName(serviceType) + " from cache");
+            Reservoir.getAsync(getCacheName(serviceType) + pageNumber, Page.class, new ReservoirGetCallback<Page>() {
                 @Override
                 public void onSuccess(Page page) {
-                    Log.d(TAG, "Getting data from cache");
                     final List<Movie> result = page.movies;
                     if ((result != null) && (MovieListFragment.this.getActivity() != null)) {//there are movies to list
                         MovieListFragment.this.getActivity().runOnUiThread(new Runnable() {
@@ -106,11 +108,12 @@ public class MovieListFragment extends BaseFragment {
 
                 @Override
                 public void onFailure(Exception e) {
-                    populateListFromAPI(serviceType, page);
+                    populateListFromAPI(serviceType, pageNumber);
                 }
             });
 
         } else {
+            Log.d(TAG, "Getting " + getCacheName(serviceType) + " from server");
             if(!Utils.isNetworkConnected(getContext())) {
                 Log.e(TAG, getResources().getResourceName(R.string.no_internet));
                 Utils.showAlert(getContext(), getResources().getResourceName(R.string.no_internet));
@@ -121,7 +124,7 @@ public class MovieListFragment extends BaseFragment {
                         handler.post(new Runnable() {
                             public void run() {
                                 if (Utils.isNetworkConnected(getContext())) {
-                                    populateListFromAPI(serviceType, page);
+                                    populateListFromAPI(serviceType, pageNumber);
                                     timer.cancel();
                                 }
                             }
@@ -130,23 +133,23 @@ public class MovieListFragment extends BaseFragment {
                 };
                 timer.schedule(timerTask, INTERNET_CHECK_TIME, INTERNET_CHECK_TIME);
             } else {
-                populateListFromAPI(serviceType, page);
+                populateListFromAPI(serviceType, pageNumber);
             }
         }
     }
 
     private void populateListFromAPI(TMDB.Services service, int pageNumber) {
-        if(service == TMDB.Services.Popular) {
+        if(service == PopularService) {
             populatePopularListFromAPI(pageNumber);
-        } else if(service == TMDB.Services.TopRated) {
+        } else if(service == TopRatedService) {
             populateTopRatedListFromAPI(pageNumber);
-        } else if(service == TMDB.Services.NowPlaying) {
+        } else if(service == NowPlayingService) {
             populateNowPlayingListFromAPI(pageNumber);
         }
     }
 
-    private void populatePopularListFromAPI(final int page) {
-        TMDB.getInstance().moviesService().popularRx(TMDB.API_KEY, page)
+    private void populatePopularListFromAPI(final int pageNumber) {
+        TMDB.getInstance().moviesService().popularRx(API_KEY, pageNumber)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Page>() {
@@ -159,13 +162,13 @@ public class MovieListFragment extends BaseFragment {
                     @Override
                     public void onNext(final Page page) {
                         updateList(page.movies);
-                        CacheManager.cachePage(TMDB.Services.Popular, page);
+                        CacheManager.cachePage(PopularService, page);
                     }
                 });
     }
 
     private void populateTopRatedListFromAPI(final int page) {
-        TMDB.getInstance().moviesService().topRatedRx(TMDB.API_KEY, page)
+        TMDB.getInstance().moviesService().topRatedRx(API_KEY, page)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Page>() {
@@ -178,13 +181,13 @@ public class MovieListFragment extends BaseFragment {
                     @Override
                     public void onNext(final Page page) {
                         updateList(page.movies);
-                        CacheManager.cachePage(TMDB.Services.TopRated, page);
+                        CacheManager.cachePage(TopRatedService, page);
                     }
                 });
     }
 
     private void populateNowPlayingListFromAPI(final int pageNumber) {
-        TMDB.getInstance().moviesService().nowPlayingRx(TMDB.API_KEY, pageNumber)
+        TMDB.getInstance().moviesService().nowPlayingRx(API_KEY, pageNumber)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Page>() {
@@ -197,7 +200,7 @@ public class MovieListFragment extends BaseFragment {
                     @Override
                     public void onNext(final Page page) {
                         updateList(page.movies);
-                        CacheManager.cachePage(TMDB.Services.NowPlaying, page);
+                        CacheManager.cachePage(NowPlayingService, page);
                     }
                 });
     }
