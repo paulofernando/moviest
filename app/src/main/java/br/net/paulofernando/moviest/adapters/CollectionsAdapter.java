@@ -43,6 +43,7 @@ public class CollectionsAdapter extends BaseAdapter<CollectionsAdapter.ViewHolde
         @BindView(R.id.title_collection_tv) TextView titleTextView;
         @BindView(R.id.bg_collection_iv) ImageView bgCollection;
         @BindView(R.id.loading_tv) TextView loading;
+        @BindView(R.id.link_iv) ImageView link;
 
         private Collection collection;
 
@@ -76,6 +77,7 @@ public class CollectionsAdapter extends BaseAdapter<CollectionsAdapter.ViewHolde
         public void setCollection(Collection _collection) {
             this.collection = _collection;
             titleTextView.setText(collection.title);
+            link.setVisibility(View.VISIBLE);
             try {
                 loading.setVisibility(View.VISIBLE);
                 Picasso.with(context).load(collection.backgroundImageURL).into(bgCollection,

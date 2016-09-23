@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -24,6 +25,7 @@ import butterknife.ButterKnife;
 public abstract class BaseFragment extends Fragment {
 
     protected static final String ARG_SERVICE_TYPE = "service_type";
+    private static final String TAG = "BaseFragment";
 
     @BindView(R.id.list_rv)
     RecyclerView mRecyclerView;
@@ -63,8 +65,14 @@ public abstract class BaseFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_search:
-                Intent searchIntent = new Intent(getContext(), SearchActivity.class);
-                getContext().startActivity(searchIntent);
+                if(Utils.isNetworkConnected(getContext())) {
+                    Intent searchIntent = new Intent(getContext(), SearchActivity.class);
+                    getContext().startActivity(searchIntent);
+                } else {
+                    Log.e(TAG, getContext().getResources().getResourceName(R.string.no_internet));
+                    Utils.showAlert(getContext(), getResources().getResourceName(R.string.no_internet));
+                    return false;
+                }
                 return true;
             case R.id.action_about:
                 Intent aboutIntent = new Intent(getContext(), AboutActivity.class);

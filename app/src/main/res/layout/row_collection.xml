@@ -38,6 +38,7 @@
             android:layout_width="@dimen/small_icon_size"
             android:layout_height="@dimen/small_icon_size"
             app:srcCompat="@drawable/link"
+            android:visibility="gone"
             android:padding="@dimen/small_icon_padding"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
