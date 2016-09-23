@@ -87,7 +87,6 @@ public class CollectionActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mAdapter = new MovieListAdapter(CollectionActivity.this);
         mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, R.drawable.divider));
 
         if(Utils.isNetworkConnected(this)) {
             getData();

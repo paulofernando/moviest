@@ -28,6 +28,7 @@ import br.net.paulofernando.moviest.communication.TempCollectionService;
 import br.net.paulofernando.moviest.communication.entities.Collection;
 import br.net.paulofernando.moviest.communication.entities.Collections;
 import br.net.paulofernando.moviest.storage.CacheManager;
+import br.net.paulofernando.moviest.ui.component.DividerItemDecoration;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
@@ -57,6 +58,7 @@ public class CollectionsFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), R.drawable.divider));
 
         if(Utils.isNetworkConnected(getContext())) {
             getData();
