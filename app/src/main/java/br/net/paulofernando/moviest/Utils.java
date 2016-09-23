@@ -12,6 +12,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 public class Utils {
 
     private static SweetAlertDialog alertDialog;
+    public static final int INTERNET_CHECK_TIME = 5000;
 
     public static void showAlert(final Context context, String message) {
         new Handler(Looper.getMainLooper()).post(new Runnable() {

@@ -30,6 +30,7 @@ import rx.schedulers.Schedulers;
 import static br.net.paulofernando.moviest.communication.TMDB.API_KEY;
 import static br.net.paulofernando.moviest.communication.TMDB.Services.*;
 import static br.net.paulofernando.moviest.storage.CacheManager.*;
+import static br.net.paulofernando.moviest.Utils.INTERNET_CHECK_TIME;
 
 public class MovieListFragment extends BaseFragment {
 

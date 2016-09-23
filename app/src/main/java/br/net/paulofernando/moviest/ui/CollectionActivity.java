@@ -29,12 +29,10 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import br.net.paulofernando.moviest.R;
 import br.net.paulofernando.moviest.Utils;
-import br.net.paulofernando.moviest.adapters.CollectionsAdapter;
 import br.net.paulofernando.moviest.adapters.MovieListAdapter;
 import br.net.paulofernando.moviest.communication.TMDB;
 import br.net.paulofernando.moviest.communication.entities.Collection;
 import br.net.paulofernando.moviest.communication.entities.Movie;
-import br.net.paulofernando.moviest.ui.component.DividerItemDecoration;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -42,10 +40,11 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static br.net.paulofernando.moviest.Utils.INTERNET_CHECK_TIME;
+
 public class CollectionActivity extends AppCompatActivity {
 
     private static final String TAG = "CollectionActivity";
-    private static final int INTERNET_CHECK_TIME = 5000;
 
     @BindView(R.id.toolbar_collection) Toolbar toolbarCollection;
     @BindView(R.id.collapse_toolbar_collection) CollapsingToolbarLayout collapseToolbarCollection;
@@ -142,32 +141,6 @@ public class CollectionActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-    }
-
-    private void getMovieFromAPI(final Integer movieId) {
-        TMDB.getInstance().moviesService().summaryRx(movieId, TMDB.API_KEY)
-            .subscribeOn(Schedulers.newThread())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(new Subscriber<Movie>() {
-                @Override
-                public void onCompleted() {}
-
-                @Override
-                public void onError(Throwable e) {
-                    Log.e(TAG, e.getMessage());
-                }
-
-                @Override
-                public void onNext(Movie movie) {
-                    try {
-                        Reservoir.put(String.valueOf(movieId), movie);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    movies.add(movie);
-                    checkForUpdateInRecyclerView();
-                }
-            });
     }
 
     private void getMovieFromAPIRx(final Integer movieId) {

@@ -33,6 +33,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
+import static br.net.paulofernando.moviest.Utils.INTERNET_CHECK_TIME;
 import static br.net.paulofernando.moviest.communication.TMDB.Services.CollectionsService;
 import static br.net.paulofernando.moviest.storage.CacheManager.getCacheExpiration;
 

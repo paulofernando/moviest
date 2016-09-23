@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
@@ -32,6 +33,8 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.List;
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import br.net.paulofernando.moviest.R;
 import br.net.paulofernando.moviest.Utils;
@@ -49,6 +52,8 @@ import de.androidpit.androidcolorthief.MMCQ;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+
+import static br.net.paulofernando.moviest.Utils.INTERNET_CHECK_TIME;
 
 public class MovieDetailsActivity extends AppCompatActivity implements YouTubeThumbnailView.OnInitializedListener {
 
@@ -83,6 +88,8 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubeTh
     private String trailerID;
     private Movie movie;
     private MovieWithCredits movieWithCredits;
+
+    private boolean showAlertNoConnection = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -232,7 +239,33 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubeTh
         return super.onOptionsItemSelected(item);
     }
 
-    public void retrieveMovieDetails(int movieID) {
+    public void retrieveMovieDetails(final int movieID) {
+        if(Utils.isNetworkConnected(this)) {
+            retrieveMovieDetailsFromServer(movieID);
+        } else {
+            Log.e(TAG, getResources().getResourceName(R.string.no_internet));
+            Utils.showAlert(this, getResources().getResourceName(R.string.no_internet));
+            final Handler handler = new Handler();
+            final Timer timer = new Timer();
+            TimerTask timerTask = new TimerTask() {
+                public void run() {
+                    handler.post(new Runnable() {
+                        public void run() {
+                            if(Utils.isNetworkConnected(MovieDetailsActivity.this)) {
+                                retrieveMovieDetailsFromServer(movieID);
+                                Utils.closeCurrentAlertDialog();
+                                timer.cancel();
+                            }
+                        }
+                    });
+                }
+            };
+            timer.schedule(timerTask, INTERNET_CHECK_TIME, INTERNET_CHECK_TIME);
+        }
+
+    }
+
+    private void retrieveMovieDetailsFromServer(int movieID) {
         TMDB.getInstance().moviesService().summaryWithAppendRx(movieID, TMDB.API_KEY, "credits")
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -274,6 +307,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubeTh
                     }
                 });
     }
+
 
     @Override
     public void onInitializationSuccess(YouTubeThumbnailView youTubeThumbnailView, YouTubeThumbnailLoader youTubeThumbnailLoader) {

@@ -24,7 +24,6 @@ import butterknife.ButterKnife;
 public abstract class BaseFragment extends Fragment {
 
     protected static final String ARG_SERVICE_TYPE = "service_type";
-    protected static final int INTERNET_CHECK_TIME = 5000;
 
     @BindView(R.id.list_rv)
     RecyclerView mRecyclerView;
