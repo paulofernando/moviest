@@ -59,29 +59,7 @@ public class CollectionsFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), R.drawable.divider));
-
-        if(Utils.isNetworkConnected(getContext())) {
-            getData();
-        } else {
-            Log.e(TAG, getResources().getResourceName(R.string.no_internet));
-            Utils.showAlert(getContext(), getResources().getResourceName(R.string.no_internet));
-            final Handler handler = new Handler();
-            final Timer timer = new Timer();
-            TimerTask timerTask = new TimerTask() {
-                public void run() {
-                    handler.post(new Runnable() {
-                        public void run() {
-                            if(Utils.isNetworkConnected(getContext())) {
-                                getData();
-                                timer.cancel();
-                            }
-                        }
-                    });
-                }
-            };
-            timer.schedule(timerTask, INTERNET_CHECK_TIME, INTERNET_CHECK_TIME);
-        }
-
+        getData();
         return rootView;
     }
 
@@ -89,7 +67,6 @@ public class CollectionsFragment extends BaseFragment {
     public void loadMoreData(int page) {}
 
     private void getData() {
-        final Gson gson = new Gson();
 
         if(!CacheManager.hasExpired(CollectionsService.toString(), getCacheExpiration(CollectionsService))) {
             Log.d(TAG, "Getting collections from cache");
@@ -112,52 +89,89 @@ public class CollectionsFragment extends BaseFragment {
                 }
             });
         } else {
-            Log.d(TAG, "Getting collections from server");
-            try {
-                TempCollectionService.getCollectionFromURL("http://paulofernando.net.br/moviest/collections/collections.json",
-                        new Callback() {
-                            @Override
-                            public void onFailure(Call call, IOException e) {
-                                e.printStackTrace();
-                            }
-
-                            @Override
-                            public void onResponse(Call call, Response response) throws IOException {
-                                if (!response.isSuccessful())
-                                    throw new IOException("Unexpected code " + response);
-
-                                try {
-                                    JSONObject jsonCollections = new JSONObject(response.body().string());
-                                    JSONArray jsonCollection = (JSONArray) jsonCollections.get("collections");
-                                    for (int i = 0; i < jsonCollection.length(); i++) {
-                                        collections.add(gson.fromJson(jsonCollection.get(i).toString(), Collection.class));
-                                    }
-
-                                    Collections c = new Collections();
-                                    c.colls = collections;
-                                    c.version = (Integer) jsonCollections.get("version");
-                                    CacheManager.cacheCollection(c);
-
-                                    if (CollectionsFragment.this.getActivity() != null) {//there are movies to list
-                                        CollectionsFragment.this.getActivity().runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                updateList(collections);
-                                            }
-                                        });
-
-                                    }
-
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        });
-            } catch (Exception e) {
-                e.printStackTrace();
+            if(Utils.isNetworkConnected(getContext())) {
+                getCollectionFromServer();
             }
         }
+
+        if(!Utils.isNetworkConnected(getContext())) {
+            runInternetChecking();
+        }
+
     }
+
+    private void runInternetChecking() {
+        Log.e(TAG, getResources().getResourceName(R.string.no_internet));
+        Utils.showAlert(getContext(), getResources().getResourceName(R.string.no_internet));
+        final Handler handler = new Handler();
+        final Timer timer = new Timer();
+        TimerTask timerTask = new TimerTask() {
+            public void run() {
+                handler.post(new Runnable() {
+                    public void run() {
+                        if(Utils.isNetworkConnected(getContext())) {
+                            getCollectionFromServer();
+                            Utils.closeCurrentAlertDialog();
+                            timer.cancel();
+                        }
+                    }
+                });
+            }
+        };
+        timer.schedule(timerTask, INTERNET_CHECK_TIME, INTERNET_CHECK_TIME);
+    }
+
+    private void getCollectionFromServer() {
+        Log.d(TAG, "Getting collections from server");
+        try {
+            TempCollectionService.getCollectionFromURL("http://paulofernando.net.br/moviest/collections/collections.json",
+                    new Callback() {
+                        @Override
+                        public void onFailure(Call call, IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        @Override
+                        public void onResponse(Call call, Response response) throws IOException {
+                            if (!response.isSuccessful()) {
+                                throw new IOException("Unexpected code " + response);
+                            }
+                            parseCollection(response.body().string());
+                        }
+                    });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void parseCollection(String JSONCollection) {
+        try {
+            JSONObject jsonCollections = new JSONObject(JSONCollection);
+            JSONArray jsonCollection = (JSONArray) jsonCollections.get("collections");
+            for (int i = 0; i < jsonCollection.length(); i++) {
+                collections.add((new Gson()).fromJson(jsonCollection.get(i).toString(), Collection.class));
+            }
+
+            Collections c = new Collections();
+            c.colls = collections;
+            c.version = (Integer) jsonCollections.get("version");
+            CacheManager.cacheCollection(c);
+
+            if (CollectionsFragment.this.getActivity() != null) {//there are movies to list
+                CollectionsFragment.this.getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        updateList(collections);
+                    }
+                });
+
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     private void updateList(List<Collection> collections) {
         if (mAdapter == null) {

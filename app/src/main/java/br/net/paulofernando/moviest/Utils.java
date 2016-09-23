@@ -11,19 +11,24 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class Utils {
 
-    private static AlertDialog alertDialog;
+    private static SweetAlertDialog alertDialog;
 
     public static void showAlert(final Context context, String message) {
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
-                new SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE)
+                alertDialog = new SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE)
                         .setTitleText(context.getResources().getString(R.string.no_internet_title))
-                        .setContentText(context.getResources().getString(R.string.no_internet))
-                        .show();
+                        .setContentText(context.getResources().getString(R.string.no_internet));
+                alertDialog.show();
             }
         });
+    }
 
+    public static void closeCurrentAlertDialog() {
+        if(alertDialog.isShowing()) {
+            alertDialog.dismissWithAnimation();
+        }
     }
 
     public static boolean isNetworkConnected(Context context) {

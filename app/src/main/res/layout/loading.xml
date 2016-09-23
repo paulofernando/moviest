@@ -11,6 +11,7 @@
         android:background="@color/colorAccent"
         android:textColor="#FFF"
         android:layout_gravity="center"
+        android:visibility="gone"
         android:text="@string/loading"
         android:padding="5dp"
         android:layout_centerHorizontal="true" />

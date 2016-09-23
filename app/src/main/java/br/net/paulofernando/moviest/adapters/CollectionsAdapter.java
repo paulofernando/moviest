@@ -75,10 +75,9 @@ public class CollectionsAdapter extends BaseAdapter<CollectionsAdapter.ViewHolde
 
         public void setCollection(Collection _collection) {
             this.collection = _collection;
-
             titleTextView.setText(collection.title);
-
             try {
+                loading.setVisibility(View.VISIBLE);
                 Picasso.with(context).load(collection.backgroundImageURL).into(bgCollection,
                     new com.squareup.picasso.Callback() {
 
@@ -89,7 +88,7 @@ public class CollectionsAdapter extends BaseAdapter<CollectionsAdapter.ViewHolde
 
                         @Override
                         public void onError() {
-                            Log.e("Error", "Erro on loading image");
+                            loading.setVisibility(View.GONE);
                         }
 
                     });
