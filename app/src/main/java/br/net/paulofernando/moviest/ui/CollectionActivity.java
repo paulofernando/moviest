@@ -1,5 +1,7 @@
 package br.net.paulofernando.moviest.ui;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
@@ -27,6 +29,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import br.net.paulofernando.moviest.R;
 import br.net.paulofernando.moviest.Utils;
+import br.net.paulofernando.moviest.adapters.CollectionsAdapter;
 import br.net.paulofernando.moviest.adapters.MovieListAdapter;
 import br.net.paulofernando.moviest.communication.TMDB;
 import br.net.paulofernando.moviest.communication.entities.Collection;
@@ -50,6 +53,7 @@ public class CollectionActivity extends AppCompatActivity {
     @BindView(R.id.title_collection_tv) TextView titleCollection;
     @BindView(R.id.awards_list_rv) RecyclerView mRecyclerView;
     @BindView(R.id.loading_tv) TextView loadingTextView;
+    @BindView(R.id.link_iv) ImageView link;
     @BindView(R.id.bg_collection_iv) ImageView bgCollection;
 
     protected MovieListAdapter mAdapter;
@@ -106,6 +110,13 @@ public class CollectionActivity extends AppCompatActivity {
             };
             timer.schedule(timerTask, INTERNET_CHECK_TIME, INTERNET_CHECK_TIME);
         }
+        link.setVisibility(View.GONE);
+    }
+
+    @OnClick(R.id.bg_collection_iv)
+    public void linkClick() {
+        Intent intent= new Intent(Intent.ACTION_VIEW, Uri.parse(collection.sourceURL));
+        startActivity(intent);
     }
 
     private void getData() {

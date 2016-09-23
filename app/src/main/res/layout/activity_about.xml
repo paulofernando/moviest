@@ -10,11 +10,28 @@
     tools:context="br.net.paulofernando.moviest.ui.AboutActivity"
     android:background="@color/bgSplashColor">
 
-    <ImageView
-        android:layout_width="120dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageView"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:src="@drawable/tmdb"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/about_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"/>
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="62dp"
+            android:id="@+id/imageView"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/tmdb"/>
+
+    </LinearLayout>
+
+
 </RelativeLayout>

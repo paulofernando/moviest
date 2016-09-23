@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,6 +25,7 @@ import br.net.paulofernando.moviest.communication.entities.Collection;
 import br.net.paulofernando.moviest.ui.CollectionActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Provide views to RecyclerView with data from movies.
@@ -63,6 +65,12 @@ public class CollectionsAdapter extends BaseAdapter<CollectionsAdapter.ViewHolde
                     CollectionsAdapter.this.context.startActivity(intent, transitionActivityOptions.toBundle());
                 }
             });
+        }
+
+        @OnClick(R.id.link_iv)
+        public void linkClick() {
+            Intent intent= new Intent(Intent.ACTION_VIEW, Uri.parse(collection.sourceURL));
+            CollectionsAdapter.this.context.startActivity(intent);
         }
 
         public void setCollection(Collection _collection) {

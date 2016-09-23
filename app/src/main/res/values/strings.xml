@@ -26,5 +26,7 @@
     <string name="director_label">Director</string>
     <string name="release_label">Release Date</string>
 
+    <string name="dev_name">Paulo Fernando</string>
+
 
 </resources>
