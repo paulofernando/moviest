@@ -26,7 +26,7 @@ public class CacheManager {
     public static final long EXPIRATION_NOW_PLAYING = 10000 * 60 * 60; //milliseconds
     public static final long EXPIRATION_POPULAR = 1000 * 60 * 60;
     public static final long EXPIRATION_TOP_RATED = 1000 * 60 * 60 * 24;
-    public static final long EXPIRATION_COLLECTIONS = 1000 * 60 * 60;
+    public static final long EXPIRATION_COLLECTIONS = 1000 * 60 * 1;
 
     public static void startCacheService(Context context) {
         try {

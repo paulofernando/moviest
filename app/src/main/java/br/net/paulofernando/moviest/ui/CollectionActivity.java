@@ -33,6 +33,7 @@ import br.net.paulofernando.moviest.adapters.MovieListAdapter;
 import br.net.paulofernando.moviest.communication.TMDB;
 import br.net.paulofernando.moviest.communication.entities.Collection;
 import br.net.paulofernando.moviest.communication.entities.Movie;
+import br.net.paulofernando.moviest.ui.component.DividerItemDecoration;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -75,6 +76,7 @@ public class CollectionActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         collapseToolbarCollection.setTitle(" ");
         titleCollection.setText(collection.title);
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, R.drawable.divider));
 
         try {
             Picasso.with(this).load(collection.backgroundImageURL).into(bgCollection);

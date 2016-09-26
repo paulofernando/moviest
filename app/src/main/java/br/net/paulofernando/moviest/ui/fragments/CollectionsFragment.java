@@ -134,10 +134,11 @@ public class CollectionsFragment extends BaseFragment {
 
                         @Override
                         public void onResponse(Call call, Response response) throws IOException {
+                            String json = response.body().string();
                             if (!response.isSuccessful()) {
                                 throw new IOException("Unexpected code " + response);
                             }
-                            parseCollection(response.body().string());
+                            parseCollection(json);
                         }
                     });
         } catch (Exception e) {
