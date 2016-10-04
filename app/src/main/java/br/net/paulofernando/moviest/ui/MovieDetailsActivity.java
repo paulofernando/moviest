@@ -93,7 +93,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubeTh
         setSupportActionBar(toolbarMovieDetails);
         appbarMovieDetails.setExpanded(false);
 
-        movie = (Movie) getIntent().getSerializableExtra(TMDB.MOVIE_DETAILS);
+        movie = getIntent().getParcelableExtra(TMDB.MOVIE_DETAILS);
         titleTextView.setText(movie.title);
 
         if (movie.voteAverage > 0) {

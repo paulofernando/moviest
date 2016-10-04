@@ -11,6 +11,8 @@ public class Collections implements Parcelable {
     public List<Collection> colls;
     public int version;
 
+    public Collections() {}
+
     protected Collections(Parcel in) {
         colls = in.createTypedArrayList(Collection.CREATOR);
         version = in.readInt();

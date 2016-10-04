@@ -11,8 +11,6 @@ public class Movie implements Parcelable {
 
     @SerializedName("id") public Integer id;
     @SerializedName("backdrop_path") public String backdropPath;
-    @SerializedName("belongs_to_collection") public Collection belongsToCollection;
-    @SerializedName("budget") public Integer budget;
     @SerializedName("genre_ids") public List<Integer> genres;
     @SerializedName("genres") public List<Genre> genresList;
     @SerializedName("homepage") public String homepage;
@@ -31,10 +29,8 @@ public class Movie implements Parcelable {
     protected Movie(Parcel in) {
         id = in.readInt();
         backdropPath = in.readString();
-        belongsToCollection = in.readParcelable(Collection.class.getClassLoader());
-        budget = in.readInt();
-        in.readList(genres, null);
-        in.readList(genresList, null);
+        //in.readList(genres, Genre.class.getClassLoader());
+        //in.readList(genresList, null);
         homepage = in.readString();
         imdbId = in.readString();
         originalTitle = in.readString();
@@ -69,10 +65,8 @@ public class Movie implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeValue(this.id);
         dest.writeString(backdropPath);
-        dest.writeParcelable(belongsToCollection, flags);
-        dest.writeInt(budget);
-        dest.writeList(genres);
-        dest.writeList(genresList);
+        //dest.writeList(genres);
+        //dest.writeList(genresList);
         dest.writeString(homepage);
         dest.writeString(imdbId);
         dest.writeString(originalTitle);

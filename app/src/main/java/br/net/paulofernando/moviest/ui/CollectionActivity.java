@@ -66,7 +66,7 @@ public class CollectionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_collection);
         ButterKnife.bind(this);
 
-        collection = (Collection) getIntent().getSerializableExtra(TMDB.COLLECTION_DETAILS);
+        collection = getIntent().getParcelableExtra(TMDB.COLLECTION_DETAILS);
 
         setSupportActionBar(toolbarCollection);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
