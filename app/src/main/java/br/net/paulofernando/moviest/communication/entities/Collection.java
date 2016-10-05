@@ -13,12 +13,13 @@ public class Collection implements Parcelable {
     @SerializedName("title") public String title;
     @SerializedName("background_image_url") public String backgroundImageURL;
     @SerializedName("source_url") public String sourceURL;
-    @SerializedName("movies_ids") public List<Integer> moviesIds;
+    @SerializedName("movies_ids") public int[] moviesIds;
 
     protected Collection(Parcel in) {
         title = in.readString();
         backgroundImageURL = in.readString();
         sourceURL = in.readString();
+        moviesIds = in.createIntArray();
     }
 
     public static final Creator<Collection> CREATOR = new Creator<Collection>() {
@@ -43,6 +44,6 @@ public class Collection implements Parcelable {
         dest.writeString(this.title);
         dest.writeString(this.backgroundImageURL);
         dest.writeString(this.sourceURL);
-        dest.writeList(this.moviesIds);
+        dest.writeIntArray(this.moviesIds);
     }
 }

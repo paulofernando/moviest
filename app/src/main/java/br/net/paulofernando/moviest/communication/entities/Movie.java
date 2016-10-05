@@ -11,37 +11,32 @@ public class Movie implements Parcelable {
 
     @SerializedName("id") public Integer id;
     @SerializedName("backdrop_path") public String backdropPath;
-    @SerializedName("genre_ids") public List<Integer> genres;
+    @SerializedName("genre_ids") public int[] genreIds;
     @SerializedName("genres") public List<Genre> genresList;
-    @SerializedName("homepage") public String homepage;
-    @SerializedName("imdb_id") public String imdbId;
     @SerializedName("original_title") public String originalTitle;
     @SerializedName("overview") public String overview;
-    @SerializedName("popularity") public Double popularity;
+    @SerializedName("popularity") public Float popularity;
     @SerializedName("poster_path") public String posterPath;
     @SerializedName("release_date") public String releaseDate; //changed to String because the API was returning a wrong format in the search service
     @SerializedName("title") public String title;
-    @SerializedName("vote_average") public Double voteAverage;
+    @SerializedName("vote_average") public Float voteAverage;
     @SerializedName("vote_count") public Integer voteCount;
-    @SerializedName("video") public boolean video;
+    @SerializedName("video") public boolean isVideo;
     public Videos videos;
 
     protected Movie(Parcel in) {
-        id = in.readInt();
-        backdropPath = in.readString();
-        //in.readList(genres, Genre.class.getClassLoader());
-        //in.readList(genresList, null);
-        homepage = in.readString();
-        imdbId = in.readString();
-        originalTitle = in.readString();
-        overview = in.readString();
-        popularity = in.readDouble();
-        posterPath = in.readString();
-        releaseDate = in.readString();
-        title = in.readString();
-        voteAverage = in.readDouble();
-        voteCount = in.readInt();
-        video = in.readByte() != 0;
+        this.id = in.readInt();
+        this.backdropPath = in.readString();
+        this.genreIds = in.createIntArray();
+        this.originalTitle = in.readString();
+        this.overview = in.readString();
+        this.releaseDate = in.readString();
+        this.posterPath = in.readString();
+        this.popularity = in.readFloat();
+        this.title = in.readString();
+        this.isVideo = in.readByte() != 0;
+        this.voteAverage = in.readFloat();
+        this.voteCount = in.readInt();
     }
 
     public static final Creator<Movie> CREATOR = new Creator<Movie>() {
@@ -63,21 +58,17 @@ public class Movie implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeValue(this.id);
-        dest.writeString(backdropPath);
-        //dest.writeList(genres);
-        //dest.writeList(genresList);
-        dest.writeString(homepage);
-        dest.writeString(imdbId);
-        dest.writeString(originalTitle);
-        dest.writeString(overview);
-        dest.writeDouble(popularity);
-        dest.writeString(posterPath);
-        dest.writeString(releaseDate);
-        dest.writeString(title);
-        dest.writeDouble(voteAverage);
-        dest.writeInt(voteCount);
-        dest.writeInt(video ? 1 : 0);
-
+        dest.writeInt(this.id);
+        dest.writeString(this.backdropPath);
+        dest.writeIntArray(this.genreIds);
+        dest.writeString(this.originalTitle);
+        dest.writeString(this.overview);
+        dest.writeString(this.releaseDate);
+        dest.writeString(this.posterPath);
+        dest.writeFloat(this.popularity);
+        dest.writeString(this.title);
+        dest.writeByte(isVideo ? (byte) 1 : (byte) 0);
+        dest.writeFloat(this.voteAverage);
+        dest.writeInt(this.voteCount);
     }
 }

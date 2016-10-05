@@ -93,7 +93,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubeTh
         setSupportActionBar(toolbarMovieDetails);
         appbarMovieDetails.setExpanded(false);
 
-        movie = getIntent().getParcelableExtra(TMDB.MOVIE_DETAILS);
+        movie = (Movie) getIntent().getParcelableExtra(TMDB.MOVIE_DETAILS);
         titleTextView.setText(movie.title);
 
         if (movie.voteAverage > 0) {
@@ -106,9 +106,9 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubeTh
             }
         }
 
-        if ((movie.genres != null) && (movie.genres.size() > 0)) {
+        if ((movie.genreIds != null) && (movie.genreIds.length > 0)) {
             genreTextView.setVisibility(View.VISIBLE);
-            genreTextView.setText(TMDB.getGenreNameByID(movie.genres.get(0)));
+            genreTextView.setText(TMDB.getGenreNameByID(movie.genreIds[0]));
         }
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

@@ -81,9 +81,9 @@ public class MovieListAdapter extends BaseAdapter<MovieListAdapter.ViewHolder> {
             if((movie.genresList != null) && (movie.genresList.size() > 0)) {
                 genreTextView.setVisibility(View.VISIBLE);
                 genreTextView.setText(movie.genresList.get(0).name);
-            } else if((movie.genres != null) && (movie.genres.size() > 0)) {
+            } else if((movie.genreIds != null) && (movie.genreIds.length > 0)) {
                 genreTextView.setVisibility(View.VISIBLE);
-                genreTextView.setText(TMDB.getGenreNameByID(movie.genres.get(0)));
+                genreTextView.setText(TMDB.getGenreNameByID(movie.genreIds[0]));
             }
 
             try {

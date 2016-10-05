@@ -4,7 +4,8 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="180dp"
-    android:transitionName="@string/collection_name">
+    android:transitionName="@string/collection_name"
+    android:layout_marginBottom="1dp">
 
         <ImageView
             android:id="@+id/bg_collection_iv"

@@ -32,6 +32,7 @@ import br.net.paulofernando.moviest.communication.TMDB;
 import br.net.paulofernando.moviest.communication.entities.Collection;
 import br.net.paulofernando.moviest.communication.entities.Movie;
 import br.net.paulofernando.moviest.ui.component.DividerItemDecoration;
+import br.net.paulofernando.moviest.ui.component.VerticalSpaceItemDecoration;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -83,7 +84,6 @@ public class CollectionActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mAdapter = new MovieListAdapter(CollectionActivity.this);
         mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, R.drawable.divider));
 
         if(Utils.isNetworkConnected(this)) {
             getData();
@@ -194,7 +194,7 @@ public class CollectionActivity extends AppCompatActivity {
 
     private void checkForUpdateInRecyclerView() {
         //only add in recycler when all data is loaded
-        if(counter.incrementAndGet() == collection.moviesIds.size()) {
+        if(counter.incrementAndGet() == collection.moviesIds.length) {
             updateList();
         }
     }
