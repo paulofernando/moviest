@@ -17,6 +17,10 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        buildTypes.each {
+            it.buildConfigField 'String', 'TMDB_KEY', TMDBKey
+            it.buildConfigField 'String', 'YOUTUBE_Key', YoutubeKey
+        }
     }
 }
 
@@ -39,6 +43,10 @@ dependencies {
     compile 'io.reactivex:rxjava:1.1.0'
     compile 'io.reactivex:rxjava-async-util:0.21.0'
     compile 'io.reactivex:rxandroid:1.1.0'
+
+    apt 'com.google.dagger:dagger-compiler:2.5'
+    compile 'com.google.dagger:dagger:2.5'
+    provided 'javax.annotation:jsr250-api:1.0'
 
     testCompile 'org.assertj:assertj-core:2.5.0'
     compile 'com.jakewharton:butterknife:8.2.1'

@@ -34,6 +34,7 @@ import br.net.paulofernando.moviest.communication.TMDB;
 import br.net.paulofernando.moviest.communication.entities.Collection;
 import br.net.paulofernando.moviest.communication.entities.Movie;
 import br.net.paulofernando.moviest.ui.component.DividerItemDecoration;
+import br.net.paulofernando.moviest.ui.component.VerticalSpaceItemDecoration;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -70,7 +71,7 @@ public class CollectionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_collection);
         ButterKnife.bind(this);
 
-        collection = (Collection) getIntent().getSerializableExtra(TMDB.COLLECTION_DETAILS);
+        collection = getIntent().getParcelableExtra(TMDB.COLLECTION_DETAILS);
 
         setSupportActionBar(toolbarCollection);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -179,7 +180,7 @@ public class CollectionActivity extends AppCompatActivity {
 
     private void checkForUpdateInRecyclerView() {
         //only add in recycler when all data is loaded
-        if(counter.incrementAndGet() == collection.moviesIds.size()) {
+        if(counter.incrementAndGet() == collection.moviesIds.length) {
             updateList();
         }
     }
