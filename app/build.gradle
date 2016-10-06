@@ -19,7 +19,7 @@ android {
         }
         buildTypes.each {
             it.buildConfigField 'String', 'TMDB_KEY', TMDBKey
-            it.buildConfigField 'String', 'YOUTUBE_Key', YoutubeKey
+            it.buildConfigField 'String', 'YOUTUBE_KEY', YoutubeKey
         }
     }
 }

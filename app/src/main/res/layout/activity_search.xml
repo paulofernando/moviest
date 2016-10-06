@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".ui.SearchActivity">
+    tools:context=".view.activity.SearchActivity">
 
     <com.wang.avi.AVLoadingIndicatorView
         android:id="@+id/loading_search"

@@ -45,15 +45,30 @@
                 android:visibility="gone"
                 android:layout_margin="@dimen/row_inner_space"/>
 
-            <TextView
-                android:id="@+id/runtime_tv"
+            <LinearLayout
+                android:id="@+id/runtime_ll"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:orientation="horizontal"
                 android:background="@drawable/rounded_corner_accent"
-                android:textColor="#aaffffff"
-                android:visibility="gone"
-                android:layout_margin="@dimen/row_inner_space"/>
+                android:gravity="center"
+                android:layout_margin="@dimen/row_inner_space"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:alpha="0.7"
+                    android:src="@drawable/duration"
+                    android:paddingRight="2dp"/>
+
+                <TextView
+                    android:id="@+id/runtime_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="#aaffffff"/>
+            </LinearLayout>
 
         </LinearLayout>
 

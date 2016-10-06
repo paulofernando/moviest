@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:id="@+id/movideDetailsContainer"
     android:animateLayoutChanges="true"
-    tools:context="br.net.paulofernando.moviest.ui.CollectionActivity">
+    tools:context="br.net.paulofernando.moviest.view.activity.CollectionActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar_collection"

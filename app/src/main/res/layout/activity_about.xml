@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="br.net.paulofernando.moviest.ui.AboutActivity"
+    tools:context="br.net.paulofernando.moviest.view.activity.AboutActivity"
     android:background="@color/bgSplashColor">
 
     <LinearLayout
