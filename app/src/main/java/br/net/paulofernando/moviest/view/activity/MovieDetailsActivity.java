@@ -1,5 +1,6 @@
 package br.net.paulofernando.moviest.view.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -147,6 +148,21 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubeTh
         movieOveriewView.setText(movie.overview);
         retrieveMovieDetails(movie.id);
         loadYoutubeThumbnail(movie.id);
+    }
+
+    public static Intent getStartIntent(Context context, Movie movie) {
+        Intent intent = new Intent(context, MovieDetailsActivity.class);
+        intent.putExtra(TMDB.MOVIE_DETAILS, movie);
+
+        /*View sharedView = coverImageView;
+        String transitionName = context.getString(R.string.cover_name);
+
+        ActivityOptions transitionActivityOptions = ActivityOptions.
+                makeSceneTransitionAnimation((Activity) context, sharedView, transitionName);
+
+        context.startActivity(intent, transitionActivityOptions.toBundle());*/
+
+        return intent;
     }
 
     private void loadImages() {

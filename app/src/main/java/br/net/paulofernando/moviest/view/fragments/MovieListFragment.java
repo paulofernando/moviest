@@ -216,14 +216,10 @@ public class MovieListFragment extends BaseFragment {
     }
 
     private void updateList(List<Movie> result) {
-        if (mAdapter == null) {
-            mAdapter = new MovieAdapter(result, MovieListFragment.this.getContext());
-            mRecyclerView.setAdapter(mAdapter);
-            mAdapter.notifyDataSetChanged();
-            mRecyclerView.setVisibility(View.VISIBLE);
-        } else {
-            mAdapter.addList(result);
-        }
+        mAdapter = new MovieAdapter(MovieListFragment.this.getContext());
+        mRecyclerView.setAdapter(mAdapter);
+        mAdapter.setItems(result);
+        mRecyclerView.setVisibility(View.VISIBLE);
         loadingTextView.setVisibility(View.GONE);
     }
 

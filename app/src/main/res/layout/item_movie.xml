@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable name="viewModel" type="br.net.paulofernando.moviest.viewModel.MovieViewModel" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/movie_container"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:onClick="@{viewModel.onClickMovie}">
+
+        <ImageView
+            android:id="@+id/cover_iv"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            android:layout_marginLeft="@dimen/row_side_space"
+            android:layout_marginRight="@dimen/row_side_space"
+            android:transitionName="@string/cover_name"/>
+
+        <LinearLayout
+            android:id="@+id/movie_details"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/title_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_marginLeft="@dimen/row_inner_space"
+                android:layout_marginRight="@dimen/row_inner_space"
+                android:layout_marginBottom="@dimen/row_inner_space"
+                android:textColor="@color/defaultTextColor"
+                android:text="@{viewModel.movieTitle}"/>
+
+            <TextView
+                android:id="@+id/year_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_margin="@dimen/row_inner_space"
+                android:textColor="@color/defaultTextColor"
+                android:text="@{viewModel.movieYear}"/>
+
+            <TextView
+                android:id="@+id/genre_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:background="@drawable/rounded_corner_default"
+                android:visibility="invisible"
+                android:layout_margin="@dimen/row_inner_space"
+                android:textColor="@color/bgColor"
+                android:text="@{viewModel.movieGenre}"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</layout>

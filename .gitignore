@@ -8,3 +8,6 @@
 /captures
 /app/*.apk
 /*.properties
+/.idea
+/gradle
+/projectFilesBackup

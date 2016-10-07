@@ -12,6 +12,7 @@ android {
         versionCode 1
         versionName "0.1.0"
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -21,6 +22,10 @@ android {
             it.buildConfigField 'String', 'TMDB_KEY', TMDBKey
             it.buildConfigField 'String', 'YOUTUBE_KEY', YoutubeKey
         }
+    }
+
+    dataBinding {
+        enabled = true
     }
 }
 

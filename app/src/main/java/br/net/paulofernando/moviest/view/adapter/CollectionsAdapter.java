@@ -29,8 +29,7 @@ import butterknife.OnClick;
 /**
  * Provide views to RecyclerView with data from movies.
  */
-public class CollectionsAdapter extends RecyclerView.Adapter<CollectionsAdapter.ViewHolder>
-        implements BaseAdapter<CollectionsAdapter.ViewHolder> {
+public class CollectionsAdapter extends RecyclerView.Adapter<CollectionsAdapter.ViewHolder> {
 
     private List<Collection> collections = new ArrayList<>();
     private Context context;
@@ -124,7 +123,6 @@ public class CollectionsAdapter extends RecyclerView.Adapter<CollectionsAdapter.
         return collections.size();
     }
 
-    @Override
     public void addList(List _collections){
         this.collections.addAll(_collections);
         notifyItemInserted(_collections.size() - 1);

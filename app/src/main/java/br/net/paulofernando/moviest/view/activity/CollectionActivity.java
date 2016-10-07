@@ -188,7 +188,7 @@ public class CollectionActivity extends AppCompatActivity {
         CollectionActivity.this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mAdapter.addList(movies);
+                mAdapter.setItems(movies);
                 loadingTextView.setVisibility(View.GONE);
             }
         });
