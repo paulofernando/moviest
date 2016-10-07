@@ -29,7 +29,8 @@ import butterknife.OnClick;
 /**
  * Provide views to RecyclerView with data from movies.
  */
-public class CollectionsAdapter extends BaseAdapter<CollectionsAdapter.ViewHolder> {
+public class CollectionsAdapter extends RecyclerView.Adapter<CollectionsAdapter.ViewHolder>
+        implements BaseAdapter<CollectionsAdapter.ViewHolder> {
 
     private List<Collection> collections = new ArrayList<>();
     private Context context;

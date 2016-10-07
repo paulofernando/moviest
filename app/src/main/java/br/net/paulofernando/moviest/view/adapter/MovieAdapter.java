@@ -27,7 +27,8 @@ import butterknife.ButterKnife;
 /**
  * Provide views to RecyclerView with data from movies.
  */
-public class MovieAdapter extends BaseAdapter<MovieAdapter.ViewHolder> {
+public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>
+        implements BaseAdapter<MovieAdapter.ViewHolder> {
 
     private List<Movie> movies;
     private Context context;
