@@ -2,7 +2,11 @@ package br.net.paulofernando.moviest.viewModel;
 
 import android.content.Context;
 import android.databinding.BaseObservable;
+import android.databinding.BindingAdapter;
 import android.view.View;
+import android.widget.ImageView;
+
+import com.squareup.picasso.Picasso;
 
 import br.net.paulofernando.moviest.data.entities.Movie;
 import br.net.paulofernando.moviest.data.remote.TMDB;
@@ -44,11 +48,36 @@ public class MovieViewModel extends BaseObservable {
         };
     }
 
+    private void launchMovieDetailsActivity() {
+        context.startActivity(MovieDetailsActivity.getStartIntent(context, movie));
+    }
+
     public int getGenreVisibility() {
         return  movie.genreIds != null || movie.genresList != null ? View.VISIBLE : View.GONE;
     }
 
-    private void launchMovieDetailsActivity() {
-        context.startActivity(MovieDetailsActivity.getStartIntent(context, movie));
+    public String getImageUrl() {
+        return "http://image.tmdb.org/t/p/" + TMDB.SIZE_DEFAULT + movie.posterPath;
     }
+
+    @BindingAdapter({"bind:imageUrl"})
+    public static void loadImage(ImageView view, String imageUrl) {
+        Picasso.with(view.getContext())
+                .load(imageUrl)
+                .into(view,
+                        new com.squareup.picasso.Callback() {
+
+                            @Override
+                            public void onSuccess() {
+                                //loading.setVisibility(View.GONE);
+                            }
+
+                            @Override
+                            public void onError() {
+                                //loading.setVisibility(View.GONE);
+                            }
+
+                        });
+    }
+
 }

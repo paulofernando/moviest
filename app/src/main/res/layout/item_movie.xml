@@ -6,6 +6,7 @@
     </data>
 
     <LinearLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/movie_container"
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -21,7 +22,8 @@
             android:scaleType="fitXY"
             android:layout_marginLeft="@dimen/row_side_space"
             android:layout_marginRight="@dimen/row_side_space"
-            android:transitionName="@string/cover_name"/>
+            android:transitionName="@string/cover_name"
+            app:imageUrl="@{viewModel.imageUrl}"/>
 
         <LinearLayout
             android:id="@+id/movie_details"

@@ -22,12 +22,14 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import br.net.paulofernando.moviest.R;
+import br.net.paulofernando.moviest.data.entities.Movie;
 import br.net.paulofernando.moviest.util.NetworkUtils;
-import br.net.paulofernando.moviest.view.adapter.CollectionsAdapter;
+import br.net.paulofernando.moviest.view.adapter.CollectionAdapter;
 import br.net.paulofernando.moviest.data.remote.TempCollectionService;
 import br.net.paulofernando.moviest.data.entities.Collection;
 import br.net.paulofernando.moviest.data.entities.Collections;
 import br.net.paulofernando.moviest.data.CacheManager;
+import br.net.paulofernando.moviest.view.adapter.MovieAdapter;
 import br.net.paulofernando.moviest.view.component.DividerItemDecoration;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -40,7 +42,7 @@ import static br.net.paulofernando.moviest.data.CacheManager.getCacheExpiration;
 public class CollectionsFragment extends BaseFragment {
 
     private static final String TAG = "CollectionsFragment";
-    protected CollectionsAdapter mAdapter;
+    protected CollectionAdapter mAdapter;
     private List<Collection> collections = new ArrayList<>();
 
     /**
@@ -174,16 +176,11 @@ public class CollectionsFragment extends BaseFragment {
         }
     }
 
-
-    private void updateList(List<Collection> collections) {
-        if (mAdapter == null) {
-            mAdapter = new CollectionsAdapter(CollectionsFragment.this.getContext());
-            mAdapter.addList(collections);
-            mRecyclerView.setAdapter(mAdapter);
-            mRecyclerView.setVisibility(View.VISIBLE);
-        } else {
-            mAdapter.addList(collections);
-        }
+    private void updateList(List<Collection> result) {
+        mAdapter = new CollectionAdapter(CollectionsFragment.this.getContext());
+        mRecyclerView.setAdapter(mAdapter);
+        mAdapter.setItems(result);
+        mRecyclerView.setVisibility(View.VISIBLE);
         loadingTextView.setVisibility(View.GONE);
     }
 

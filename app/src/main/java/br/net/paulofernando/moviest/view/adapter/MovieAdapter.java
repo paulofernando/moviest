@@ -29,12 +29,12 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.BindingHolde
 
     @Override
     public BindingHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        ItemMovieBinding postBinding = DataBindingUtil.inflate(
+        ItemMovieBinding movieBinding = DataBindingUtil.inflate(
                 LayoutInflater.from(parent.getContext()),
                 R.layout.item_movie,
                 parent,
                 false);
-        return new BindingHolder(postBinding);
+        return new BindingHolder(movieBinding);
     }
 
     @Override
