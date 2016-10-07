@@ -1,5 +1,7 @@
 package br.net.paulofernando.moviest.view.activity;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -153,15 +155,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubeTh
     public static Intent getStartIntent(Context context, Movie movie) {
         Intent intent = new Intent(context, MovieDetailsActivity.class);
         intent.putExtra(TMDB.MOVIE_DETAILS, movie);
-
-        /*View sharedView = coverImageView;
-        String transitionName = context.getString(R.string.cover_name);
-
-        ActivityOptions transitionActivityOptions = ActivityOptions.
-                makeSceneTransitionAnimation((Activity) context, sharedView, transitionName);
-
-        context.startActivity(intent, transitionActivityOptions.toBundle());*/
-
         return intent;
     }
 

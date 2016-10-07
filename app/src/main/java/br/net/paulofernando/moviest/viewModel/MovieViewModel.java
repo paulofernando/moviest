@@ -1,6 +1,9 @@
 package br.net.paulofernando.moviest.viewModel;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.BindingAdapter;
 import android.view.View;
@@ -8,18 +11,23 @@ import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 
+import br.net.paulofernando.moviest.R;
 import br.net.paulofernando.moviest.data.entities.Movie;
 import br.net.paulofernando.moviest.data.remote.TMDB;
+import br.net.paulofernando.moviest.databinding.ItemMovieBinding;
 import br.net.paulofernando.moviest.view.activity.MovieDetailsActivity;
+import br.net.paulofernando.moviest.view.adapter.MovieAdapter;
 
 public class MovieViewModel extends BaseObservable {
 
     private Context context;
     private Movie movie;
+    private ItemMovieBinding binding;
 
-    public MovieViewModel(Context context, Movie movie) {
+    public MovieViewModel(Context context, Movie movie, ItemMovieBinding binding) {
         this.context = context;
         this.movie = movie;
+        this.binding = binding;
     }
 
     public String getMovieTitle() {
@@ -49,7 +57,13 @@ public class MovieViewModel extends BaseObservable {
     }
 
     private void launchMovieDetailsActivity() {
-        context.startActivity(MovieDetailsActivity.getStartIntent(context, movie));
+        Intent intent = MovieDetailsActivity.getStartIntent(context, movie);
+
+        String transitionName = context.getString(R.string.cover_name);
+        ActivityOptions transitionActivityOptions = ActivityOptions.
+                makeSceneTransitionAnimation((Activity) context, binding.coverIv, transitionName);
+
+        context.startActivity(intent, transitionActivityOptions.toBundle());
     }
 
     public int getGenreVisibility() {

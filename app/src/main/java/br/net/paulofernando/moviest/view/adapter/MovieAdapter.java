@@ -40,7 +40,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.BindingHolde
     @Override
     public void onBindViewHolder(BindingHolder holder, int position) {
         ItemMovieBinding movieBinding = holder.binding;
-        movieBinding.setViewModel(new MovieViewModel(mContext, mMovies.get(position)));
+        movieBinding.setViewModel(new MovieViewModel(mContext, mMovies.get(position), movieBinding));
     }
 
     @Override
