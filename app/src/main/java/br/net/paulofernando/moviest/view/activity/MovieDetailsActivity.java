@@ -1,7 +1,5 @@
 package br.net.paulofernando.moviest.view.activity;
 
-import android.app.Activity;
-import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -40,14 +38,14 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import br.net.paulofernando.moviest.R;
-import br.net.paulofernando.moviest.util.NetworkUtils;
-import br.net.paulofernando.moviest.data.remote.TMDB;
 import br.net.paulofernando.moviest.data.entities.Configuration;
 import br.net.paulofernando.moviest.data.entities.Crew;
 import br.net.paulofernando.moviest.data.entities.Images;
 import br.net.paulofernando.moviest.data.entities.Movie;
 import br.net.paulofernando.moviest.data.entities.MovieWithCredits;
 import br.net.paulofernando.moviest.data.entities.Videos;
+import br.net.paulofernando.moviest.data.remote.TMDB;
+import br.net.paulofernando.moviest.util.NetworkUtils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;

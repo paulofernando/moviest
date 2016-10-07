@@ -117,13 +117,6 @@ public class CollectionActivity extends AppCompatActivity {
     public static Intent getStartIntent(Context context, Collection collection) {
         Intent intent = new Intent(context, CollectionActivity.class);
         intent.putExtra(TMDB.COLLECTION_DETAILS, collection);
-
-        /*View sharedView = collectionRowContainer;
-        String transitionName = context.getString(R.string.collection_name);
-
-        ActivityOptions transitionActivityOptions = ActivityOptions.
-        makeSceneTransitionAnimation((Activity) CollectionAdapter.this.context, sharedView, transitionName);*/
-
         return intent;
     }
 

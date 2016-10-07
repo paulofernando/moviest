@@ -22,22 +22,20 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import br.net.paulofernando.moviest.R;
-import br.net.paulofernando.moviest.data.entities.Movie;
-import br.net.paulofernando.moviest.util.NetworkUtils;
-import br.net.paulofernando.moviest.view.adapter.CollectionAdapter;
-import br.net.paulofernando.moviest.data.remote.TempCollectionService;
+import br.net.paulofernando.moviest.data.CacheManager;
 import br.net.paulofernando.moviest.data.entities.Collection;
 import br.net.paulofernando.moviest.data.entities.Collections;
-import br.net.paulofernando.moviest.data.CacheManager;
-import br.net.paulofernando.moviest.view.adapter.MovieAdapter;
+import br.net.paulofernando.moviest.data.remote.TempCollectionService;
+import br.net.paulofernando.moviest.util.NetworkUtils;
+import br.net.paulofernando.moviest.view.adapter.CollectionAdapter;
 import br.net.paulofernando.moviest.view.component.DividerItemDecoration;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-import static br.net.paulofernando.moviest.util.NetworkUtils.INTERNET_CHECK_TIME;
-import static br.net.paulofernando.moviest.data.remote.TMDB.Services.CollectionsService;
 import static br.net.paulofernando.moviest.data.CacheManager.getCacheExpiration;
+import static br.net.paulofernando.moviest.data.remote.TMDB.Services.CollectionsService;
+import static br.net.paulofernando.moviest.util.NetworkUtils.INTERNET_CHECK_TIME;
 
 public class CollectionsFragment extends BaseFragment {
 

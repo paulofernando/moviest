@@ -16,7 +16,6 @@ import br.net.paulofernando.moviest.data.entities.Movie;
 import br.net.paulofernando.moviest.data.remote.TMDB;
 import br.net.paulofernando.moviest.databinding.ItemMovieBinding;
 import br.net.paulofernando.moviest.view.activity.MovieDetailsActivity;
-import br.net.paulofernando.moviest.view.adapter.MovieAdapter;
 
 public class MovieViewModel extends BaseObservable {
 
@@ -78,20 +77,7 @@ public class MovieViewModel extends BaseObservable {
     public static void loadImage(ImageView view, String imageUrl) {
         Picasso.with(view.getContext())
                 .load(imageUrl)
-                .into(view,
-                        new com.squareup.picasso.Callback() {
-
-                            @Override
-                            public void onSuccess() {
-                                //loading.setVisibility(View.GONE);
-                            }
-
-                            @Override
-                            public void onError() {
-                                //loading.setVisibility(View.GONE);
-                            }
-
-                        });
+                .into(view);
     }
 
 }

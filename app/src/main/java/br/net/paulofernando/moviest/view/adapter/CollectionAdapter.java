@@ -37,7 +37,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Bi
     @Override
     public void onBindViewHolder(CollectionAdapter.BindingHolder holder, int position) {
         ItemCollectionBinding collectionBinding = holder.binding;
-        collectionBinding.setViewModel(new CollectionViewModel(mContext, mCollections.get(position)));
+        collectionBinding.setViewModel(new CollectionViewModel(mContext, mCollections.get(position), collectionBinding));
     }
 
     @Override
