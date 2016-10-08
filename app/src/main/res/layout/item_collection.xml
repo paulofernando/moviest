@@ -22,7 +22,7 @@
                     android:layout_height="wrap_content"
                     android:scaleType="centerCrop"
                     android:adjustViewBounds="true"
-                    app:imageUrl="@{viewModel.imageUrl}"/>
+                    android:src="@{viewModel.collectionImage}"/>
 
                 <TextView
                     android:id="@+id/title_collection_tv"

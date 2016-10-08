@@ -9,6 +9,7 @@ public class Collection implements Parcelable {
 
     @SerializedName("title") public String title;
     @SerializedName("background_image_url") public String backgroundImageURL;
+    @SerializedName("background_thumbnail_url") public String backgroundThumbnailURL;
     @SerializedName("source_url") public String sourceURL;
     @SerializedName("movies_ids") public int[] moviesIds;
 

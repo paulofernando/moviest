@@ -4,12 +4,16 @@ import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.databinding.BaseObservable;
-import android.databinding.BindingAdapter;
+import android.databinding.ObservableField;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import br.net.paulofernando.moviest.R;
 import br.net.paulofernando.moviest.data.entities.Movie;
@@ -23,10 +27,22 @@ public class MovieViewModel extends BaseObservable {
     private Movie movie;
     private ItemMovieBinding binding;
 
+    public ObservableField<Drawable> coverImage;
+    private MovieViewModel.BindableFieldTarget bindableFieldTarget;
+
     public MovieViewModel(Context context, Movie movie, ItemMovieBinding binding) {
         this.context = context;
         this.movie = movie;
         this.binding = binding;
+
+        coverImage = new ObservableField<>();
+        // Picasso keeps a weak reference to the target so it needs to be stored in a field
+        bindableFieldTarget = new MovieViewModel.BindableFieldTarget(coverImage, context.getResources());
+        Picasso.with(context)
+                .load(getImageUrl())
+                .placeholder(R.drawable.cover_unloaded)
+                .error(R.drawable.cover_unloaded)
+                .into(bindableFieldTarget);
     }
 
     public String getMovieTitle() {
@@ -73,11 +89,30 @@ public class MovieViewModel extends BaseObservable {
         return "http://image.tmdb.org/t/p/" + TMDB.SIZE_DEFAULT + movie.posterPath;
     }
 
-    @BindingAdapter({"bind:imageUrl"})
-    public static void loadImage(ImageView view, String imageUrl) {
-        Picasso.with(view.getContext())
-                .load(imageUrl)
-                .into(view);
+    public class BindableFieldTarget implements Target {
+
+        private ObservableField<Drawable> observableField;
+        private Resources resources;
+
+        public BindableFieldTarget(ObservableField<Drawable> observableField, Resources resources) {
+            this.observableField = observableField;
+            this.resources = resources;
+        }
+
+        @Override
+        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+            observableField.set(new BitmapDrawable(resources, bitmap));
+        }
+
+        @Override
+        public void onBitmapFailed(Drawable errorDrawable) {
+            observableField.set(errorDrawable);
+        }
+
+        @Override
+        public void onPrepareLoad(Drawable placeHolderDrawable) {
+            observableField.set(placeHolderDrawable);
+        }
     }
 
 }

@@ -23,7 +23,7 @@
             android:layout_marginLeft="@dimen/row_side_space"
             android:layout_marginRight="@dimen/row_side_space"
             android:transitionName="@string/cover_name"
-            app:imageUrl="@{viewModel.imageUrl}"/>
+            android:src="@{viewModel.coverImage}"/>
 
         <LinearLayout
             android:id="@+id/movie_details"

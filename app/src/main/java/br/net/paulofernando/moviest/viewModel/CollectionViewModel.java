@@ -4,27 +4,43 @@ import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
-import android.databinding.BindingAdapter;
+import android.content.res.Resources;
+import android.databinding.BaseObservable;
+import android.databinding.ObservableField;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import br.net.paulofernando.moviest.R;
 import br.net.paulofernando.moviest.data.entities.Collection;
 import br.net.paulofernando.moviest.databinding.ItemCollectionBinding;
 import br.net.paulofernando.moviest.view.activity.CollectionActivity;
 
-public class CollectionViewModel {
+public class CollectionViewModel extends BaseObservable {
 
-    private Context context;
+    Context context;
     private Collection collection;
     private ItemCollectionBinding binding;
 
-    public CollectionViewModel(Context context, Collection collection, ItemCollectionBinding binding) {
+    public ObservableField<Drawable> collectionImage;
+    private CollectionViewModel.BindableFieldTarget bindableFieldTarget;
+
+    public CollectionViewModel(final Context context, Collection collection, ItemCollectionBinding binding) {
         this.context = context;
         this.collection = collection;
         this.binding = binding;
+
+        collectionImage = new ObservableField<>();
+        // Picasso keeps a weak reference to the target so it needs to be stored in a field
+        bindableFieldTarget = new CollectionViewModel.BindableFieldTarget(collectionImage, context.getResources());
+        Picasso.with(context)
+                .load(getThumbnailUrl())
+                .error(R.drawable.cover_unloaded)
+                .into(bindableFieldTarget);
     }
 
     public View.OnClickListener onClickCollection() {
@@ -44,7 +60,6 @@ public class CollectionViewModel {
         makeSceneTransitionAnimation((Activity) context, binding.bgCollectionIv, transitionName);
 
         context.startActivity(intent, transitionActivityOptions.toBundle());
-
     }
 
     public String getCollectionTitle() {
@@ -55,24 +70,42 @@ public class CollectionViewModel {
         return collection.backgroundImageURL;
     }
 
-    @BindingAdapter({"bind:imageUrl"})
-    public static void loadImage(ImageView view, String imageUrl) {
-        Picasso.with(view.getContext())
-                .load(imageUrl)
-                .into(view,
-                    new com.squareup.picasso.Callback() {
+    public String getThumbnailUrl() {
+        return collection.backgroundThumbnailURL;
+    }
 
-                        @Override
-                        public void onSuccess() {
-                            //loading.setVisibility(View.GONE);
-                        }
+    public class BindableFieldTarget implements Target {
 
-                        @Override
-                        public void onError() {
-                            //loading.setVisibility(View.GONE);
-                        }
+        private ObservableField<Drawable> observableField;
+        private Resources resources;
+        private boolean thumbnailLoaded = false;
 
-                    });
+        public BindableFieldTarget(ObservableField<Drawable> observableField, Resources resources) {
+            this.observableField = observableField;
+            this.resources = resources;
+        }
+
+        @Override
+        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+            observableField.set(new BitmapDrawable(resources, bitmap));
+            /*if(!thumbnailLoaded) {
+                thumbnailLoaded = true;
+                Picasso.with(context)
+                        .load(getImageUrl())
+                        .error(R.drawable.cover_unloaded)
+                        .into(bindableFieldTarget);
+            }*/
+        }
+
+        @Override
+        public void onBitmapFailed(Drawable errorDrawable) {
+            observableField.set(errorDrawable);
+        }
+
+        @Override
+        public void onPrepareLoad(Drawable placeHolderDrawable) {
+            observableField.set(placeHolderDrawable);
+        }
     }
 
 }
