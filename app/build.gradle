@@ -1,6 +1,12 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
 
+// query git for the SHA, Tag and commit count. Use these to automate versioning.
+def gitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim()
+def gitTag = 'git describe --tags'.execute([], project.rootDir).text.trim()
+def gitCommitCount = 100 +
+        Integer.parseInt('git rev-list --count HEAD'.execute([], project.rootDir).text.trim())
+
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
@@ -10,7 +16,9 @@ android {
         minSdkVersion 21
         targetSdkVersion 23
         versionCode 1
-        versionName "0.1.0"
+        versionCode gitCommitCount
+        versionName gitTag
+        archivesBaseName = "moviest-${versionName}"
     }
 
     buildTypes {
