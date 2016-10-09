@@ -116,7 +116,7 @@ public class AboutActivity extends Activity {
             switch (position) {
                 case 0:
                     if (aboutPlaid == null) {
-                        aboutPlaid = layoutInflater.inflate(R.layout.about_plaid, parent, false);
+                        aboutPlaid = layoutInflater.inflate(R.layout.about_moviest, parent, false);
                         ButterKnife.bind(this, aboutPlaid);
                     }
                     return aboutPlaid;
