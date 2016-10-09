@@ -24,7 +24,7 @@
     <color name="grey_200">#ffeeeeee</color>
     <color name="background_super_dark">#ff292929</color>
     <color name="hint_disabled_dark">#43000000</color> <!-- 26% black -->
-    <color name="scrim">#99323232</color>
+    <color name="scrim">#65323232</color>
     <color name="text_secondary_dark">#8a000000</color> <!-- 54% -->
     <color name="page_indicator_dark">#80333333</color>
     <color name="page_indicator_dark_selected">#ff333333</color>
