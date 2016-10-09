@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <data>
+            <variable name="viewModel" type="br.net.paulofernando.moviest.viewModel.CollectionViewModel" />
+        </data>
+
+        <RelativeLayout
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/collection_container"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:transitionName="@string/collection_name"
+            android:layout_marginBottom="1dp"
+            android:onClick="@{viewModel.onClickCollection}">
+
+                <ImageView
+                    android:id="@+id/bg_collection_iv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerCrop"
+                    android:adjustViewBounds="true"
+                    android:src="@{viewModel.collectionImage}"/>
+
+                <TextView
+                    android:id="@+id/title_collection_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:padding="@dimen/text_collection_margin"
+                    android:gravity="right"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="#fff"
+                    android:textStyle="bold"
+                    android:shadowColor="#000"
+                    android:shadowRadius="5"
+                    android:shadowDx="3"
+                    android:background="#55000000"
+                    android:text="@{viewModel.collectionTitle}"
+                    />
+
+                <include layout="@layout/loading" />
+
+                <ImageView
+                    android:id="@+id/link_iv"
+                    android:layout_width="@dimen/small_icon_size"
+                    android:layout_height="@dimen/small_icon_size"
+                    app:srcCompat="@drawable/link"
+                    android:visibility="gone"
+                    android:padding="@dimen/small_icon_padding"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="@dimen/small_icon_side_space"
+                    android:layout_marginTop="@dimen/small_icon_side_space"
+                    android:alpha="0.75"/>
+
+        </RelativeLayout>
+
+</layout>

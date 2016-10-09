@@ -31,8 +31,13 @@ import butterknife.OnClick;
  */
 public class CollectionsAdapter extends RecyclerView.Adapter<CollectionsAdapter.ViewHolder> {
 
-    private List<Collection> collections = new ArrayList<>();
-    private Context context;
+    private List<Collection> mCollections;
+    private Context mContext;
+
+    public CollectionsAdapter(Context context) {
+        context = context;
+        mCollections = new ArrayList<>();
+    }
 
     /**
      * Provide a reference to the type of views that you are using (custom ViewHolder)
@@ -53,16 +58,16 @@ public class CollectionsAdapter extends RecyclerView.Adapter<CollectionsAdapter.
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(CollectionsAdapter.this.context, CollectionActivity.class);
+                    Intent intent = new Intent(CollectionsAdapter.this.mContext, CollectionActivity.class);
                     intent.putExtra(TMDB.COLLECTION_DETAILS, collection);
 
                     View sharedView = collectionRowContainer;
-                    String transitionName = context.getString(R.string.collection_name);
+                    String transitionName = mContext.getString(R.string.collection_name);
 
                     ActivityOptions transitionActivityOptions = ActivityOptions.
-                            makeSceneTransitionAnimation((Activity) CollectionsAdapter.this.context, sharedView, transitionName);
+                            makeSceneTransitionAnimation((Activity) CollectionsAdapter.this.mContext, sharedView, transitionName);
 
-                    CollectionsAdapter.this.context.startActivity(intent, transitionActivityOptions.toBundle());
+                    CollectionsAdapter.this.mContext.startActivity(intent, transitionActivityOptions.toBundle());
                 }
             });
         }
@@ -70,7 +75,7 @@ public class CollectionsAdapter extends RecyclerView.Adapter<CollectionsAdapter.
         @OnClick(R.id.link_iv)
         public void linkClick() {
             Intent intent= new Intent(Intent.ACTION_VIEW, Uri.parse(collection.sourceURL));
-            CollectionsAdapter.this.context.startActivity(intent);
+            CollectionsAdapter.this.mContext.startActivity(intent);
         }
 
         public void setCollection(Collection _collection) {
@@ -79,7 +84,7 @@ public class CollectionsAdapter extends RecyclerView.Adapter<CollectionsAdapter.
             link.setVisibility(View.VISIBLE);
             try {
                 loading.setVisibility(View.VISIBLE);
-                Picasso.with(context).load(collection.backgroundImageURL).into(bgCollection,
+                Picasso.with(mContext).load(collection.backgroundImageURL).into(bgCollection,
                     new com.squareup.picasso.Callback() {
 
                         @Override
@@ -100,10 +105,6 @@ public class CollectionsAdapter extends RecyclerView.Adapter<CollectionsAdapter.
         }
     }
 
-    public CollectionsAdapter(Context context) {
-        this.context = context;
-    }
-
     // Create new views (invoked by the layout manager)
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
@@ -115,16 +116,16 @@ public class CollectionsAdapter extends RecyclerView.Adapter<CollectionsAdapter.
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
-        viewHolder.setCollection(collections.get(position));
+        viewHolder.setCollection(mCollections.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return collections.size();
+        return mCollections.size();
     }
 
     public void addList(List _collections){
-        this.collections.addAll(_collections);
+        this.mCollections.addAll(_collections);
         notifyItemInserted(_collections.size() - 1);
     }
 }

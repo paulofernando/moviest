@@ -10,83 +10,73 @@ import android.databinding.ObservableField;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
 import android.view.View;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import br.net.paulofernando.moviest.R;
-import br.net.paulofernando.moviest.data.entities.Movie;
-import br.net.paulofernando.moviest.data.remote.TMDB;
-import br.net.paulofernando.moviest.databinding.ItemMovieBinding;
-import br.net.paulofernando.moviest.view.activity.MovieDetailsActivity;
+import br.net.paulofernando.moviest.data.entities.Collection;
+import br.net.paulofernando.moviest.databinding.ItemCollectionBinding;
+import br.net.paulofernando.moviest.view.activity.CollectionActivity;
 
-public class MovieViewModel extends BaseObservable {
+public class CollectionViewModel extends BaseObservable {
 
-    private Context context;
-    private Movie movie;
-    private ItemMovieBinding binding;
+    Context context;
+    private Collection collection;
+    private ItemCollectionBinding binding;
 
-    public ObservableField<Drawable> coverImage;
-    private MovieViewModel.BindableFieldTarget bindableFieldTarget;
+    public ObservableField<Drawable> collectionImage;
+    private CollectionViewModel.BindableFieldTarget bindableFieldTarget;
 
-    public MovieViewModel(Context context, Movie movie, ItemMovieBinding binding) {
+    public CollectionViewModel(final Context context, Collection collection, ItemCollectionBinding binding) {
         this.context = context;
-        this.movie = movie;
+        this.collection = collection;
         this.binding = binding;
 
-        coverImage = new ObservableField<>();
+        collectionImage = new ObservableField<>();
         // Picasso keeps a weak reference to the target so it needs to be stored in a field
-        bindableFieldTarget = new MovieViewModel.BindableFieldTarget(coverImage, context.getResources());
+        bindableFieldTarget = new CollectionViewModel.BindableFieldTarget(collectionImage, context.getResources());
         Picasso.with(context)
                 .load(getImageUrl())
-                .placeholder(R.drawable.cover_unloaded)
-                .error(R.drawable.cover_unloaded)
+                .placeholder(R.drawable.collection_unloaded)
+                .error(R.drawable.collection_unloaded)
                 .into(bindableFieldTarget);
     }
 
-    public String getMovieTitle() {
-        return movie.title;
-    }
-
-    public String getMovieYear() {
-        return movie.releaseDate.substring(0, 4);
-    }
-
-    public String getMovieGenre() {
-        if((movie.genresList != null) && (movie.genresList.size() > 0)) {
-            return movie.genresList.get(0).name;
-        } else if((movie.genreIds != null) && (movie.genreIds.length > 0)) {
-            return TMDB.getGenreNameByID(movie.genreIds[0]);
-        }
-        return "";
-    }
-
-    public View.OnClickListener onClickMovie() {
+    public View.OnClickListener onClickCollection() {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                launchMovieDetailsActivity();
+                launchCollectionActivity();
             }
         };
     }
 
-    private void launchMovieDetailsActivity() {
-        Intent intent = MovieDetailsActivity.getStartIntent(context, movie);
+    private void launchCollectionActivity() {
+        Intent intent = CollectionActivity.getStartIntent(context, collection);
 
-        String transitionName = context.getString(R.string.cover_name);
+        String transitionName = context.getString(R.string.collection_name);
         ActivityOptions transitionActivityOptions = ActivityOptions.
-                makeSceneTransitionAnimation((Activity) context, binding.coverIv, transitionName);
+                makeSceneTransitionAnimation((Activity) context, binding.bgCollectionIv, transitionName);
 
         context.startActivity(intent, transitionActivityOptions.toBundle());
     }
 
-    public int getGenreVisibility() {
-        return  movie.genreIds != null || movie.genresList != null ? View.VISIBLE : View.GONE;
+    public String getCollectionTitle() {
+        return collection.title;
     }
 
     public String getImageUrl() {
-        return "http://image.tmdb.org/t/p/" + TMDB.SIZE_DEFAULT + movie.posterPath;
+        return collection.backgroundImageURL;
+    }
+
+    public String getThumbnailUrl() {
+        return collection.backgroundThumbnailURL;
     }
 
     public class BindableFieldTarget implements Target {

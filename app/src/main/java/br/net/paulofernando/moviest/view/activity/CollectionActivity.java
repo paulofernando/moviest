@@ -1,5 +1,6 @@
 package br.net.paulofernando.moviest.view.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -28,11 +29,11 @@ import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicLong;
 
 import br.net.paulofernando.moviest.R;
-import br.net.paulofernando.moviest.util.NetworkUtils;
-import br.net.paulofernando.moviest.view.adapter.MovieAdapter;
-import br.net.paulofernando.moviest.data.remote.TMDB;
 import br.net.paulofernando.moviest.data.entities.Collection;
 import br.net.paulofernando.moviest.data.entities.Movie;
+import br.net.paulofernando.moviest.data.remote.TMDB;
+import br.net.paulofernando.moviest.util.NetworkUtils;
+import br.net.paulofernando.moviest.view.adapter.MovieAdapter;
 import br.net.paulofernando.moviest.view.component.DividerItemDecoration;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -111,6 +112,12 @@ public class CollectionActivity extends AppCompatActivity {
             timer.schedule(timerTask, INTERNET_CHECK_TIME, INTERNET_CHECK_TIME);
         }
         link.setVisibility(View.GONE);
+    }
+
+    public static Intent getStartIntent(Context context, Collection collection) {
+        Intent intent = new Intent(context, CollectionActivity.class);
+        intent.putExtra(TMDB.COLLECTION_DETAILS, collection);
+        return intent;
     }
 
     @OnClick(R.id.bg_collection_iv)
