@@ -1,5 +1,3 @@
-package br.net.paulofernando.moviest.view.activity;
-
 /*
  * Copyright 2015 Google Inc.
  *
@@ -15,6 +13,8 @@ package br.net.paulofernando.moviest.view.activity;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+package io.plaidapp.ui;
 
 import android.app.Activity;
 import android.content.Context;
@@ -37,6 +37,7 @@ import butterknife.ButterKnife;
 import io.plaidapp.ui.widget.ElasticDragDismissFrameLayout;
 import io.plaidapp.ui.widget.InkPageIndicator;
 
+
 /**
  * About screen. This displays 3 pages in a ViewPager:
  *  – About Plaid
@@ -52,7 +53,7 @@ public class AboutActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_about);
+        setContentView(R.layout.activity_about2);
         ButterKnife.bind(this);
 
         pager.setAdapter(new AboutPagerAdapter(this));
@@ -136,6 +137,5 @@ public class AboutActivity extends Activity {
             throw new InvalidParameterException();
         }
     }
-
 
 }

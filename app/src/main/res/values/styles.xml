@@ -28,4 +28,57 @@
         <item name="background">@color/colorPrimary</item>
     </style>
 
+    <!-- plaid -->
+
+    <style name="Plaid" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:colorPrimary">@color/primary</item>
+        <item name="android:colorBackground">@color/background_light</item>
+        <item name="android:colorAccent">@color/accent</item>
+        <item name="android:navigationBarColor">@color/primary_super_dark</item>
+        <item name="android:statusBarColor">@color/background_super_dark</item>
+        <item name="android:textColorHint">@color/hint_disabled_dark</item>
+        <item name="android:windowBackground">@color/background_light</item>
+        <item name="android:windowAllowEnterTransitionOverlap">true</item>
+        <item name="android:windowAllowReturnTransitionOverlap">true</item>
+        <item name="android:windowSharedElementsUseOverlay">false</item>
+    </style>
+
+    <style name="Plaid.Translucent">
+        <!-- using a semi-transparent window background for the drag-back gesture -->
+        <item name="android:windowBackground">@color/scrim</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+    </style>
+
+    <style name="Plaid.Translucent.About">
+        <item name="android:windowEnterTransition">@transition/about_enter</item>
+        <item name="android:windowReturnTransition">@transition/about_return</item>
+    </style>
+
+    <style name="Widget.Plaid" parent="android:Widget" />
+
+    <style name="Widget.Plaid.About">
+        <item name="android:textAppearance">@style/TextAppearance.About</item>
+        <!-- <item name="lineHeightHint">24sp</item> -->
+    </style>
+
+    <style name="TextAppearance.About" parent="@android:style/TextAppearance.Material.Body1">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/text_secondary_dark</item>
+    </style>
+
+    <style name="Widget.Plaid.Subhead">
+        <item name="android:textAppearance">@style/TextAppearance.Subhead</item>
+        <!-- <item name="lineHeightHint">24sp</item> -->
+    </style>
+
+    <style name="TextAppearance.Subhead" parent="@android:style/TextAppearance.Material.Subhead">
+        <item name="android:textColor">@color/text_secondary_dark</item>
+        <item name="android:letterSpacing">0.01</item>
+    </style>
+
 </resources>

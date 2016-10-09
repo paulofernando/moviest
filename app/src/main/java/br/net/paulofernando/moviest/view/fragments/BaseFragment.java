@@ -17,10 +17,11 @@ import android.widget.TextView;
 import br.net.paulofernando.moviest.R;
 import br.net.paulofernando.moviest.util.NetworkUtils;
 import br.net.paulofernando.moviest.listeners.EndlessRecyclerViewScrollListener;
-import br.net.paulofernando.moviest.view.activity.AboutActivity;
 import br.net.paulofernando.moviest.view.activity.SearchActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import io.plaidapp.ui.AboutActivity;
 
 public abstract class BaseFragment extends Fragment {
 

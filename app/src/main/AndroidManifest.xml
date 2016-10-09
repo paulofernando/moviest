@@ -54,6 +54,16 @@
         <activity android:name=".view.activity.AboutActivity"
             android:label="@string/title_about"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name="io.plaidapp.ui.AboutActivity"
+            android:theme="@style/Plaid.Translucent.About"
+            android:parentActivityName=".view.activity.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".view.activity.MainActivity" />
+        </activity>
+
     </application>
 
 </manifest>

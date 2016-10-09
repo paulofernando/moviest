@@ -12,4 +12,21 @@
     <color name="separator">#cecece</color>
     <color name="common_border_color">#88ffffff</color>
     <color name="common_border_accent_color">#845ef7</color>
+
+    <!-- plaid -->
+    <color name="primary">#69F0AE</color>
+    <color name="accent">@color/primary</color> <!-- mono-color -->
+    <color name="primary_dark">#5acc95</color>
+    <color name="primary_super_dark">#11261c</color> <!-- same hue & sat, 15% brightness -->
+    <color name="background_light">#fafafa</color> <!-- grey 50 -->
+    <color name="grey_200">#ffeeeeee</color>
+    <color name="background_super_dark">#ff292929</color>
+    <color name="hint_disabled_dark">#43000000</color> <!-- 26% black -->
+    <color name="scrim">#99323232</color>
+    <color name="text_secondary_dark">#8a000000</color> <!-- 54% -->
+    <color name="plaid_links">#8abc1414</color> <!-- 54% -->
+    <color name="page_indicator_dark">#80333333</color>
+    <color name="page_indicator_dark_selected">#ff333333</color>
+    <color name="content_placeholder">#ffe0e0e0</color>
+
 </resources>

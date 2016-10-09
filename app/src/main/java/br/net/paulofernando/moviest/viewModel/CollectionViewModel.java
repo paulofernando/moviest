@@ -62,7 +62,7 @@ public class CollectionViewModel extends BaseObservable {
 
         String transitionName = context.getString(R.string.collection_name);
         ActivityOptions transitionActivityOptions = ActivityOptions.
-                makeSceneTransitionAnimation((Activity) context, binding.bgCollectionIv, transitionName);
+        makeSceneTransitionAnimation((Activity) context, binding.bgCollectionIv, transitionName);
 
         context.startActivity(intent, transitionActivityOptions.toBundle());
     }
