@@ -8,7 +8,7 @@
         android:id="@+id/loading_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/colorAccent"
+        android:background="@color/accent"
         android:textColor="#FFF"
         android:layout_gravity="center"
         android:visibility="gone"

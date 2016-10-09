@@ -8,7 +8,7 @@
         android:id="@+id/list_rv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/bgColor"/>
+        android:background="@color/background"/>
 
     <include layout="@layout/loading" />
 

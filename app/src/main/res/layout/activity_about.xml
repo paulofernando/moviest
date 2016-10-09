@@ -8,7 +8,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="br.net.paulofernando.moviest.view.activity.AboutActivity"
-    android:background="@color/bgSplashColor">
+    android:background="@color/background_splash">
 
     <LinearLayout
         android:layout_width="match_parent"

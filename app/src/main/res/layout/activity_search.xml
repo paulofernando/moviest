@@ -17,7 +17,7 @@
         style="@style/AVLoadingIndicatorView.Small"
         android:visibility="gone"
         app:indicatorName="BallPulse"
-        app:indicatorColor="@color/colorPrimary"
+        app:indicatorColor="@color/primary"
         android:layout_gravity="center"
         android:layout_marginLeft="5dp"/>
 

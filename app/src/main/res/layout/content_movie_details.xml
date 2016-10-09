@@ -88,7 +88,7 @@
                         style="@style/AVLoadingIndicatorView"
                         android:visibility="visible"
                         app:indicatorName="BallPulse"
-                        app:indicatorColor="@color/colorPrimary"
+                        app:indicatorColor="@color/primary"
                         android:layout_gravity="center"/>
 
                     <com.google.android.youtube.player.YouTubeThumbnailView

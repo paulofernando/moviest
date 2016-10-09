@@ -33,7 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/about_header_height"
             android:text="@string/app_name"
-            app:foregroundColor="?android:colorPrimary"
+            app:foregroundColor="@color/background_splash_title"
             app:font="roboto-mono-regular" />
 
         <io.plaidapp.ui.widget.BaselineGridTextView
@@ -47,7 +47,7 @@
             android:paddingBottom="@dimen/spacing_large"
             android:background="@color/background_light"
             android:textColorLink="@color/moviest_links"
-            android:textColorHighlight="?android:colorPrimary"
+            android:textColorHighlight="@color/moviest_links_highlight"
             style="@style/Widget.Plaid.About" />
 
     </LinearLayout>
