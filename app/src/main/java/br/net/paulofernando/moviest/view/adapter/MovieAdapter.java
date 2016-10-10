@@ -58,6 +58,11 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.BindingHolde
         notifyItemInserted(1);
     }
 
+    public void addList(List movies){
+        mMovies.addAll(movies);
+        notifyItemInserted(movies.size());
+    }
+
     public static class BindingHolder extends RecyclerView.ViewHolder {
         private ItemMovieBinding binding;
 

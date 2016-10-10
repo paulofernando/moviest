@@ -42,7 +42,17 @@
                     android:text="@{viewModel.collectionTitle}"
                     />
 
-                <include layout="@layout/loading" />
+                <TextView
+                    android:id="@+id/loading_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/accent"
+                    android:textColor="#FFF"
+                    android:layout_gravity="center"
+                    android:visibility="gone"
+                    android:text="@string/loading"
+                    android:padding="5dp"
+                    android:layout_centerHorizontal="true" />
 
                 <ImageView
                     android:id="@+id/link_iv"

@@ -34,7 +34,7 @@ import br.net.paulofernando.moviest.data.entities.Movie;
 import br.net.paulofernando.moviest.data.remote.TMDB;
 import br.net.paulofernando.moviest.util.NetworkUtils;
 import br.net.paulofernando.moviest.view.adapter.MovieAdapter;
-import br.net.paulofernando.moviest.view.component.DividerItemDecoration;
+import br.net.paulofernando.moviest.view.widget.DividerItemDecoration;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;

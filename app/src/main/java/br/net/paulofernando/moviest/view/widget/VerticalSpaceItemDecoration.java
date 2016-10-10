@@ -1,4 +1,4 @@
-package br.net.paulofernando.moviest.view.component;
+package br.net.paulofernando.moviest.view.widget;
 
 import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;

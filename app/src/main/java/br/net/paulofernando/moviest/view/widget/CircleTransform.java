@@ -1,4 +1,4 @@
-package br.net.paulofernando.moviest.view.component;
+package br.net.paulofernando.moviest.view.widget;
 
 /*
  * Copyright 2014 Julian Shen

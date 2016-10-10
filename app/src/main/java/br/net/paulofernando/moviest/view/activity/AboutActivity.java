@@ -32,7 +32,6 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.AlignmentSpan;
 import android.transition.TransitionInflater;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,17 +39,15 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.anupcowkur.reservoir.Reservoir;
 import com.squareup.picasso.Picasso;
 
 import java.security.InvalidParameterException;
 
 import br.net.paulofernando.moviest.R;
-import br.net.paulofernando.moviest.view.component.CircleTransform;
+import br.net.paulofernando.moviest.view.widget.CircleTransform;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import in.uncod.android.bypass.Bypass;
-import io.plaidapp.ui.widget.BaselineGridTextView;
 import io.plaidapp.ui.widget.ElasticDragDismissFrameLayout;
 import io.plaidapp.ui.widget.InkPageIndicator;
 import io.plaidapp.util.HtmlUtils;

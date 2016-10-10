@@ -22,7 +22,7 @@ import br.net.paulofernando.moviest.data.remote.TMDB;
 import br.net.paulofernando.moviest.data.entities.Movie;
 import br.net.paulofernando.moviest.data.entities.Page;
 import br.net.paulofernando.moviest.data.CacheManager;
-import br.net.paulofernando.moviest.view.component.DividerItemDecoration;
+import br.net.paulofernando.moviest.view.widget.DividerItemDecoration;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -216,10 +216,14 @@ public class MovieListFragment extends BaseFragment {
     }
 
     private void updateList(List<Movie> result) {
-        mAdapter = new MovieAdapter(MovieListFragment.this.getContext());
-        mRecyclerView.setAdapter(mAdapter);
-        mAdapter.setItems(result);
-        mRecyclerView.setVisibility(View.VISIBLE);
+        if (mAdapter == null) {
+            mAdapter = new MovieAdapter(MovieListFragment.this.getContext());
+            mRecyclerView.setAdapter(mAdapter);
+            mAdapter.setItems(result);
+            mRecyclerView.setVisibility(View.VISIBLE);
+        } else {
+            mAdapter.addList(result);
+        }
         loadingTextView.setVisibility(View.GONE);
     }
 

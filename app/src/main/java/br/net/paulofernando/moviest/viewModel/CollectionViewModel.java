@@ -29,6 +29,7 @@ public class CollectionViewModel extends BaseObservable {
     Context context;
     private Collection collection;
     private ItemCollectionBinding binding;
+    private boolean imageOnLoading;
 
     public ObservableField<Drawable> collectionImage;
     private CollectionViewModel.BindableFieldTarget bindableFieldTarget;
@@ -43,7 +44,6 @@ public class CollectionViewModel extends BaseObservable {
         bindableFieldTarget = new CollectionViewModel.BindableFieldTarget(collectionImage, context.getResources());
         Picasso.with(context)
                 .load(getImageUrl())
-                .placeholder(R.drawable.collection_unloaded)
                 .error(R.drawable.collection_unloaded)
                 .into(bindableFieldTarget);
     }
@@ -87,11 +87,13 @@ public class CollectionViewModel extends BaseObservable {
         public BindableFieldTarget(ObservableField<Drawable> observableField, Resources resources) {
             this.observableField = observableField;
             this.resources = resources;
+            binding.loadingTv.setVisibility(View.VISIBLE);
         }
 
         @Override
         public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
             observableField.set(new BitmapDrawable(resources, bitmap));
+            binding.loadingTv.setVisibility(View.GONE);
         }
 
         @Override

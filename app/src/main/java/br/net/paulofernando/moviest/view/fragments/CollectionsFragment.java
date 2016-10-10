@@ -28,7 +28,7 @@ import br.net.paulofernando.moviest.data.entities.Collections;
 import br.net.paulofernando.moviest.data.remote.TempCollectionService;
 import br.net.paulofernando.moviest.util.NetworkUtils;
 import br.net.paulofernando.moviest.view.adapter.CollectionAdapter;
-import br.net.paulofernando.moviest.view.component.DividerItemDecoration;
+import br.net.paulofernando.moviest.view.widget.DividerItemDecoration;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;

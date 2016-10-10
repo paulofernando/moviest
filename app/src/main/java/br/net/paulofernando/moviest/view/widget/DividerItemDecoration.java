@@ -1,4 +1,4 @@
-package br.net.paulofernando.moviest.view.component;
+package br.net.paulofernando.moviest.view.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
