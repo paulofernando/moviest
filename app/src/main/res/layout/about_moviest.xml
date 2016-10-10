@@ -32,7 +32,7 @@
         <io.plaidapp.ui.widget.CutoutTextView
             android:layout_width="match_parent"
             android:layout_height="@dimen/about_header_height"
-            android:text="@string/app_name"
+            android:text="Moviest"
             app:foregroundColor="@color/background_splash_title"
             app:font="roboto-mono-regular" />
 
@@ -49,6 +49,30 @@
             android:textColorLink="@color/moviest_links"
             android:textColorHighlight="@color/moviest_links_highlight"
             style="@style/Widget.Plaid.About" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/background_light">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/spacing_large"
+                android:layout_marginBottom="@dimen/padding_normal"
+                android:src="@drawable/tmdb"/>
+
+            <TextView
+                android:id="@+id/about_version"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/background_light"
+                android:textAlignment="center"
+                android:paddingBottom="@dimen/padding_normal"
+                android:paddingTop="@dimen/spacing_normal"
+                style="@style/Widget.Plaid.About" />
+        </LinearLayout>
+
 
     </LinearLayout>
 

@@ -24,7 +24,7 @@
     android:layout_height="match_parent"
     app:dragDismissDistance="@dimen/drag_dismiss_distance"
     app:dragDismissScale="0.95"
-    tools:context="io.plaidapp.ui.AboutActivity">
+    tools:context="br.net.paulofernando.moviest.view.activity.AboutActivity">
 
     <android.support.v4.view.ViewPager
         android:id="@+id/pager"

@@ -15,9 +15,8 @@ android {
         applicationId "br.net.paulofernando.moviest"
         minSdkVersion 21
         targetSdkVersion 23
-        versionCode 1
         versionCode gitCommitCount
-        versionName gitTag
+        versionName "0.2.0"
         archivesBaseName = "moviest-${versionName}"
     }
 

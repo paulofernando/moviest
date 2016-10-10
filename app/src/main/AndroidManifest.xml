@@ -51,14 +51,13 @@
             android:name=".view.activity.CollectionActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".view.activity.AboutActivity"
-            android:label="@string/title_about"
-            android:screenOrientation="portrait" />
 
         <activity
-            android:name="io.plaidapp.ui.AboutActivity"
+            android:name=".view.activity.AboutActivity"
             android:theme="@style/Plaid.Translucent.About"
-            android:parentActivityName=".view.activity.MainActivity">
+            android:parentActivityName=".view.activity.MainActivity"
+            android:label="@string/title_about"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".view.activity.MainActivity" />
