@@ -58,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:background="@drawable/rounded_corner_default"
-                android:visibility="invisible"
+                android:visibility="@{viewModel.genreVisibility}"
                 android:layout_margin="@dimen/row_inner_space"
                 android:textColor="@color/background"
                 android:text="@{viewModel.movieGenre}"/>

@@ -82,7 +82,11 @@ public class MovieViewModel extends BaseObservable {
     }
 
     public int getGenreVisibility() {
-        return  movie.genreIds != null || movie.genresList != null ? View.VISIBLE : View.GONE;
+        if(((movie.genreIds != null) && (movie.genreIds.length > 0)) ||
+          ((movie.genresList != null) && (movie.genresList.size() > 0))){
+            return View.VISIBLE;
+        }
+        return  View.GONE;
     }
 
     public String getImageUrl() {
