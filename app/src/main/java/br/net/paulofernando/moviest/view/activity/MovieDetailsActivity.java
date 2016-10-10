@@ -13,6 +13,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -29,10 +30,8 @@ import com.google.android.youtube.player.YouTubeThumbnailView;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
-import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.List;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -49,7 +48,6 @@ import br.net.paulofernando.moviest.util.NetworkUtils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import de.androidpit.androidcolorthief.MMCQ;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -194,43 +192,42 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubeTh
     }
 
     private void changedScreenColors(Bitmap bitmapSourceOfColors) {
-        List<int[]> result;
-        try {
-            result = MMCQ.compute(bitmapSourceOfColors, 5);
 
-            int[] color = result.get(0);
-            int rgb = Color.rgb(color[0], color[1], color[2]);
-            movideDetailsContainer.setBackgroundColor(rgb);
+        if (bitmapSourceOfColors != null && !bitmapSourceOfColors.isRecycled()) {
+            Palette palette = Palette.from(bitmapSourceOfColors).generate();
+            Palette.Swatch swatch = palette.getVibrantSwatch();
 
-            color = result.get(1);
-            rgb = Color.rgb(color[0], color[1], color[2]);
-            trailerContainer.setBackgroundColor(rgb);
-            collapseToolbar.setBackgroundColor(rgb);
-            collapseToolbar.setContentScrimColor(rgb);
-            collapseToolbar.setStatusBarScrimColor(rgb);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                Window window = getWindow();
-                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-                window.setStatusBarColor(rgb);
+            int defaultColor = 0x000000;
+            int defaultMutedColor = 0xffffff;
+            int vibrantDark = palette.getDarkVibrantColor(defaultColor);
+            int mutedDark = palette.getDarkMutedColor(defaultMutedColor);
+
+            if (swatch != null) {
+                movideDetailsContainer.setBackgroundColor(swatch.getRgb());
+
+                trailerContainer.setBackgroundColor(mutedDark);
+
+                collapseToolbar.setBackgroundColor(vibrantDark);
+                collapseToolbar.setContentScrimColor(vibrantDark);
+                collapseToolbar.setStatusBarScrimColor(vibrantDark);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    Window window = getWindow();
+                    window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                    window.setStatusBarColor(vibrantDark);
+                }
+
+                movieTrailerTitle.setTextColor(Color.WHITE);
+
+                titleTextView.setTextColor(swatch.getBodyTextColor());
+                movieOveriewView.setTextColor(swatch.getBodyTextColor());
+                voteAverageTextView.setTextColor(swatch.getBodyTextColor());
+                voteCountTextView.setTextColor(swatch.getBodyTextColor());
+                directorLabelView.setTextColor(swatch.getBodyTextColor());
+                directorView.setTextColor(swatch.getBodyTextColor());
+                releaseLabelView.setTextColor(swatch.getBodyTextColor());
+                releaseView.setTextColor(swatch.getBodyTextColor());
+                loadingTrailer.setIndicatorColor(swatch.getBodyTextColor());
             }
-
-            color = result.get(2);
-            rgb = Color.rgb(color[0], color[1], color[2]);
-            movieTrailerTitle.setTextColor(rgb);
-            titleTextView.setTextColor(rgb);
-            movieOveriewView.setTextColor(rgb);
-            voteAverageTextView.setTextColor(rgb);
-            voteCountTextView.setTextColor(rgb);
-            directorLabelView.setTextColor(rgb);
-            directorView.setTextColor(rgb);
-            releaseLabelView.setTextColor(rgb);
-            releaseView.setTextColor(rgb);
-            loadingTrailer.setIndicatorColor(rgb);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (NullPointerException e) {
-            e.printStackTrace();
         }
 
     }

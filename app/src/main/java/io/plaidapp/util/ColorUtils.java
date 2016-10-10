@@ -17,6 +17,7 @@
 package io.plaidapp.util;
 
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.support.annotation.CheckResult;
 import android.support.annotation.ColorInt;
 import android.support.annotation.FloatRange;
@@ -27,6 +28,11 @@ import android.support.annotation.Nullable;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+
+import static android.R.attr.colorForeground;
+import static io.plaidapp.util.ColorUtils.IS_DARK;
+import static io.plaidapp.util.ColorUtils.IS_LIGHT;
+import static io.plaidapp.util.ColorUtils.LIGHTNESS_UNKNOWN;
 
 /**
  * Utility methods for working with colors.

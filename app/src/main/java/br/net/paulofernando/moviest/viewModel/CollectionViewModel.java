@@ -10,6 +10,7 @@ import android.databinding.ObservableField;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Handler;
 import android.view.View;
 
@@ -57,14 +58,13 @@ public class CollectionViewModel extends BaseObservable {
         };
     }
 
-    private void launchCollectionActivity() {
-        Intent intent = CollectionActivity.getStartIntent(context, collection);
-
-        String transitionName = context.getString(R.string.collection_name);
-        ActivityOptions transitionActivityOptions = ActivityOptions.
-        makeSceneTransitionAnimation((Activity) context, binding.bgCollectionIv, transitionName);
-
-        context.startActivity(intent, transitionActivityOptions.toBundle());
+    public View.OnClickListener onClickLink() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                launchLink();
+            }
+        };
     }
 
     public String getCollectionTitle() {
@@ -75,8 +75,27 @@ public class CollectionViewModel extends BaseObservable {
         return collection.backgroundImageURL;
     }
 
+    public int getLinkVisibility() {
+        return ((collection.sourceURL != null) && (!collection.sourceURL.equals(""))) ? View.VISIBLE : View.GONE;
+    }
+
     public String getThumbnailUrl() {
         return collection.backgroundThumbnailURL;
+    }
+
+    private void launchCollectionActivity() {
+        Intent intent = CollectionActivity.getStartIntent(context, collection);
+
+        String transitionName = context.getString(R.string.collection_name);
+        ActivityOptions transitionActivityOptions = ActivityOptions.
+                makeSceneTransitionAnimation((Activity) context, binding.bgCollectionIv, transitionName);
+
+        context.startActivity(intent, transitionActivityOptions.toBundle());
+    }
+
+    private void launchLink() {
+        Intent intent= new Intent(Intent.ACTION_VIEW, Uri.parse(collection.sourceURL));
+        context.startActivity(intent);
     }
 
     public class BindableFieldTarget implements Target {

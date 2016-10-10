@@ -59,13 +59,14 @@
                     android:layout_width="@dimen/small_icon_size"
                     android:layout_height="@dimen/small_icon_size"
                     app:srcCompat="@drawable/link"
-                    android:visibility="gone"
+                    android:visibility="@{viewModel.linkVisibility}"
                     android:padding="@dimen/small_icon_padding"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="@dimen/small_icon_side_space"
                     android:layout_marginTop="@dimen/small_icon_side_space"
-                    android:alpha="0.75"/>
+                    android:alpha="0.75"
+                    android:onClick="@{viewModel.onClickLink}" />
 
         </RelativeLayout>
 
