@@ -10,8 +10,9 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/action_search"
-        android:icon="@drawable/search"
+        android:id="@+id/menu_search"
         android:title="@string/action_search"
-        app:showAsAction="ifRoom"/>
+        android:icon="@drawable/ic_search_24dp"
+        app:showAsAction="always" />
+
 </menu>

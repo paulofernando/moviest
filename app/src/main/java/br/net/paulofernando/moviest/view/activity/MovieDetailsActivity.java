@@ -1,5 +1,6 @@
 package br.net.paulofernando.moviest.view.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -12,6 +13,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -22,33 +24,35 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubeThumbnailLoader;
 import com.google.android.youtube.player.YouTubeThumbnailView;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
-import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.List;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import br.net.paulofernando.moviest.R;
-import br.net.paulofernando.moviest.util.NetworkUtils;
-import br.net.paulofernando.moviest.data.remote.TMDB;
+import br.net.paulofernando.moviest.data.AnalyticsApplication;
 import br.net.paulofernando.moviest.data.entities.Configuration;
 import br.net.paulofernando.moviest.data.entities.Crew;
 import br.net.paulofernando.moviest.data.entities.Images;
 import br.net.paulofernando.moviest.data.entities.Movie;
 import br.net.paulofernando.moviest.data.entities.MovieWithCredits;
 import br.net.paulofernando.moviest.data.entities.Videos;
+import br.net.paulofernando.moviest.data.remote.TMDB;
+import br.net.paulofernando.moviest.util.NetworkUtils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import de.androidpit.androidcolorthief.MMCQ;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -92,16 +96,22 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubeTh
 
     private boolean showAlertNoConnection = true;
 
+    private Tracker mTracker;
+    private static final int PAGE_NAME = R.string.name_activity_movie_details;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_details);
         ButterKnife.bind(this);
 
+        AnalyticsApplication application = (AnalyticsApplication) getApplication();
+        mTracker = application.getDefaultTracker();
+
         setSupportActionBar(toolbarMovieDetails);
         appbarMovieDetails.setExpanded(false);
 
-        movie = (Movie) getIntent().getParcelableExtra(TMDB.MOVIE_DETAILS);
+        movie = (Movie) getIntent().getParcelableExtra(getResources().getString(R.string.movie_details));
         titleTextView.setText(movie.title);
 
         if (movie.voteAverage > 0) {
@@ -149,6 +159,23 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubeTh
         loadYoutubeThumbnail(movie.id);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        sendAnalyticsInfo();
+    }
+
+    private void sendAnalyticsInfo() {
+        mTracker.setScreenName(getString(PAGE_NAME));
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+    }
+
+    public static Intent getStartIntent(Context context, Movie movie) {
+        Intent intent = new Intent(context, MovieDetailsActivity.class);
+        intent.putExtra(context.getResources().getString(R.string.movie_details), movie);
+        return intent;
+    }
+
     private void loadImages() {
         Configuration config = TMDB.getConfiguration();
         Picasso.with(getApplicationContext()).load("http://image.tmdb.org/t/p/" +
@@ -187,43 +214,42 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubeTh
     }
 
     private void changedScreenColors(Bitmap bitmapSourceOfColors) {
-        List<int[]> result;
-        try {
-            result = MMCQ.compute(bitmapSourceOfColors, 5);
 
-            int[] color = result.get(0);
-            int rgb = Color.rgb(color[0], color[1], color[2]);
-            movideDetailsContainer.setBackgroundColor(rgb);
+        if (bitmapSourceOfColors != null && !bitmapSourceOfColors.isRecycled()) {
+            Palette palette = Palette.from(bitmapSourceOfColors).generate();
+            Palette.Swatch swatch = palette.getVibrantSwatch();
 
-            color = result.get(1);
-            rgb = Color.rgb(color[0], color[1], color[2]);
-            trailerContainer.setBackgroundColor(rgb);
-            collapseToolbar.setBackgroundColor(rgb);
-            collapseToolbar.setContentScrimColor(rgb);
-            collapseToolbar.setStatusBarScrimColor(rgb);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                Window window = getWindow();
-                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-                window.setStatusBarColor(rgb);
+            int defaultColor = 0x000000;
+            int defaultMutedColor = 0xffffff;
+            int vibrantDark = palette.getDarkVibrantColor(defaultColor);
+            int mutedDark = palette.getDarkMutedColor(defaultMutedColor);
+
+            if (swatch != null) {
+                movideDetailsContainer.setBackgroundColor(swatch.getRgb());
+
+                trailerContainer.setBackgroundColor(mutedDark);
+
+                collapseToolbar.setBackgroundColor(vibrantDark);
+                collapseToolbar.setContentScrimColor(vibrantDark);
+                collapseToolbar.setStatusBarScrimColor(vibrantDark);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    Window window = getWindow();
+                    window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                    window.setStatusBarColor(vibrantDark);
+                }
+
+                movieTrailerTitle.setTextColor(Color.WHITE);
+
+                titleTextView.setTextColor(swatch.getBodyTextColor());
+                movieOveriewView.setTextColor(swatch.getBodyTextColor());
+                voteAverageTextView.setTextColor(swatch.getBodyTextColor());
+                voteCountTextView.setTextColor(swatch.getBodyTextColor());
+                directorLabelView.setTextColor(swatch.getBodyTextColor());
+                directorView.setTextColor(swatch.getBodyTextColor());
+                releaseLabelView.setTextColor(swatch.getBodyTextColor());
+                releaseView.setTextColor(swatch.getBodyTextColor());
+                loadingTrailer.setIndicatorColor(swatch.getBodyTextColor());
             }
-
-            color = result.get(2);
-            rgb = Color.rgb(color[0], color[1], color[2]);
-            movieTrailerTitle.setTextColor(rgb);
-            titleTextView.setTextColor(rgb);
-            movieOveriewView.setTextColor(rgb);
-            voteAverageTextView.setTextColor(rgb);
-            voteCountTextView.setTextColor(rgb);
-            directorLabelView.setTextColor(rgb);
-            directorView.setTextColor(rgb);
-            releaseLabelView.setTextColor(rgb);
-            releaseView.setTextColor(rgb);
-            loadingTrailer.setIndicatorColor(rgb);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (NullPointerException e) {
-            e.printStackTrace();
         }
 
     }
@@ -299,9 +325,23 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubeTh
                         }
 
                         if(!movieWithCredits.releaseDate.equals("")) {
+                            String dateFormatted = "";
+                            try {
+                                java.util.Date movieDate = new SimpleDateFormat("yyyy-MM-dd")
+                                        .parse(movieWithCredits.releaseDate);
+                                dateFormatted = new SimpleDateFormat("MMM d, yyyy").format(movieDate);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+
                             releaseLabelView.setVisibility(View.VISIBLE);
                             releaseView.setVisibility(View.VISIBLE);
-                            releaseView.setText(movieWithCredits.releaseDate);
+                            if(!dateFormatted.equals("")) {
+                                releaseView.setText(dateFormatted);
+                            } else {
+                                releaseView.setText(movieWithCredits.releaseDate);
+                            }
+
                         }
                     }
                 });

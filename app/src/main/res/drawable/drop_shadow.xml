@@ -17,7 +17,7 @@
         android:top="0dp">
         <!--whatever you want in the background, here i preferred solid white -->
         <shape android:shape="rectangle">
-            <solid android:color="@color/bgImageColor" />
+            <solid android:color="@color/background_image" />
 
         </shape>
     </item>

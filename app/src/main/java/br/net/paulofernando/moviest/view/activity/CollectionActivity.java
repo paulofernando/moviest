@@ -1,5 +1,6 @@
 package br.net.paulofernando.moviest.view.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,6 +19,8 @@ import android.widget.TextView;
 
 import com.anupcowkur.reservoir.Reservoir;
 import com.anupcowkur.reservoir.ReservoirGetCallback;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
@@ -28,12 +31,13 @@ import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicLong;
 
 import br.net.paulofernando.moviest.R;
-import br.net.paulofernando.moviest.util.NetworkUtils;
-import br.net.paulofernando.moviest.view.adapter.MovieAdapter;
-import br.net.paulofernando.moviest.data.remote.TMDB;
+import br.net.paulofernando.moviest.data.AnalyticsApplication;
 import br.net.paulofernando.moviest.data.entities.Collection;
 import br.net.paulofernando.moviest.data.entities.Movie;
-import br.net.paulofernando.moviest.view.component.DividerItemDecoration;
+import br.net.paulofernando.moviest.data.remote.TMDB;
+import br.net.paulofernando.moviest.util.NetworkUtils;
+import br.net.paulofernando.moviest.view.adapter.MovieAdapter;
+import br.net.paulofernando.moviest.view.widget.DividerItemDecoration;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -41,6 +45,7 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static br.net.paulofernando.moviest.R.id.pager;
 import static br.net.paulofernando.moviest.util.NetworkUtils.INTERNET_CHECK_TIME;
 
 public class CollectionActivity extends AppCompatActivity {
@@ -64,13 +69,19 @@ public class CollectionActivity extends AppCompatActivity {
 
     private final AtomicLong counter = new AtomicLong();
 
+    private Tracker mTracker;
+    private static final int PAGE_NAME = R.string.name_activity_collection;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_collection);
         ButterKnife.bind(this);
 
-        collection = getIntent().getParcelableExtra(TMDB.COLLECTION_DETAILS);
+        AnalyticsApplication application = (AnalyticsApplication) getApplication();
+        mTracker = application.getDefaultTracker();
+
+        collection = getIntent().getParcelableExtra(getResources().getString(R.string.collection_name));
 
         setSupportActionBar(toolbarCollection);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -111,6 +122,23 @@ public class CollectionActivity extends AppCompatActivity {
             timer.schedule(timerTask, INTERNET_CHECK_TIME, INTERNET_CHECK_TIME);
         }
         link.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        sendAnalyticsInfo();
+    }
+
+    private void sendAnalyticsInfo() {
+        mTracker.setScreenName(getString(PAGE_NAME));
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+    }
+
+    public static Intent getStartIntent(Context context, Collection collection) {
+        Intent intent = new Intent(context, CollectionActivity.class);
+        intent.putExtra(context.getResources().getString(R.string.collection_name), collection);
+        return intent;
     }
 
     @OnClick(R.id.bg_collection_iv)
@@ -188,7 +216,7 @@ public class CollectionActivity extends AppCompatActivity {
         CollectionActivity.this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mAdapter.addList(movies);
+                mAdapter.setItems(movies);
                 loadingTextView.setVisibility(View.GONE);
             }
         });

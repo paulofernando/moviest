@@ -22,7 +22,8 @@
 
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <include layout="@layout/row_collection" />
+            <!--<include layout="@layout/row_collection" />-->
+            <include layout="@layout/item_collection" />
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar_collection"
@@ -37,6 +38,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/appbar_collection"
-        android:background="@color/bgColor"/>
+        android:background="@color/background"/>
 
 </RelativeLayout>

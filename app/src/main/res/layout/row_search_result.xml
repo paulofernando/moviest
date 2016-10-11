@@ -9,6 +9,7 @@
         android:id="@+id/search_result_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/search_result"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:layout_margin="@dimen/row_side_space"/>
 
