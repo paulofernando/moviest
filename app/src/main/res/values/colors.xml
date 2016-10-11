@@ -12,11 +12,12 @@
     <color name="divider">#6b6161</color>
     <color name="background_image">#585050</color>
     <color name="default_text">#FFE7E7E5</color>
-    <color name="separator">#cecece</color>
     <color name="common_border">#88ffffff</color>
     <color name="common_border_accent">#845ef7</color>
     <color name="moviest_links">#5723f5</color>
     <color name="moviest_links_highlight">#b097fb</color>
+    <color name="separator">#5c5c5c</color>
+    <color name="search_result">#ededed</color>
 
     <color name="navigation_bar">@color/primary</color>
 
