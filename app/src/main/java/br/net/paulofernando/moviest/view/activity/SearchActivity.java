@@ -3,26 +3,19 @@ package br.net.paulofernando.moviest.view.activity;
 import android.app.Activity;
 import android.app.SearchManager;
 import android.app.SharedElementCallback;
-import android.content.Context;
 import android.graphics.Point;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.text.InputType;
-import android.text.TextUtils;
 import android.transition.Transition;
 import android.transition.TransitionSet;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ImageButton;
-import android.widget.ProgressBar;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
@@ -34,11 +27,11 @@ import java.util.TimerTask;
 
 import br.net.paulofernando.moviest.R;
 import br.net.paulofernando.moviest.data.AnalyticsApplication;
-import br.net.paulofernando.moviest.util.NetworkUtils;
-import br.net.paulofernando.moviest.view.adapter.SearchAdapter;
-import br.net.paulofernando.moviest.data.remote.TMDB;
 import br.net.paulofernando.moviest.data.entities.Movie;
 import br.net.paulofernando.moviest.data.entities.Page;
+import br.net.paulofernando.moviest.data.remote.TMDB;
+import br.net.paulofernando.moviest.util.NetworkUtils;
+import br.net.paulofernando.moviest.view.adapter.SearchAdapter;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -59,7 +52,6 @@ public class SearchActivity extends Activity {
     @BindView(R.id.searchback_container) ViewGroup searchBackContainer;
     @BindView(R.id.search_view) android.widget.SearchView searchView;
     @BindView(R.id.search_background) View searchBackground;
-    @BindView(android.R.id.empty) ProgressBar progress;
 
     protected List<Movie> searchResult = new ArrayList<Movie>();
     protected SearchAdapter mAdapter;
@@ -73,7 +65,7 @@ public class SearchActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search2);
+        setContentView(R.layout.activity_search);
         ButterKnife.bind(this);
         setupSearchView();
 
@@ -168,35 +160,6 @@ public class SearchActivity extends Activity {
                     }
                 });
     }
-
-    /*@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_search, menu);
-
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        final SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-
-        searchView.setIconifiedByDefault(false);
-        searchView.requestFocus();
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(final String query) {
-                searchFor(query);
-                return true;
-            }
-        });
-
-        return true;
-    }*/
 
     private void searchFor(final String query) {
         System.out.println(query);

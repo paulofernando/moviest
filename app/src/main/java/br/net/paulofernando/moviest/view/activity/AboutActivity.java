@@ -32,7 +32,6 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.AlignmentSpan;
 import android.transition.TransitionInflater;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,9 +54,6 @@ import in.uncod.android.bypass.Bypass;
 import io.plaidapp.ui.widget.ElasticDragDismissFrameLayout;
 import io.plaidapp.ui.widget.InkPageIndicator;
 import io.plaidapp.util.HtmlUtils;
-
-import static android.R.attr.name;
-import static android.support.v7.widget.StaggeredGridLayoutManager.TAG;
 
 /**
  * About screen. This displays 2 pages in a ViewPager:
@@ -87,7 +83,7 @@ public class AboutActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_about2);
+        setContentView(R.layout.activity_about);
         ButterKnife.bind(this);
 
         AnalyticsApplication application = (AnalyticsApplication) getApplication();
