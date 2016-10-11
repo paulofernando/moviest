@@ -35,5 +35,10 @@
     <string name="about_libs_intro">Moviest is built with the help of these awesome&#160;libraries/applications</string>
     <string name="about_lib_link">website</string>
 
+    <!-- shared elements -->
+    <string name="movie_details" translatable="false">movie_details</string>
+    <string name="collection_details" translatable="false">collection_details</string>
+    <string name="transition_search_back" translatable="false">transition_search_back</string>
+
 
 </resources>

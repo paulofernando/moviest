@@ -58,9 +58,6 @@ public class TMDB {
         SummaryWithCreditsService, CollectionsService
     }
 
-    public static final String MOVIE_DETAILS = "movie_details";
-    public static final String COLLECTION_DETAILS = "collection_details";
-
     private static TMDB instance;
 
     private TMDB() {}

@@ -22,6 +22,7 @@
     <dimen name="spacing_xlarge">48dp</dimen>
     <dimen name="spacing_huge">64dp</dimen>
     <dimen name="display_4_text_size">112sp</dimen>
+    <dimen name="fab_radius">28dp</dimen>
 
     <dimen name="small_icon_size">40dp</dimen>
     <dimen name="small_icon_padding">10dp</dimen>
@@ -32,6 +33,7 @@
     <dimen name="about_icon_padding">24dp</dimen>
 
     <!-- Z-axis elevations -->
+    <dimen name="z_app_bar">4dp</dimen>
     <dimen name="z_card">2dp</dimen>
     <dimen name="touch_raise">6dp</dimen>
 

@@ -54,7 +54,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
                                 @Override
                                 public void onNext(Movie movie) {
                                     Intent intent = new Intent(SearchAdapter.this.context, MovieDetailsActivity.class);
-                                    intent.putExtra(TMDB.MOVIE_DETAILS, movie);
+                                    intent.putExtra(context.getResources().getString(R.string.movie_details), movie);
                                     SearchAdapter.this.context.startActivity(intent);
                                 }
                             });

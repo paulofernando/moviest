@@ -102,7 +102,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubeTh
         setSupportActionBar(toolbarMovieDetails);
         appbarMovieDetails.setExpanded(false);
 
-        movie = (Movie) getIntent().getParcelableExtra(TMDB.MOVIE_DETAILS);
+        movie = (Movie) getIntent().getParcelableExtra(getResources().getString(R.string.movie_details));
         titleTextView.setText(movie.title);
 
         if (movie.voteAverage > 0) {
@@ -152,7 +152,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubeTh
 
     public static Intent getStartIntent(Context context, Movie movie) {
         Intent intent = new Intent(context, MovieDetailsActivity.class);
-        intent.putExtra(TMDB.MOVIE_DETAILS, movie);
+        intent.putExtra(context.getResources().getString(R.string.movie_details), movie);
         return intent;
     }
 

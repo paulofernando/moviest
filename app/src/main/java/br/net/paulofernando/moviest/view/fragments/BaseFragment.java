@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -14,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
 import br.net.paulofernando.moviest.R;
 import br.net.paulofernando.moviest.util.NetworkUtils;
@@ -23,16 +25,16 @@ import br.net.paulofernando.moviest.view.activity.SearchActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static android.R.attr.data;
+import static br.net.paulofernando.moviest.R.id.toolbar;
+
 public abstract class BaseFragment extends Fragment {
 
     protected static final String ARG_SERVICE_TYPE = "service_type";
     private static final String TAG = "BaseFragment";
 
-    @BindView(R.id.list_rv)
-    RecyclerView mRecyclerView;
-
-    @BindView(R.id.loading_tv)
-    TextView loadingTextView;
+    @BindView(R.id.list_rv) RecyclerView mRecyclerView;
+    @BindView(R.id.loading_tv) TextView loadingTextView;
 
     protected RecyclerView.LayoutManager mLayoutManager;
 
@@ -65,16 +67,8 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_search:
-                if(NetworkUtils.isNetworkConnected(getContext())) {
-                    Intent searchIntent = new Intent(getContext(), SearchActivity.class);
-                    getContext().startActivity(searchIntent);
-                } else {
-                    Log.e(TAG, getContext().getResources().getResourceName(R.string.no_internet));
-                    NetworkUtils.showAlert(getContext(), getResources().getResourceName(R.string.no_internet));
-                    return false;
-                }
-                return true;
+            case R.id.menu_search:
+                return false;
             case R.id.action_about:
                 startActivity(new Intent(this.getContext(), AboutActivity.class),
                         ActivityOptions.makeSceneTransitionAnimation(this.getActivity()).toBundle());

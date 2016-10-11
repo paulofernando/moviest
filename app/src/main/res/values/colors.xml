@@ -30,5 +30,12 @@
     <color name="page_indicator_dark">#80333333</color>
     <color name="page_indicator_dark_selected">#ff333333</color>
     <color name="content_placeholder">#ffe0e0e0</color>
+    <color name="gif_badge_dark_image">#b3ffffff</color>
+    <color name="text_primary_light">#ffffffff</color>
+    <array name="loading_placeholders_dark">
+        <item>#ff191919</item>
+        <item>#ff212121</item>
+        <item>#ff232323</item>
+    </array>
 
 </resources>
