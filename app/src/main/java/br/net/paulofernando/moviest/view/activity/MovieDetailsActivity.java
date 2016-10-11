@@ -32,6 +32,8 @@ import com.squareup.picasso.Target;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -303,9 +305,23 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubeTh
                         }
 
                         if(!movieWithCredits.releaseDate.equals("")) {
+                            String dateFormatted = "";
+                            try {
+                                java.util.Date movieDate = new SimpleDateFormat("yyyy-MM-dd")
+                                        .parse(movieWithCredits.releaseDate);
+                                dateFormatted = new SimpleDateFormat("MMM d, yyyy").format(movieDate);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+
                             releaseLabelView.setVisibility(View.VISIBLE);
                             releaseView.setVisibility(View.VISIBLE);
-                            releaseView.setText(movieWithCredits.releaseDate);
+                            if(!dateFormatted.equals("")) {
+                                releaseView.setText(dateFormatted);
+                            } else {
+                                releaseView.setText(movieWithCredits.releaseDate);
+                            }
+
                         }
                     }
                 });

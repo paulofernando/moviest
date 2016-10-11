@@ -28,7 +28,7 @@
     <dimen name="small_icon_side_space">10dp</dimen>
 
     <!-- about screen -->
-    <dimen name="about_header_height">224dp</dimen>
+    <dimen name="about_header_height">300dp</dimen>
     <dimen name="about_icon_padding">24dp</dimen>
 
     <!-- Z-axis elevations -->

@@ -1,5 +1,6 @@
 package br.net.paulofernando.moviest.view.fragments;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -75,8 +76,8 @@ public abstract class BaseFragment extends Fragment {
                 }
                 return true;
             case R.id.action_about:
-                Intent aboutIntent = new Intent(getContext(), AboutActivity.class);
-                getContext().startActivity(aboutIntent);
+                startActivity(new Intent(this.getContext(), AboutActivity.class),
+                        ActivityOptions.makeSceneTransitionAnimation(this.getActivity()).toBundle());
                 return true;
         }
 

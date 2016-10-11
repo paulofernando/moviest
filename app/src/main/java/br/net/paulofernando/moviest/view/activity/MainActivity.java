@@ -1,5 +1,6 @@
 package br.net.paulofernando.moviest.view.activity;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -9,6 +10,10 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.FrameLayout;
 
 import br.net.paulofernando.moviest.R;
 import br.net.paulofernando.moviest.view.fragments.CollectionsFragment;
@@ -40,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setOffscreenPageLimit(2);
         tabLayout.setupWithViewPager(mViewPager);
+
     }
 
     /**

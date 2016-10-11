@@ -18,6 +18,7 @@
     <color name="moviest_links">#5723f5</color>
     <color name="moviest_links_highlight">#b097fb</color>
 
+    <color name="navigation_bar">@color/primary</color>
 
     <!-- plaid -->
     <color name="background_light">#fafafa</color> <!-- grey 50 -->

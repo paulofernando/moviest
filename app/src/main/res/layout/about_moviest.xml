@@ -22,25 +22,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:nestedScrollingEnabled="true"
-    tools:showIn="@layout/activity_about">
+    tools:showIn="@layout/activity_about2">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:weightSum="1">
 
         <io.plaidapp.ui.widget.CutoutTextView
             android:layout_width="match_parent"
             android:layout_height="@dimen/about_header_height"
             android:text="Moviest"
             app:foregroundColor="@color/background_splash_title"
-            app:font="roboto-mono-regular" />
+            app:font="roboto-mono-regular"
+            android:layout_weight="0.5"/>
 
         <io.plaidapp.ui.widget.BaselineGridTextView
             android:id="@+id/about_description"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_weight="0.3"
             android:paddingStart="@dimen/padding_normal"
             android:paddingTop="@dimen/padding_normal"
             android:paddingEnd="@dimen/padding_normal"
@@ -56,21 +58,21 @@
             android:orientation="vertical"
             android:background="@color/background_light">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/spacing_large"
-                android:layout_marginBottom="@dimen/padding_normal"
-                android:src="@drawable/tmdb"/>
-
             <TextView
                 android:id="@+id/about_version"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/background_light"
                 android:textAlignment="center"
-                android:paddingBottom="@dimen/padding_normal"
-                android:paddingTop="@dimen/spacing_normal"
+                android:paddingBottom="@dimen/spacing_large"
                 style="@style/Widget.Plaid.About" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/spacing_large"
+                android:layout_marginBottom="@dimen/spacing_large"
+                android:src="@drawable/tmdb"/>
+
         </LinearLayout>
 
 
