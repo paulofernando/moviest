@@ -13,6 +13,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:name=".data.AnalyticsApplication"
         tools:replace="android:icon,label">
         <activity
             android:name=".view.activity.SplashScreenActivity"

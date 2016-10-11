@@ -32,6 +32,7 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.AlignmentSpan;
 import android.transition.TransitionInflater;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,11 +40,14 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.squareup.picasso.Picasso;
 
 import java.security.InvalidParameterException;
 
 import br.net.paulofernando.moviest.R;
+import br.net.paulofernando.moviest.data.AnalyticsApplication;
 import br.net.paulofernando.moviest.view.widget.CircleTransform;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -52,12 +56,18 @@ import io.plaidapp.ui.widget.ElasticDragDismissFrameLayout;
 import io.plaidapp.ui.widget.InkPageIndicator;
 import io.plaidapp.util.HtmlUtils;
 
+import static android.R.attr.name;
+import static android.support.v7.widget.StaggeredGridLayoutManager.TAG;
+
 /**
  * About screen. This displays 2 pages in a ViewPager:
  *  – About Plaid
  *  – Credit libraries
  */
 public class AboutActivity extends Activity {
+
+    private static final String TAG = "AboutActivity";
+    private static final String ANALYTICS_TAG = TAG;
 
     @BindView(R.id.draggable_frame)
     ElasticDragDismissFrameLayout draggableFrame;
@@ -68,11 +78,20 @@ public class AboutActivity extends Activity {
 
     private static String version;
 
+    private Tracker mTracker;
+    private static final int[] PAGE_NAMES = {
+            R.string.name_page_about_info, R.string.name_page_about_libs
+    };
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about2);
         ButterKnife.bind(this);
+
+        AnalyticsApplication application = (AnalyticsApplication) getApplication();
+        mTracker = application.getDefaultTracker();
 
         try {
             PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
@@ -84,6 +103,14 @@ public class AboutActivity extends Activity {
         pager.setAdapter(new AboutActivity.AboutPagerAdapter(this));
         pager.setPageMargin(getResources().getDimensionPixelSize(R.dimen.spacing_normal));
         pageIndicator.setViewPager(pager);
+
+        pager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                sendAnalyticsInfo();
+            }
+        });
+
 
         draggableFrame.addListener(
                 new ElasticDragDismissFrameLayout.SystemChromeFader(this) {
@@ -99,6 +126,16 @@ public class AboutActivity extends Activity {
                         finishAfterTransition();
                     }
                 });
+    }
+
+
+    private void sendAnalyticsInfo() {
+        mTracker.setScreenName(getCurrentPageName());
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+    }
+
+    private String getCurrentPageName() {
+        return getString(PAGE_NAMES[pager.getCurrentItem()]);
     }
 
     static class AboutPagerAdapter extends PagerAdapter {

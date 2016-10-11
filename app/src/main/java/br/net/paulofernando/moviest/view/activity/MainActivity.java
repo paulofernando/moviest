@@ -19,13 +19,18 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import br.net.paulofernando.moviest.R;
+import br.net.paulofernando.moviest.data.AnalyticsApplication;
 import br.net.paulofernando.moviest.util.NetworkUtils;
 import br.net.paulofernando.moviest.view.fragments.CollectionsFragment;
 import br.net.paulofernando.moviest.view.fragments.MovieListFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static br.net.paulofernando.moviest.R.id.pager;
 import static br.net.paulofernando.moviest.R.id.toolbar;
 import static br.net.paulofernando.moviest.data.remote.TMDB.Services.PopularService;
 import static br.net.paulofernando.moviest.data.remote.TMDB.Services.TopRatedService;
@@ -41,11 +46,20 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.tabs) TabLayout tabLayout;
     @BindView(R.id.container) ViewPager mViewPager;
 
+    private Tracker mTracker;
+    private static final int[] PAGE_NAMES = {
+            R.string.name_page_main_collections, R.string.name_page_main_popular,
+            R.string.name_page_main_top_rated
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
+        AnalyticsApplication application = (AnalyticsApplication) getApplication();
+        mTracker = application.getDefaultTracker();
 
         setSupportActionBar(toolbar);
 
@@ -54,6 +68,21 @@ public class MainActivity extends AppCompatActivity {
         mViewPager.setOffscreenPageLimit(2);
         tabLayout.setupWithViewPager(mViewPager);
 
+        mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                sendAnalyticsInfo();
+            }
+        });
+    }
+
+    private void sendAnalyticsInfo() {
+        mTracker.setScreenName(getCurrentPageName());
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+    }
+
+    private String getCurrentPageName() {
+        return getString(PAGE_NAMES[mViewPager.getCurrentItem()]);
     }
 
     @Override

@@ -7,7 +7,7 @@
     <color name="primary_super_dark">#1c1919</color>
 
     <color name="background">#585050</color>
-    <color name="background_splash">#FFE4E4E4</color>
+    <color name="background_splash">@color/background</color>
     <color name="background_splash_title">#b29afa</color>
     <color name="divider">#6b6161</color>
     <color name="background_image">#585050</color>

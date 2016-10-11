@@ -24,6 +24,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubeThumbnailLoader;
 import com.google.android.youtube.player.YouTubeThumbnailView;
@@ -39,6 +41,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import br.net.paulofernando.moviest.R;
+import br.net.paulofernando.moviest.data.AnalyticsApplication;
 import br.net.paulofernando.moviest.data.entities.Configuration;
 import br.net.paulofernando.moviest.data.entities.Crew;
 import br.net.paulofernando.moviest.data.entities.Images;
@@ -93,11 +96,17 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubeTh
 
     private boolean showAlertNoConnection = true;
 
+    private Tracker mTracker;
+    private static final int PAGE_NAME = R.string.name_activity_movie_details;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_details);
         ButterKnife.bind(this);
+
+        AnalyticsApplication application = (AnalyticsApplication) getApplication();
+        mTracker = application.getDefaultTracker();
 
         setSupportActionBar(toolbarMovieDetails);
         appbarMovieDetails.setExpanded(false);
@@ -148,6 +157,17 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubeTh
         movieOveriewView.setText(movie.overview);
         retrieveMovieDetails(movie.id);
         loadYoutubeThumbnail(movie.id);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        sendAnalyticsInfo();
+    }
+
+    private void sendAnalyticsInfo() {
+        mTracker.setScreenName(getString(PAGE_NAME));
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     public static Intent getStartIntent(Context context, Movie movie) {

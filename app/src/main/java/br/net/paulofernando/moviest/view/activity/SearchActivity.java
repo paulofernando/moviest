@@ -24,12 +24,16 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import br.net.paulofernando.moviest.R;
+import br.net.paulofernando.moviest.data.AnalyticsApplication;
 import br.net.paulofernando.moviest.util.NetworkUtils;
 import br.net.paulofernando.moviest.view.adapter.SearchAdapter;
 import br.net.paulofernando.moviest.data.remote.TMDB;
@@ -63,6 +67,9 @@ public class SearchActivity extends Activity {
     private Timer timer = new Timer();
     private final long SEARCH_DELAY = 500;
 
+    private Tracker mTracker;
+    private static final int PAGE_NAME = R.string.name_activity_search;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,12 +77,26 @@ public class SearchActivity extends Activity {
         ButterKnife.bind(this);
         setupSearchView();
 
+        AnalyticsApplication application = (AnalyticsApplication) getApplication();
+        mTracker = application.getDefaultTracker();
+
         searchRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new SearchAdapter(searchResult, SearchActivity.this);
         searchRecyclerView.setAdapter(mAdapter);
         searchRecyclerView.setItemAnimator(new SlideInItemAnimator());
 
         setupTransitions();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        sendAnalyticsInfo();
+    }
+
+    private void sendAnalyticsInfo() {
+        mTracker.setScreenName(getString(PAGE_NAME));
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     @Override
