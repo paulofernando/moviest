@@ -132,8 +132,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubeTh
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         collapseToolbar.setTitle(" ");
 
-        loadImages();
-
         appbarMovieDetails.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             boolean isShow = false;
             int scrollRange = -1;
@@ -162,6 +160,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubeTh
     @Override
     public void onResume() {
         super.onResume();
+        loadImages();
         sendAnalyticsInfo();
     }
 
