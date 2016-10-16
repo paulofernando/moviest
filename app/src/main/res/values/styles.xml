@@ -98,7 +98,17 @@
 
     <style name="TextAppearance.About" parent="@android:style/TextAppearance.Material.Body1">
         <item name="android:textSize">16sp</item>
-        <item name="android:textColor">@color/text_secondary_dark</item>
+        <item name="android:textColor">@color/default_text</item>
+    </style>
+
+    <style name="Widget.Plaid.About.Libs">
+        <item name="android:textAppearance">@style/TextAppearance.About.Libs</item>
+        <!-- <item name="lineHeightHint">24sp</item> -->
+    </style>
+
+    <style name="TextAppearance.About.Libs" parent="@android:style/TextAppearance.Material.Body1">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/default_text_dark</item>
     </style>
 
     <style name="Widget.Plaid.Subhead">
