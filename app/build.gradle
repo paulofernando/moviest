@@ -17,7 +17,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 23
         versionCode gitCommitCount
-        versionName "0.2.0"
+        versionName "0.3.0"
         archivesBaseName = "moviest-${versionName}"
     }
 
@@ -54,6 +54,8 @@ dependencies {
     compile 'com.wang.avi:library:2.1.2'
     compile 'com.anupcowkur:reservoir:3.1.0'
     compile 'cn.pedant.sweetalert:library:1.3'
+    compile 'com.nineoldandroids:library:2.4.0'
+    compile 'com.daimajia.slider:library:1.1.5@aar'
 
     compile 'io.reactivex:rxjava:1.1.0'
     compile 'io.reactivex:rxjava-async-util:0.21.0'

@@ -246,6 +246,9 @@ public class AboutActivity extends Activity {
                 new Library("google-gson",
                         "https://github.com/google/gson",
                         "https://avatars0.githubusercontent.com/u/1342004"),
+                new Library("AndroidImageSlider",
+                        "https://github.com/daimajia/AndroidImageSlider",
+                        "https://avatars1.githubusercontent.com/u/2503423"),
                 new Library("Plaid",
                         "https://github.com/nickbutcher/plaid",
                         "https://avatars1.githubusercontent.com/u/352556")};
