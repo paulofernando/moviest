@@ -3,6 +3,7 @@ package br.net.paulofernando.moviest.view.activity;
 import android.app.Activity;
 import android.app.SearchManager;
 import android.app.SharedElementCallback;
+import android.content.Context;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 
 import com.google.android.gms.analytics.HitBuilders;
@@ -47,7 +49,7 @@ public class SearchActivity extends Activity {
     private static final String TAG = "SearchActiviity";
 
     @BindView(R.id.search_rv) RecyclerView searchRecyclerView;
-    @BindView(R.id.loading_search) com.wang.avi.AVLoadingIndicatorView loadingSearch;
+    //@BindView(R.id.loading_search) com.wang.avi.AVLoadingIndicatorView loadingSearch;
     @BindView(R.id.searchback) ImageButton searchBack;
     @BindView(R.id.searchback_container) ViewGroup searchBackContainer;
     @BindView(R.id.search_view) android.widget.SearchView searchView;
@@ -157,6 +159,9 @@ public class SearchActivity extends Activity {
                     @Override
                     public void onTransitionEnd(Transition transition) {
                         searchView.requestFocus();
+                        ((InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE)).
+                                toggleSoftInput(InputMethodManager.SHOW_FORCED,
+                                        InputMethodManager.HIDE_IMPLICIT_ONLY);
                     }
                 });
     }
@@ -164,9 +169,9 @@ public class SearchActivity extends Activity {
     private void searchFor(final String query) {
         System.out.println(query);
         if(query.length() > 1) {
-            loadingSearch.setVisibility(View.VISIBLE);
+            //loadingSearch.setVisibility(View.VISIBLE);
         } else {
-            loadingSearch.setVisibility(View.GONE);
+            //loadingSearch.setVisibility(View.GONE);
         }
 
         timer.cancel();
@@ -201,7 +206,7 @@ public class SearchActivity extends Activity {
                                                         if(searchResult != null) {
                                                             mAdapter = new SearchAdapter(searchResult, SearchActivity.this);
                                                             searchRecyclerView.setAdapter(mAdapter);
-                                                            loadingSearch.setVisibility(View.GONE);
+                                                            //loadingSearch.setVisibility(View.GONE);
                                                         }
                                                     }
                                                 });

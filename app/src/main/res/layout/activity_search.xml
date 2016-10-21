@@ -17,7 +17,6 @@
 
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -51,17 +50,6 @@
             android:iconifiedByDefault="false"
             android:transitionGroup="true" />
 
-        <com.wang.avi.AVLoadingIndicatorView
-            android:id="@+id/loading_search"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/AVLoadingIndicatorView.Small"
-            android:visibility="gone"
-            app:indicatorName="BallPulse"
-            app:indicatorColor="@color/accent"
-            android:layout_gravity="center"
-            android:layout_marginLeft="5dp"/>
-
         <!-- wrapping layout needed for the touch ripple -->
         <FrameLayout
             android:id="@+id/searchback_container"
@@ -90,11 +78,31 @@
         android:background="@color/primary"
         android:elevation="@dimen/z_app_bar">
 
+        <ProgressBar
+            android:id="@android:id/empty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/spacing_huge"
+            android:paddingBottom="@dimen/spacing_huge"
+            android:visibility="gone"
+            android:indeterminate="true"
+            android:indeterminateTint="?android:colorAccent"
+            android:indeterminateTintMode="src_in" />
+
+        <ViewStub
+            android:id="@+id/stub_no_search_results"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout="@layout/no_search_results" />
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/search_rv"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"/>
+            android:layout_height="match_parent"
+            android:scrollbars="vertical"
+            android:scrollbarStyle="outsideOverlay"
+            android:clipToPadding="false"
+            android:visibility="gone" />
 
         <View
             android:id="@+id/results_scrim"
@@ -102,7 +110,6 @@
             android:layout_height="match_parent"
             android:background="@color/scrim"
             android:visibility="gone" />
-
 
     </FrameLayout>
 
