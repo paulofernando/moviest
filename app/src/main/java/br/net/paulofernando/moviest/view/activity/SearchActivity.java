@@ -179,12 +179,6 @@ public class SearchActivity extends Activity {
 
     private void searchFor(final String query) {
         System.out.println(query);
-        if(query.length() > 1) {
-            loadingSearch.setVisibility(View.VISIBLE);
-        } else {
-            loadingSearch.setVisibility(View.GONE);
-        }
-
         timer.cancel();
         timer = new Timer();
         timer.schedule(
@@ -194,6 +188,11 @@ public class SearchActivity extends Activity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                if(query.length() > 1) {
+                                    loadingSearch.setVisibility(View.VISIBLE);
+                                } else {
+                                    loadingSearch.setVisibility(View.GONE);
+                                }
                                 if(query.length() > 1) {
                                     searchRecyclerView.setVisibility(View.VISIBLE);
 
