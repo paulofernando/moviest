@@ -17,15 +17,10 @@
 
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <View
-        android:id="@+id/scrim"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/scrim" />
 
     <FrameLayout
         android:id="@+id/search_toolbar"
@@ -42,13 +37,26 @@
             android:layout_height="match_parent"
             android:background="@color/primary" />
 
+
         <SearchView
             android:id="@+id/search_view"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginEnd="@dimen/padding_normal"
             android:iconifiedByDefault="false"
-            android:transitionGroup="true" />
+            android:transitionGroup="true"/>
+
+        <com.wang.avi.AVLoadingIndicatorView
+            android:id="@+id/loading_search"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            style="@style/AVLoadingIndicatorView"
+            android:visibility="gone"
+            app:indicatorName="BallPulse"
+            app:indicatorColor="@color/accent"
+            android:layout_marginRight="@dimen/spacing_large"
+            android:paddingTop="@dimen/spacing_large"
+            android:layout_gravity="right"/>
 
         <!-- wrapping layout needed for the touch ripple -->
         <FrameLayout
@@ -112,5 +120,11 @@
             android:visibility="gone" />
 
     </FrameLayout>
+
+    <View
+        android:id="@+id/scrim"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/scrim" />
 
 </FrameLayout>

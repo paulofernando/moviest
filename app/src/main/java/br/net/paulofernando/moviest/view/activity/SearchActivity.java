@@ -51,7 +51,7 @@ public class SearchActivity extends Activity {
     private static final String TAG = "SearchActiviity";
 
     @BindView(R.id.search_rv) RecyclerView searchRecyclerView;
-    //@BindView(R.id.loading_search) com.wang.avi.AVLoadingIndicatorView loadingSearch;
+    @BindView(R.id.loading_search) com.wang.avi.AVLoadingIndicatorView loadingSearch;
     @BindView(R.id.searchback) ImageButton searchBack;
     @BindView(R.id.searchback_container) ViewGroup searchBackContainer;
     @BindView(R.id.search_view) android.widget.SearchView searchView;
@@ -180,9 +180,9 @@ public class SearchActivity extends Activity {
     private void searchFor(final String query) {
         System.out.println(query);
         if(query.length() > 1) {
-            //loadingSearch.setVisibility(View.VISIBLE);
+            loadingSearch.setVisibility(View.VISIBLE);
         } else {
-            //loadingSearch.setVisibility(View.GONE);
+            loadingSearch.setVisibility(View.GONE);
         }
 
         timer.cancel();
@@ -217,7 +217,7 @@ public class SearchActivity extends Activity {
                                                         if(searchResult != null) {
                                                             mAdapter = new SearchAdapter(searchResult, SearchActivity.this);
                                                             searchRecyclerView.setAdapter(mAdapter);
-                                                            //loadingSearch.setVisibility(View.GONE);
+                                                            loadingSearch.setVisibility(View.GONE);
                                                         }
                                                     }
                                                 });
