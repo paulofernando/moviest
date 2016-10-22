@@ -15,9 +15,11 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
@@ -159,12 +161,21 @@ public class SearchActivity extends Activity {
                     @Override
                     public void onTransitionEnd(Transition transition) {
                         searchView.requestFocus();
-                        ((InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE)).
-                                toggleSoftInput(InputMethodManager.SHOW_FORCED,
-                                        InputMethodManager.HIDE_IMPLICIT_ONLY);
+                        InputMethodManager imm = (InputMethodManager)
+                                getSystemService(Context.INPUT_METHOD_SERVICE);
+                        boolean isShowing = imm.showSoftInput(SearchActivity.this.getCurrentFocus(), InputMethodManager.SHOW_IMPLICIT);
+                        if (!isShowing)
+                            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+
                     }
                 });
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
 
     private void searchFor(final String query) {
         System.out.println(query);
