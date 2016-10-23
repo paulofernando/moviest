@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.AlphaAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -63,7 +64,8 @@ import rx.schedulers.Schedulers;
 
 import static br.net.paulofernando.moviest.util.NetworkUtils.INTERNET_CHECK_TIME;
 
-public class MovieDetailsActivity extends AppCompatActivity implements YouTubeThumbnailView.OnInitializedListener {
+public class MovieDetailsActivity extends AppCompatActivity implements YouTubeThumbnailView.OnInitializedListener,
+        AppBarLayout.OnOffsetChangedListener {
 
     public static final int DETAILS_POSTER_SIZE_INDEX = 3;
     public static final int DETAILS_BACKDROP_SIZE_INDEX = 4;
@@ -99,11 +101,13 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubeTh
     private MovieWithCredits movieWithCredits;
     private boolean showAlertNoConnection = true;
     private String baseImageUrl = "http://image.tmdb.org/t/p/" + TMDB.POSTER_W780;
-
     private Tracker mTracker;
     private static final int PAGE_NAME = R.string.name_activity_movie_details;
-
+    private boolean mIsTheTitleVisible = false;
     private ArrayList<String> imagesMap = new ArrayList<>();
+
+    private static final float PERCENTAGE_TO_SHOW_TITLE_AT_TOOLBAR = 1.0f;
+    private static final int ALPHA_ANIMATIONS_DURATION = 200;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -174,6 +178,36 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubeTh
         super.onResume();
         loadImages();
         sendAnalyticsInfo();
+    }
+
+    @Override
+    public void onOffsetChanged(AppBarLayout appBarLayout, int offset) {
+        int maxScroll = appBarLayout.getTotalScrollRange();
+        float percentage = (float) Math.abs(offset) / (float) maxScroll;
+
+        handleToolbarTitleVisibility(percentage);
+    }
+
+    private void handleToolbarTitleVisibility(float percentage) {
+        if (percentage >= PERCENTAGE_TO_SHOW_TITLE_AT_TOOLBAR) {
+            if(!mIsTheTitleVisible) {
+                startAlphaAnimation(titleTextView, ALPHA_ANIMATIONS_DURATION, View.VISIBLE);
+                mIsTheTitleVisible = true;
+            }
+        } else {
+            if (mIsTheTitleVisible) {
+                startAlphaAnimation(titleTextView, ALPHA_ANIMATIONS_DURATION, View.INVISIBLE);
+                mIsTheTitleVisible = false;
+            }
+        }
+    }
+
+    public static void startAlphaAnimation (View v, long duration, int visibility) {
+        AlphaAnimation alphaAnimation = (visibility == View.VISIBLE)
+                ? new AlphaAnimation(0f, 1f) : new AlphaAnimation(1f, 0f);
+        alphaAnimation.setDuration(duration);
+        alphaAnimation.setFillAfter(true);
+        v.startAnimation(alphaAnimation);
     }
 
     private void sendAnalyticsInfo() {
