@@ -13,6 +13,7 @@
         android:layout_gravity="center"
         android:visibility="gone"
         android:text="@string/loading"
+        android:textAppearance="?android:attr/textAppearanceSmall"
         android:padding="5dp"
         android:layout_centerHorizontal="true" />
 

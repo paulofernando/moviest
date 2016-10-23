@@ -75,14 +75,15 @@
 
                     <TextView
                         android:id="@+id/movie_trailer_title_tv"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/text_margin"
+                        android:layout_marginTop="@dimen/text_margin"
                         android:text="Trailer"
                         android:shadowColor="#99000000"
                         android:shadowRadius="5"
                         android:shadowDx="2"
                         android:shadowDy="2"
+                        android:textAlignment="center"
                         android:textAppearance="?android:attr/textAppearanceLarge"/>
 
                     <com.wang.avi.AVLoadingIndicatorView

@@ -238,12 +238,14 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubeTh
 
             if (swatch != null) {
                 movideDetailsContainer.setBackgroundColor(swatch.getRgb());
+                loadingTrailer.setIndicatorColor(swatch.getRgb());
 
                 trailerContainer.setBackgroundColor(mutedDark);
 
                 collapseToolbar.setBackgroundColor(vibrantDark);
                 collapseToolbar.setContentScrimColor(vibrantDark);
                 collapseToolbar.setStatusBarScrimColor(vibrantDark);
+
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     Window window = getWindow();
                     window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -260,7 +262,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubeTh
                 directorView.setTextColor(swatch.getBodyTextColor());
                 releaseLabelView.setTextColor(swatch.getBodyTextColor());
                 releaseView.setTextColor(swatch.getBodyTextColor());
-                loadingTrailer.setIndicatorColor(swatch.getBodyTextColor());
             }
         }
 
