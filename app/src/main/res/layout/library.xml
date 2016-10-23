@@ -21,6 +21,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/padding_normal"
+    android:layout_marginLeft="@dimen/padding_normal"
+    android:layout_marginRight="@dimen/padding_normal"
     android:minHeight="?android:listPreferredItemHeight"
     android:paddingTop="@dimen/padding_normal"
     android:paddingEnd="@dimen/padding_normal"
@@ -49,15 +51,5 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         style="@style/Widget.Plaid.Subhead" />
-
-    <Button
-        android:id="@+id/library_link"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@id/library_name"
-        android:text="@string/about_lib_link"
-        android:textColor="@color/text_secondary_dark"
-        style="?android:borderlessButtonStyle" />
 
 </io.plaidapp.ui.widget.ForegroundRelativeLayout>
