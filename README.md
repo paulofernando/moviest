@@ -20,7 +20,7 @@ Moviest is an app implemented in Material Design which shows collections of movi
 
 
 ```
-Copyright [2016] [Paulo Fernando]
+Copyright 2016 Paulo Fernando
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
