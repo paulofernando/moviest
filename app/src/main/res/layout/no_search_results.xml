@@ -17,14 +17,12 @@
 
 <io.plaidapp.ui.widget.BaselineGridTextView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/libraries_intro"
+    android:id="@+id/no_search_results"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/spacing_xlarge"
-    android:layout_marginBottom="@dimen/spacing_normal"
-    android:padding="@dimen/padding_normal"
-    android:text="@string/about_libs_intro"
-    android:background="@color/background_about_libs"
-    style="@style/Widget.Plaid.About.Libs"
-    tools:showIn="@layout/about_libs" />
+    android:padding="@dimen/spacing_huge"
+    android:paddingTop="@dimen/spacing_huge"
+    android:textAlignment="center"
+    android:drawableTop="@drawable/ic_search_24dp"
+    android:drawablePadding="@dimen/spacing_micro"
+    style="@style/Widget.Plaid.EmptyText" />

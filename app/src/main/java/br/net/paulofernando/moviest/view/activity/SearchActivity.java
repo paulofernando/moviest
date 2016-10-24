@@ -3,6 +3,7 @@ package br.net.paulofernando.moviest.view.activity;
 import android.app.Activity;
 import android.app.SearchManager;
 import android.app.SharedElementCallback;
+import android.content.Context;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,8 +15,11 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
@@ -157,18 +161,24 @@ public class SearchActivity extends Activity {
                     @Override
                     public void onTransitionEnd(Transition transition) {
                         searchView.requestFocus();
+                        InputMethodManager imm = (InputMethodManager)
+                                getSystemService(Context.INPUT_METHOD_SERVICE);
+                        boolean isShowing = imm.showSoftInput(SearchActivity.this.getCurrentFocus(), InputMethodManager.SHOW_IMPLICIT);
+                        if (!isShowing)
+                            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+
                     }
                 });
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
+
     private void searchFor(final String query) {
         System.out.println(query);
-        if(query.length() > 1) {
-            loadingSearch.setVisibility(View.VISIBLE);
-        } else {
-            loadingSearch.setVisibility(View.GONE);
-        }
-
         timer.cancel();
         timer = new Timer();
         timer.schedule(
@@ -178,6 +188,11 @@ public class SearchActivity extends Activity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                if(query.length() > 1) {
+                                    loadingSearch.setVisibility(View.VISIBLE);
+                                } else {
+                                    loadingSearch.setVisibility(View.GONE);
+                                }
                                 if(query.length() > 1) {
                                     searchRecyclerView.setVisibility(View.VISIBLE);
 

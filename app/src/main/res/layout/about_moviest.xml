@@ -34,7 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/about_header_height"
             android:text="Moviest"
-            app:foregroundColor="@color/background_splash_title"
+            app:foregroundColor="@color/background_about_title"
             app:font="roboto-mono-regular"
             android:layout_weight="0.5"/>
 
@@ -47,7 +47,7 @@
             android:paddingTop="@dimen/padding_normal"
             android:paddingEnd="@dimen/padding_normal"
             android:paddingBottom="@dimen/spacing_large"
-            android:background="@color/background_light"
+            android:background="@color/background_about"
             android:textColorLink="@color/moviest_links"
             android:textColorHighlight="@color/moviest_links_highlight"
             style="@style/Widget.Plaid.About" />
@@ -56,13 +56,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="@color/background_light">
+            android:background="@color/background_about">
 
             <TextView
                 android:id="@+id/about_version"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/background_light"
+                android:background="@color/background_about"
                 android:textAlignment="center"
                 android:paddingBottom="@dimen/spacing_large"
                 style="@style/Widget.Plaid.About" />
@@ -71,6 +71,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/spacing_large"
                 android:layout_marginBottom="@dimen/spacing_large"
+                android:background="@color/background_about"
                 android:src="@drawable/tmdb"/>
 
         </LinearLayout>

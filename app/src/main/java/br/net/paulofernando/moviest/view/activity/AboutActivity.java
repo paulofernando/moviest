@@ -246,6 +246,9 @@ public class AboutActivity extends Activity {
                 new Library("google-gson",
                         "https://github.com/google/gson",
                         "https://avatars0.githubusercontent.com/u/1342004"),
+                new Library("AndroidImageSlider",
+                        "https://github.com/daimajia/AndroidImageSlider",
+                        "https://avatars1.githubusercontent.com/u/2503423"),
                 new Library("Plaid",
                         "https://github.com/nickbutcher/plaid",
                         "https://avatars1.githubusercontent.com/u/352556")};
@@ -298,22 +301,17 @@ public class AboutActivity extends Activity {
             final View.OnClickListener clickListener = new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    holder.link.getContext().startActivity(
-                            new Intent(Intent.ACTION_VIEW, Uri.parse(lib.link)));
+                holder.image.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(lib.link)));
                 }
             };
             holder.itemView.setOnClickListener(clickListener);
-            holder.link.setOnClickListener(clickListener);
         }
     }
 
     static class LibraryHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.library_image)
-        ImageView image;
+        @BindView(R.id.library_image) ImageView image;
         @BindView(R.id.library_name) TextView name;
-        @BindView(R.id.library_link)
-        Button link;
 
         public LibraryHolder(View itemView) {
             super(itemView);

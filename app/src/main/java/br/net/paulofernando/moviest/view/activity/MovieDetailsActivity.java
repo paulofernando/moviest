@@ -20,10 +20,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.AlphaAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.daimajia.slider.library.SliderLayout;
+import com.daimajia.slider.library.SliderTypes.BaseSliderView;
+import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.google.android.youtube.player.YouTubeInitializationResult;
@@ -36,6 +40,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -85,19 +90,20 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubeTh
     @BindView(R.id.trailer_container) LinearLayout trailerContainer;
     @BindView(R.id.movie_trailer_title_tv) TextView movieTrailerTitle;
     @BindView(R.id.loading_trailer) com.wang.avi.AVLoadingIndicatorView loadingTrailer;
-    @BindView(R.id.movie_backdrop) ImageView movieBackdrop;
     @BindView(R.id.movie_trailer_thumbnail) YouTubeThumbnailView youTubeThumbnailView;
+    @BindView(R.id.movie_backdrop) SliderLayout mBackdropSlider;
 
     private Videos videosResult;
     private Images imagesResult;
     private String trailerID;
     private Movie movie;
     private MovieWithCredits movieWithCredits;
-
     private boolean showAlertNoConnection = true;
-
+    private String baseImageUrl = "http://image.tmdb.org/t/p/" + TMDB.POSTER_W780;
     private Tracker mTracker;
     private static final int PAGE_NAME = R.string.name_activity_movie_details;
+    private ArrayList<String> imagesMap = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,18 +138,20 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubeTh
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         collapseToolbar.setTitle(" ");
 
-        loadImages();
-
         appbarMovieDetails.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             boolean isShow = false;
             int scrollRange = -1;
 
             @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+            public void onOffsetChanged(AppBarLayout appBarLayout, int offset) {
+                int maxScroll = appBarLayout.getTotalScrollRange();
+                float percentage = (float) Math.abs(offset) / (float) maxScroll;
+
                 if (scrollRange == -1) {
                     scrollRange = appBarLayout.getTotalScrollRange();
                 }
-                if (scrollRange + verticalOffset < 20) {
+
+                if (percentage == 1.0f) {
                     collapseToolbar.setTitle(movie.title + (!movie.releaseDate.equals("") ?
                             " (" + movie.releaseDate.substring(0, 4) + ")" : ""));
                     isShow = true;
@@ -157,11 +165,18 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubeTh
         movieOveriewView.setText(movie.overview);
         retrieveMovieDetails(movie.id);
         loadYoutubeThumbnail(movie.id);
+
+        mBackdropSlider.setPresetTransformer(SliderLayout.Transformer.Default);
+        mBackdropSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+        mBackdropSlider.stopAutoCycle();
+
+        retrieveImagesOfMovieFromServer(movie.id);
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        loadImages();
         sendAnalyticsInfo();
     }
 
@@ -177,20 +192,19 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubeTh
     }
 
     private void loadImages() {
-        Configuration config = TMDB.getConfiguration();
         Picasso.with(getApplicationContext()).load("http://image.tmdb.org/t/p/" +
                 TMDB.SIZE_DEFAULT + movie.posterPath).into(new Target() {
             @Override
             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                 coverImageView.setImageBitmap(bitmap);
-                movieBackdrop.setVisibility(View.VISIBLE);
+                mBackdropSlider.setVisibility(View.VISIBLE);
                 changedScreenColors(bitmap);
 
             }
 
             @Override
             public void onBitmapFailed(Drawable errorDrawable) {
-                movieBackdrop.setVisibility(View.GONE);
+                mBackdropSlider.setVisibility(View.GONE);
             }
 
             @Override
@@ -198,19 +212,17 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubeTh
             }
 
         });
+    }
 
-        Picasso.with(getApplicationContext()).load("http://image.tmdb.org/t/p/" +
-                TMDB.POSTER_W780 + movie.backdropPath)
-                .into(movieBackdrop, new com.squareup.picasso.Callback() {
-                    @Override
-                    public void onSuccess() {
-                        appbarMovieDetails.setExpanded(true);
-                    }
+    private void addBackdropImageToSlider(String imageUrl) {
+        imagesMap.add(imageUrl);
+        DefaultSliderView defaultSliderView = new DefaultSliderView(this);
+        defaultSliderView.image(imageUrl).setScaleType(BaseSliderView.ScaleType.Fit);
+        mBackdropSlider.addSlider(defaultSliderView);
 
-                    @Override
-                    public void onError() {
-                    }
-                });
+        if(imageUrl != null) {
+            appbarMovieDetails.setExpanded(true);
+        }
     }
 
     private void changedScreenColors(Bitmap bitmapSourceOfColors) {
@@ -226,12 +238,14 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubeTh
 
             if (swatch != null) {
                 movideDetailsContainer.setBackgroundColor(swatch.getRgb());
+                loadingTrailer.setIndicatorColor(swatch.getRgb());
 
                 trailerContainer.setBackgroundColor(mutedDark);
 
                 collapseToolbar.setBackgroundColor(vibrantDark);
                 collapseToolbar.setContentScrimColor(vibrantDark);
                 collapseToolbar.setStatusBarScrimColor(vibrantDark);
+
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     Window window = getWindow();
                     window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -248,7 +262,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubeTh
                 directorView.setTextColor(swatch.getBodyTextColor());
                 releaseLabelView.setTextColor(swatch.getBodyTextColor());
                 releaseView.setTextColor(swatch.getBodyTextColor());
-                loadingTrailer.setIndicatorColor(swatch.getBodyTextColor());
             }
         }
 
@@ -343,6 +356,29 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubeTh
                             }
 
                         }
+                    }
+                });
+    }
+
+    private void retrieveImagesOfMovieFromServer(int movieID) {
+        TMDB.getInstance().moviesService().imagesRx(movieID, TMDB.API_KEY)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Images>() {
+                    @Override
+                    public void onCompleted() {}
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(Images images) {
+                        for(Images.Image image: images.backdrops) {
+                            addBackdropImageToSlider(baseImageUrl + image.filePath);
+                        }
+                        Log.i(TAG, images.toString());
                     }
                 });
     }

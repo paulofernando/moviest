@@ -39,6 +39,7 @@
         android:paddingBottom="@dimen/spacing_normal"
         android:clipToPadding="false"
         android:scrollbars="vertical"
+        android:background="@color/background_about_libs"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
 
 </FrameLayout>

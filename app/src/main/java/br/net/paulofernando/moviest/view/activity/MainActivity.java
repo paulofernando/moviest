@@ -4,6 +4,7 @@ import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -107,6 +108,24 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Snackbar snackbar = Snackbar
+                .make(mViewPager, getResources().getString(R.string.action_close_app), Snackbar.LENGTH_LONG)
+                .setAction(getResources().getString(R.string.action_yes), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        closeApp();
+                    }
+                });
+
+        snackbar.show();
+    }
+
+    public void closeApp() {
+        super.onBackPressed();
     }
 
     /**

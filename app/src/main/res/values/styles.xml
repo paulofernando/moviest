@@ -98,7 +98,17 @@
 
     <style name="TextAppearance.About" parent="@android:style/TextAppearance.Material.Body1">
         <item name="android:textSize">16sp</item>
-        <item name="android:textColor">@color/text_secondary_dark</item>
+        <item name="android:textColor">@color/default_text</item>
+    </style>
+
+    <style name="Widget.Plaid.About.Libs">
+        <item name="android:textAppearance">@style/TextAppearance.About.Libs</item>
+        <!-- <item name="lineHeightHint">24sp</item> -->
+    </style>
+
+    <style name="TextAppearance.About.Libs" parent="@android:style/TextAppearance.Material.Body1">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/default_text_dark</item>
     </style>
 
     <style name="Widget.Plaid.Subhead">
@@ -114,6 +124,18 @@
     <style name="SearchWindowAnimations">
         <item name="android:windowEnterAnimation">@null</item>
         <item name="android:windowExitAnimation">@anim/fade_out_rapidly</item>
+    </style>
+
+    <style name="Widget.Plaid.EmptyText">
+        <item name="android:textAppearance">@style/TextAppearance.DialogContent</item>
+        <item name="lineHeightHint">24sp</item>
+        <item name="android:textColor">@color/text_primary_light</item>
+    </style>
+
+    <style name="TextAppearance.DialogContent" parent="@android:style/TextAppearance.Material.Subhead">
+        <item name="android:textColor">@color/text_secondary_dark</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:letterSpacing">0.01</item>
     </style>
 
 </resources>

@@ -8,16 +8,22 @@
 
     <color name="background">#585050</color>
     <color name="background_splash">@color/background</color>
-    <color name="background_splash_title">#b29afa</color>
+    <color name="background_about">#5a5252</color>
+    <color name="background_about_libs">#FFE7E7E5</color>
+    <color name="background_about_title">#FFE7E7E5</color>
     <color name="divider">#6b6161</color>
     <color name="background_image">#585050</color>
     <color name="default_text">#FFE7E7E5</color>
+    <color name="default_text_dark">#191919</color>
     <color name="common_border">#88ffffff</color>
     <color name="common_border_accent">#845ef7</color>
-    <color name="moviest_links">#5723f5</color>
-    <color name="moviest_links_highlight">#b097fb</color>
+    <color name="moviest_links">#b29afa</color>
+    <color name="moviest_links_highlight">#845ef7</color>
     <color name="separator">#5c5c5c</color>
     <color name="search_result">#ededed</color>
+
+    <color name="page_indicator_dark">#80333333</color>
+    <color name="page_indicator_dark_selected">#ff333333</color>
 
     <color name="navigation_bar">@color/primary</color>
 
@@ -28,8 +34,6 @@
     <color name="hint_disabled_dark">#43000000</color> <!-- 26% black -->
     <color name="scrim">#65323232</color>
     <color name="text_secondary_dark">#8a000000</color> <!-- 54% -->
-    <color name="page_indicator_dark">#80333333</color>
-    <color name="page_indicator_dark_selected">#ff333333</color>
     <color name="content_placeholder">#ffe0e0e0</color>
     <color name="gif_badge_dark_image">#b3ffffff</color>
     <color name="text_primary_light">#ffffffff</color>
