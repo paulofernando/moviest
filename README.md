@@ -12,7 +12,7 @@ Moviest is an app implemented in Material Design which shows collections of movi
 &nbsp;
 <img src="https://github.com/paulofernando/moviest/blob/master/screenshots/details-1.png" width="31%" />
 &nbsp;
-<img src="https://github.com/paulofernando/moviest/blob/master/screenshots/details-3.png" width="31%" />
+<img src="https://github.com/paulofernando/moviest/blob/master/screenshots/details-2.png" width="31%" />
 
 
 ### License
