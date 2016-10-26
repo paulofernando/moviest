@@ -1,19 +1,19 @@
 # Moviest
-Moviest is an app implemented in Material Design which shows collections of movies and two lists (popular and top) based on The Movie DB API.
+Moviest is an app implemented in Material Design which shows collections of movies and two lists (popular and top) based on <a href="https://www.themoviedb.org/">The Movie DB</a> API.
 
 ## Screenshots
 
-<img src="https://raw.githubusercontent.com/paulofernando/moviest/286bd2d21613b9157f3ddde100a83fd8b506dedb/screenshots/collections.png" width="31%" />
+<img src="https://raw.githubusercontent.com/paulofernando/moviest/screenshots/collections.png" width="31%" />
 &nbsp;
-<img src="https://raw.githubusercontent.com/paulofernando/moviest/286bd2d21613b9157f3ddde100a83fd8b506dedb/screenshots/lists.png" width="31%" />
+<img src="https://raw.githubusercontent.com/paulofernando/moviest/screenshots/lists.png" width="31%" />
 &nbsp;
-<img src="https://raw.githubusercontent.com/paulofernando/moviest/286bd2d21613b9157f3ddde100a83fd8b506dedb/screenshots/collection.png" width="31%" />
+<img src="https://raw.githubusercontent.com/paulofernando/moviest/screenshots/collection.png" width="31%" />
 
-<img src="https://raw.githubusercontent.com/paulofernando/moviest/286bd2d21613b9157f3ddde100a83fd8b506dedb/screenshots/details-full.png" width="31%" />
+<img src="https://raw.githubusercontent.com/paulofernando/moviest/screenshots/details-full.png" width="31%" />
 &nbsp;
-<img src="https://raw.githubusercontent.com/paulofernando/moviest/286bd2d21613b9157f3ddde100a83fd8b506dedb/screenshots/details-1.png" width="31%" />
+<img src="https://raw.githubusercontent.com/paulofernando/moviest/screenshots/details-1.png" width="31%" />
 &nbsp;
-<img src="https://raw.githubusercontent.com/paulofernando/moviest/286bd2d21613b9157f3ddde100a83fd8b506dedb/screenshots/details-3.png" width="31%" />
+<img src="https://raw.githubusercontent.com/paulofernando/moviest/screenshots/details-3.png" width="31%" />
 
 
 ### License
