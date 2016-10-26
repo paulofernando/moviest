@@ -3,19 +3,17 @@ Moviest is an app implemented in Material Design which shows collections of movi
 
 ## Screenshots
 
-*The movie images were blurred here because of copyright*
+<img src="https://raw.githubusercontent.com/paulofernando/moviest/286bd2d21613b9157f3ddde100a83fd8b506dedb/screenshots/collections.png" width="31%" />
+&nbsp;
+<img src="https://raw.githubusercontent.com/paulofernando/moviest/286bd2d21613b9157f3ddde100a83fd8b506dedb/screenshots/lists.png" width="31%" />
+&nbsp;
+<img src="https://raw.githubusercontent.com/paulofernando/moviest/286bd2d21613b9157f3ddde100a83fd8b506dedb/screenshots/collection.png" width="31%" />
 
-<img src="https://github.com/paulofernando/moviest/blob/master/screenshots/collections.png" width="31%" />
+<img src="https://raw.githubusercontent.com/paulofernando/moviest/286bd2d21613b9157f3ddde100a83fd8b506dedb/screenshots/details-full.png" width="31%" />
 &nbsp;
-<img src="https://github.com/paulofernando/moviest/blob/master/screenshots/lists.png" width="31%" />
+<img src="https://raw.githubusercontent.com/paulofernando/moviest/286bd2d21613b9157f3ddde100a83fd8b506dedb/screenshots/details-1.png" width="31%" />
 &nbsp;
-<img src="https://github.com/paulofernando/moviest/blob/master/screenshots/collection.png" width="31%" />
-
-<img src="https://github.com/paulofernando/moviest/blob/master/screenshots/details-full.png" width="31%" />
-&nbsp;
-<img src="https://github.com/paulofernando/moviest/blob/master/screenshots/details-1.png" width="31%" />
-&nbsp;
-<img src="https://github.com/paulofernando/moviest/blob/master/screenshots/details-2.png" width="31%" />
+<img src="https://raw.githubusercontent.com/paulofernando/moviest/286bd2d21613b9157f3ddde100a83fd8b506dedb/screenshots/details-3.png" width="31%" />
 
 
 ### License
