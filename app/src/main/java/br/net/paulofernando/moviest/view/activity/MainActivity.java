@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
             R.string.name_page_main_collections, R.string.name_page_main_popular,
             R.string.name_page_main_top_rated
     };
+    private Snackbar snackbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,7 +113,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Snackbar snackbar = Snackbar
+        if(snackbar == null) {
+            snackbar = Snackbar
                 .make(mViewPager, getResources().getString(R.string.action_close_app), Snackbar.LENGTH_LONG)
                 .setAction(getResources().getString(R.string.action_yes), new View.OnClickListener() {
                     @Override
@@ -120,8 +122,13 @@ public class MainActivity extends AppCompatActivity {
                         closeApp();
                     }
                 });
+        }
 
-        snackbar.show();
+        if(!snackbar.isShown()) {
+            snackbar.show();
+        } else {
+            closeApp();
+        }
     }
 
     public void closeApp() {
