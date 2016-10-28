@@ -97,8 +97,8 @@ public class MainActivity extends AppCompatActivity {
                             getString(R.string.transition_search_back)).toBundle();
                     startActivityForResult(new Intent(this, SearchActivity.class), RC_SEARCH, options);
                 } else {
-                    Log.e(TAG, getResources().getResourceName(R.string.no_internet));
-                    NetworkUtils.showAlert(this, getResources().getResourceName(R.string.no_internet));
+                    Log.e(TAG, getResources().getResourceName(R.string.message_no_internet));
+                    NetworkUtils.showAlert(this, getResources().getResourceName(R.string.message_no_internet));
                     return false;
                 }
                 return true;

@@ -61,6 +61,7 @@ import butterknife.OnClick;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import uk.co.senab.photoview.PhotoViewAttacher;
 
 import static br.net.paulofernando.moviest.util.NetworkUtils.INTERNET_CHECK_TIME;
 
@@ -103,7 +104,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubeTh
     private Tracker mTracker;
     private static final int PAGE_NAME = R.string.name_activity_movie_details;
     private ArrayList<String> imagesMap = new ArrayList<>();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -185,33 +185,27 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubeTh
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
-    public static Intent getStartIntent(Context context, Movie movie) {
+    public static Intent getStartIntent(Context context, Movie movie, ImageView imageView) {
         Intent intent = new Intent(context, MovieDetailsActivity.class);
-        intent.putExtra(context.getResources().getString(R.string.movie_details), movie);
+
+        imageView.buildDrawingCache();
+        Bitmap image= imageView.getDrawingCache();
+
+        Bundle extras = new Bundle();
+        extras.putParcelable(context.getResources().getString(R.string.cover_image), image);
+        extras.putParcelable(context.getResources().getString(R.string.movie_details), movie);
+        intent.putExtras(extras);
+
         return intent;
     }
 
     private void loadImages() {
-        Picasso.with(getApplicationContext()).load("http://image.tmdb.org/t/p/" +
-                TMDB.SIZE_DEFAULT + movie.posterPath).into(new Target() {
-            @Override
-            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                coverImageView.setImageBitmap(bitmap);
-                mBackdropSlider.setVisibility(View.VISIBLE);
-                changedScreenColors(bitmap);
+        Bundle extras = getIntent().getExtras();
+        Bitmap bmp = extras.getParcelable(getResources().getString(R.string.cover_image));
 
-            }
-
-            @Override
-            public void onBitmapFailed(Drawable errorDrawable) {
-                mBackdropSlider.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onPrepareLoad(Drawable placeHolderDrawable) {
-            }
-
-        });
+        coverImageView.setImageBitmap(bmp);
+        mBackdropSlider.setVisibility(View.VISIBLE);
+        changedScreenColors(bmp);
     }
 
     private void addBackdropImageToSlider(String imageUrl) {
@@ -281,8 +275,8 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubeTh
         if(NetworkUtils.isNetworkConnected(this)) {
             retrieveMovieDetailsFromServer(movieID);
         } else {
-            Log.e(TAG, getResources().getResourceName(R.string.no_internet));
-            NetworkUtils.showAlert(this, getResources().getResourceName(R.string.no_internet));
+            Log.e(TAG, getResources().getResourceName(R.string.message_no_internet));
+            NetworkUtils.showAlert(this, getResources().getResourceName(R.string.message_no_internet));
             final Handler handler = new Handler();
             final Timer timer = new Timer();
             TimerTask timerTask = new TimerTask() {
@@ -442,6 +436,16 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubeTh
     @OnClick(R.id.movie_trailer_thumbnail)
     public void trailerClick() {
         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=" + trailerID)));
+    }
+
+    @OnClick(R.id.cover_iv)
+    public void coverClick() {
+        Bundle extras = new Bundle();
+        extras.putString(getResources().getString(R.string.cover_image), "http://image.tmdb.org/t/p/" +
+                TMDB.POSTER_SIZE_W500 + movie.posterPath);
+        Intent intent = new Intent(MovieDetailsActivity.this, ImageFullActivity.class);
+        intent.putExtras(extras);
+        startActivity(intent);
     }
 
 }

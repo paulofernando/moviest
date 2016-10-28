@@ -103,8 +103,8 @@ public class CollectionActivity extends AppCompatActivity {
         if(NetworkUtils.isNetworkConnected(this)) {
             getData();
         } else {
-            Log.e(TAG, getResources().getResourceName(R.string.no_internet));
-            NetworkUtils.showAlert(this, getResources().getResourceName(R.string.no_internet));
+            Log.e(TAG, getResources().getResourceName(R.string.message_no_internet));
+            NetworkUtils.showAlert(this, getResources().getResourceName(R.string.message_no_internet));
             final Handler handler = new Handler();
             final Timer timer = new Timer();
             TimerTask timerTask = new TimerTask() {

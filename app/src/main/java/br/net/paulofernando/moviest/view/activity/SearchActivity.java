@@ -138,9 +138,7 @@ public class SearchActivity extends Activity {
         // & use it to configure the return transition
         setEnterSharedElementCallback(new SharedElementCallback() {
             @Override
-            public void onSharedElementStart(
-                    List<String> sharedElementNames,
-                    List<View> sharedElements,
+            public void onSharedElementStart(List<String> sharedElementNames, List<View> sharedElements,
                     List<View> sharedElementSnapshots) {
                 if (sharedElements != null && !sharedElements.isEmpty()) {
                     View searchIcon = sharedElements.get(0);
@@ -197,7 +195,7 @@ public class SearchActivity extends Activity {
                                     searchRecyclerView.setVisibility(View.VISIBLE);
 
                                     if(!NetworkUtils.isNetworkConnected(getApplicationContext())) {
-                                        Log.e(TAG, getResources().getResourceName(R.string.no_internet));
+                                        Log.e(TAG, getResources().getResourceName(R.string.message_no_internet));
                                     } else {
 
                                         TMDB.getInstance().moviesService().searchRx(TMDB.API_KEY, query, 1)

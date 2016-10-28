@@ -72,7 +72,7 @@ public class MovieViewModel extends BaseObservable {
     }
 
     private void launchMovieDetailsActivity() {
-        Intent intent = MovieDetailsActivity.getStartIntent(context, movie);
+        Intent intent = MovieDetailsActivity.getStartIntent(context, movie, binding.coverIv);
 
         String transitionName = context.getString(R.string.cover_name);
         ActivityOptions transitionActivityOptions = ActivityOptions.

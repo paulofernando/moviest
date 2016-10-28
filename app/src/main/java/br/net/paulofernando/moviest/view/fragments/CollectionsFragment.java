@@ -102,8 +102,8 @@ public class CollectionsFragment extends BaseFragment {
     }
 
     private void runInternetChecking() {
-        Log.e(TAG, getResources().getResourceName(R.string.no_internet));
-        NetworkUtils.showAlert(getContext(), getResources().getResourceName(R.string.no_internet));
+        Log.e(TAG, getResources().getResourceName(R.string.message_no_internet));
+        NetworkUtils.showAlert(getContext(), getResources().getResourceName(R.string.message_no_internet));
         final Handler handler = new Handler();
         final Timer timer = new Timer();
         TimerTask timerTask = new TimerTask() {

@@ -182,16 +182,16 @@ public class AboutActivity extends Activity {
 
                         // fun with spans & markdown
                         SpannableString about1 = new SpannableString(
-                                parent.getResources().getString(R.string.about_plaid_1));
+                                parent.getResources().getString(R.string.about_moviest_1));
                         about1.setSpan(new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER),
                                 0, about1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                         SpannableString about2 = new SpannableString(markdown.markdownToSpannable
-                                (parent.getResources().getString(R.string.about_plaid_2),
+                                (parent.getResources().getString(R.string.about_moviest_2),
                                         plaidDescription, null));
                         about2.setSpan(new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER),
                                 0, about2.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                         SpannableString about3 = new SpannableString(markdown.markdownToSpannable
-                                (parent.getResources().getString(R.string.about_plaid_3),
+                                (parent.getResources().getString(R.string.about_moviest_3),
                                         plaidDescription, null));
                         about3.setSpan(new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER),
                                 0, about3.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -249,6 +249,9 @@ public class AboutActivity extends Activity {
                 new Library("AndroidImageSlider",
                         "https://github.com/daimajia/AndroidImageSlider",
                         "https://avatars1.githubusercontent.com/u/2503423"),
+                new Library("PhotoView",
+                        "https://github.com/chrisbanes/PhotoView",
+                        "https://avatars3.githubusercontent.com/u/227486"),
                 new Library("Plaid",
                         "https://github.com/nickbutcher/plaid",
                         "https://avatars1.githubusercontent.com/u/352556")};
