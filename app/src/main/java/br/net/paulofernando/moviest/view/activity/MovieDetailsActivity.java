@@ -203,9 +203,33 @@ public class MovieDetailsActivity extends AppCompatActivity implements YouTubeTh
         Bundle extras = getIntent().getExtras();
         Bitmap bmp = extras.getParcelable(getResources().getString(R.string.cover_image));
 
-        coverImageView.setImageBitmap(bmp);
-        mBackdropSlider.setVisibility(View.VISIBLE);
-        changedScreenColors(bmp);
+        if(bmp != null) {
+            coverImageView.setImageBitmap(bmp);
+            mBackdropSlider.setVisibility(View.VISIBLE);
+            changedScreenColors(bmp);
+        } else {
+            Target target = new Target() {
+                @Override
+                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                    coverImageView.setImageBitmap(bitmap);
+                    mBackdropSlider.setVisibility(View.VISIBLE);
+                    changedScreenColors(bitmap);
+                }
+
+                @Override
+                public void onBitmapFailed(Drawable errorDrawable) {
+                    mBackdropSlider.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onPrepareLoad(Drawable placeHolderDrawable) {
+                }
+
+            };
+
+            Picasso.with(getApplicationContext()).load("http://image.tmdb.org/t/p/" +
+                    TMDB.SIZE_DEFAULT + movie.posterPath).into(target);
+        }
     }
 
     private void addBackdropImageToSlider(String imageUrl) {
