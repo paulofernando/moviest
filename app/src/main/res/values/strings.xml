@@ -47,6 +47,7 @@
     <string name="transition_search_back" translatable="false">transition_search_back</string>
     <string name="collection_name" translatable="false">collection_name</string>
     <string name="cover_name" translatable="false">cover_name</string>
+    <string name="cover_image" translatable="false">cover_image</string>
 
     <string name="bullet">•</string>
     <string name="minute">min</string>

@@ -11,12 +11,12 @@
 
     <!-- gray scale -->
     <color name="background">#585050</color>
-    <color name="background_splash">@color/background</color>
+    <color name="background_dark">@color/primary</color>
     <color name="background_about">#5a5252</color>
     <color name="background_about_libs">#FFE7E7E5</color>
     <color name="background_about_title">#FFE7E7E5</color>
-    <color name="divider">#6b6161</color>
     <color name="background_image">#585050</color>
+    <color name="divider">#6b6161</color>
     <color name="default_text">#FFE7E7E5</color>
     <color name="default_text_dark">#191919</color>
     <color name="common_border">#88ffffff</color>

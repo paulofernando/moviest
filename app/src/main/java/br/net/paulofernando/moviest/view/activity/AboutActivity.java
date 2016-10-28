@@ -249,6 +249,9 @@ public class AboutActivity extends Activity {
                 new Library("AndroidImageSlider",
                         "https://github.com/daimajia/AndroidImageSlider",
                         "https://avatars1.githubusercontent.com/u/2503423"),
+                new Library("PhotoView",
+                        "https://github.com/chrisbanes/PhotoView",
+                        "https://avatars3.githubusercontent.com/u/227486"),
                 new Library("Plaid",
                         "https://github.com/nickbutcher/plaid",
                         "https://avatars1.githubusercontent.com/u/352556")};
