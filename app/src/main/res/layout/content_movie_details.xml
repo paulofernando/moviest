@@ -21,6 +21,7 @@
                 android:id="@+id/movie_overiew_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris non ex et nunc iaculis dictum sit amet varius erat. Maecenas auctor risus sit amet tincidunt malesuada"
                 android:layout_margin="@dimen/text_margin"/>
 
             <TextView
@@ -28,16 +29,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
+                tools:visibility="visible"
                 android:textStyle="bold"
-                android:text="@string/director_label"
-                android:layout_marginLeft="@dimen/text_margin"/>
+                android:text="@string/label_director"
+                android:layout_marginStart="@dimen/text_margin"/>
 
             <TextView
                 android:id="@+id/director_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                tools:text="Lorem ipsum"
                 android:visibility="gone"
-                android:layout_marginLeft="@dimen/text_margin"
+                tools:visibility="visible"
+                android:layout_marginStart="@dimen/text_margin"
                 android:layout_marginBottom="@dimen/text_margin"/>
 
             <TextView
@@ -45,16 +49,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
+                tools:visibility="visible"
                 android:textStyle="bold"
-                android:text="@string/release_label"
-                android:layout_marginLeft="@dimen/text_margin"/>
+                android:text="@string/label_release_date"
+                android:layout_marginStart="@dimen/text_margin"/>
 
             <TextView
                 android:id="@+id/release_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                tools:text="Oct 27, 2016"
                 android:visibility="gone"
-                android:layout_marginLeft="@dimen/text_margin"
+                tools:visibility="visible"
+                android:layout_marginStart="@dimen/text_margin"
                 android:layout_marginBottom="@dimen/text_margin"/>
 
             <android.support.v7.widget.CardView
@@ -71,14 +78,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:visibility="gone">
+                    android:visibility="gone"
+                    tools:visibility="visible">
 
                     <TextView
                         android:id="@+id/movie_trailer_title_tv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/text_margin"
-                        android:text="Trailer"
+                        android:text="@string/title_trailer"
                         android:shadowColor="#99000000"
                         android:shadowRadius="5"
                         android:shadowDx="2"

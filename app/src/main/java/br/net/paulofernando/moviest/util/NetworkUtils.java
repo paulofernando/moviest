@@ -18,8 +18,8 @@ public class NetworkUtils {
             @Override
             public void run() {
                 alertDialog = new SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE)
-                        .setTitleText(context.getResources().getString(R.string.no_internet_title))
-                        .setContentText(context.getResources().getString(R.string.no_internet));
+                        .setTitleText(context.getResources().getString(R.string.title_warning))
+                        .setContentText(context.getResources().getString(R.string.message_no_internet));
                 alertDialog.show();
             }
         });

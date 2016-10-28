@@ -26,6 +26,9 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug {
+            versionNameSuffix '-DEBUG'
+        }
         buildTypes.each {
             it.buildConfigField 'String', 'TMDB_KEY', TMDBKey
             it.buildConfigField 'String', 'YOUTUBE_KEY', YoutubeKey
