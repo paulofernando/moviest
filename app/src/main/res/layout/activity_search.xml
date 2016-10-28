@@ -54,9 +54,9 @@
             android:visibility="gone"
             app:indicatorName="BallPulse"
             app:indicatorColor="@color/accent"
-            android:layout_marginRight="@dimen/spacing_large"
+            android:layout_marginEnd="@dimen/spacing_large"
             android:paddingTop="@dimen/spacing_large"
-            android:layout_gravity="right"/>
+            android:layout_gravity="end"/>
 
         <!-- wrapping layout needed for the touch ripple -->
         <FrameLayout
