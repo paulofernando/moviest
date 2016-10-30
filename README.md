@@ -27,6 +27,8 @@ You need to create a grandle file called gradle.properties in the root of the pr
 * TMDBKey="Your TMDb key" - https://www.themoviedb.org/
 * YoutubeKey="Your Youtube key" - https://developers.google.com/youtube/v3/getting-started
 
+You need also to get a Google Analytics key and put the generated file google-services.json in app/ directory.
+
 ## Screenshots
 
 <img src="https://github.com/paulofernando/moviest/blob/master/screenshots/collections.png" width="31%" />
