@@ -24,7 +24,7 @@ Moviest is an app implemented in Material Design which shows collections of movi
 ## How to run
 
 You need to create a grandle file called gradle.properties in the root of the project and enter your keys:
-* TMDBKey="Your movie db key" - https://www.themoviedb.org/
+* TMDBKey="Your TMDb key" - https://www.themoviedb.org/
 * YoutubeKey="Your Youtube key" - https://developers.google.com/youtube/v3/getting-started
 
 ## Screenshots
