@@ -1,6 +1,10 @@
 # Moviest
 Moviest is an app implemented in Material Design which shows collections of movies and two lists (popular and top) based on <a href="https://www.themoviedb.org/">The Movie DB</a> API.
 
+<a href="https://play.google.com/store/apps/details?id=br.net.paulofernando.moviest">
+<img alt="Get it on Google Play" src="http://steverichey.github.io/google-play-badge-svg/img/en_get.svg" />
+</a>
+
 ## Screenshots
 
 <img src="https://github.com/paulofernando/moviest/blob/master/screenshots/collections.png" width="31%" />
