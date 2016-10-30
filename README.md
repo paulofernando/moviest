@@ -21,6 +21,12 @@ Moviest is an app implemented in Material Design which shows collections of movi
 * <a href="https://github.com/chrisbanes/PhotoView/">PhotoView</a>
 * <a href="https://github.com/nickbutcher/plaid/">Plaid</a>
 
+## How to run
+
+You need to create a grandle file called gradle.properties in the root of the project and enter your keys:
+* TMDBKey="Your movie db key" - https://www.themoviedb.org/
+* YoutubeKey="Your Youtube key" - https://developers.google.com/youtube/v3/getting-started
+
 ## Screenshots
 
 <img src="https://github.com/paulofernando/moviest/blob/master/screenshots/collections.png" width="31%" />
