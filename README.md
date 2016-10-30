@@ -5,6 +5,22 @@ Moviest is an app implemented in Material Design which shows collections of movi
 <img alt="Get it on Google Play" src="http://steverichey.github.io/google-play-badge-svg/img/en_get.svg" />
 </a>
 
+## Libraries
+
+* <a href="http://jakewharton.github.io/butterknife/">ButterKnife</a>
+* <a href="https://github.com/square/retrofit/">Retrofit</a>
+* <a href="https://github.com/square/picasso/">Picasso</a>
+* <a href="https://github.com/Uncodin/bypass/">Bypass</a>
+* <a href="https://android.googlesource.com/platform/frameworks/support/">Android support libs</a>
+* <a href="https://github.com/ReactiveX/RxJava/">RxAndroid</a>
+* <a href="https://github.com/pedant/sweet-alert-dialog/">Sweet Alert Dialog</a>
+* <a href="https://github.com/anupcowkur/Reservoir/">Reservoir</a>
+* <a href="https://github.com/81813780/AVLoadingIndicatorView/">AVLoadingIndicatorView</a>
+* <a href="https://github.com/google/gson/">google-gson</a>
+* <a href="https://github.com/daimajia/AndroidImageSlider/">AndroidImageSlider</a>
+* <a href="https://github.com/chrisbanes/PhotoView/">PhotoView</a>
+* <a href="https://github.com/nickbutcher/plaid/">Plaid</a>
+
 ## Screenshots
 
 <img src="https://github.com/paulofernando/moviest/blob/master/screenshots/collections.png" width="31%" />
