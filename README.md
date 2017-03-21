@@ -31,18 +31,9 @@ You need also to get a Google Analytics key and put the generated file google-se
 
 ## Screenshots
 
-<img src="https://github.com/paulofernando/moviest/blob/master/screenshots/collections.png" width="31%" />
-&nbsp;
-<img src="https://github.com/paulofernando/moviest/blob/master/screenshots/lists.png" width="31%" />
-&nbsp;
-<img src="https://github.com/paulofernando/moviest/blob/master/screenshots/collection.png" width="31%" />
+<img src="https://github.com/paulofernando/moviest/blob/master/screenshots/collections.png" width="28%" /> &nbsp; <img src="https://github.com/paulofernando/moviest/blob/master/screenshots/lists.png" width="28%" /> &nbsp; <img src="https://github.com/paulofernando/moviest/blob/master/screenshots/collection.png" width="28%" />
 
-<img src="https://github.com/paulofernando/moviest/blob/master/screenshots/details-full.png" width="31%" />
-&nbsp;
-<img src="https://github.com/paulofernando/moviest/blob/master/screenshots/details-1.png" width="31%" />
-&nbsp;
-<img src="https://github.com/paulofernando/moviest/blob/master/screenshots/details-2.png" width="31%" />
-
+<img src="https://github.com/paulofernando/moviest/blob/master/screenshots/details-full.png" width="28%" /> &nbsp; <img src="https://github.com/paulofernando/moviest/blob/master/screenshots/details-1.png" width="28%" /> &nbsp; <img src="https://github.com/paulofernando/moviest/blob/master/screenshots/details-2.png" width="28%" />
 
 ### License
 
